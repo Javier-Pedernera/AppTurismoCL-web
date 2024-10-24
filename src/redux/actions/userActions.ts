@@ -157,7 +157,7 @@ const createUser = (userData: CreateUserModel) => {
     try {
       const response = await axios.post(`${URL}/signup`, userData);
       // dispatch(setUsers(response.data));
-      // console.log("respuesta del registro", response);
+      console.log("respuesta del registro", response);
       
       return response.data;
     } catch (error) {

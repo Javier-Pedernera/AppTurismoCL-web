@@ -37,8 +37,8 @@ const Register = () => {
   const statusActive = useAppSelector((state: RootState) => state.user.statuses).find(s=>s.name === 'active');
   const countries = useAppSelector((state: RootState) => state.globalData.countries); 
 
-  console.log("rol de turista",roles);
-  console.log("estado de turista",statusActive);
+  // console.log("rol de turista",roles);
+  // console.log("estado de turista",statusActive);
   // const Toast = Swal.mixin({
   //   toast: true,
   //   position: "center",
@@ -108,17 +108,18 @@ const Register = () => {
           }
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error en el registro:", error);
+      const errorMessage = error.response?.data?.message || "Ocurrió un error durante el registro.";
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Ocurrió un error durante el registro.",
+        text:  errorMessage == "A user with that email already exists."? "El usuario ya existe" : "Ocurrió un error durante el registro.",
         width: "20rem",
         padding: "0.5rem",
       });
-    }finally {
-      setIsLoading(false)
+    } finally {
+      setIsLoading(false);
     }
   };
 

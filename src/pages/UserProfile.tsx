@@ -8,14 +8,16 @@ import { updateUser } from '../redux/actions/userActions';
 import Swal from 'sweetalert2';
 import { compressAndConvertToBase64 } from '../utils/imageUtils';
 
+const URL = import.meta.env.VITE_API_URL;
+
 const UserProfile = () => {
   const { userData } = useAppSelector((state: RootState) => state.user);
   const countries = useAppSelector((state: RootState) => state.globalData.countries);
   const user = userData as any;
-   console.log(user.birth_date);
+  //  console.log(user);
    const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState(false);
-  const [imagePreview, setImagePreview] = useState(user.image_url || '');
+  const [imagePreview, setImagePreview] = useState(`${URL}${user.image_url}`|| '');
   const [formData, setFormData] = useState({
     first_name: user.first_name,
     last_name: user.last_name,

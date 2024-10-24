@@ -17,7 +17,8 @@ const TouristPointDetail = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const touristPoint = useAppSelector((state: RootState) => state.touristPoints.selectedTouristPoint);
-    console.log("punto turistico", touristPoint);
+    const URL = import.meta.env.VITE_API_URL;
+    // console.log("punto turistico", touristPoint);
     
     const [selectedImage, setSelectedImage] = useState<string | undefined>(touristPoint?.images[0]?.image_path);
     const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -148,13 +149,13 @@ const TouristPointDetail = () => {
                             </>
                         ) : (
                             <>
-                                <img src={selectedImage} alt={touristPoint.title} className="detail-image" />
+                                <img src={URL+selectedImage} alt={touristPoint.title} className="detail-image" />
                                 <div className='listimages'>
                                 {images.map((image, index) => (
                                         <Grid item key={index}>
                                             <div className="thumbnail-wrapper-list">
                                                 <img
-                                                    src={image.image_path}
+                                                    src={URL+image.image_path}
                                                     alt={`Thumbnail ${index}`}
                                                     className="thumbnail"
                                                     onClick={() => setSelectedImage(image.image_path)}
@@ -222,7 +223,7 @@ const TouristPointDetail = () => {
                                 <Grid item key={index}>
                                     <div className="thumbnail-wrapper">
                                         <img
-                                            src={image.image_path}
+                                            src={URL+image.image_path}
                                             alt={`Thumbnail ${index}`}
                                             className="thumbnail"
                                             onClick={() => setSelectedImage(image.image_path)}

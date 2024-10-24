@@ -8,13 +8,15 @@ import { TouristPoint } from '../models/TouristPoint';
 import { RootState } from '../redux/store/store';
 import { useAppDispatch, useAppSelector } from '../redux/store/hooks';
 
+const URL = import.meta.env.VITE_API_URL;
+
 const TouristPointsList = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const touristPoints = useAppSelector((state: RootState) => state.touristPoints.allTouristPoints).filter(touristPoint => { return touristPoint.status.name === 'active'});;
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-console.log("todos los puntos turisticos",touristPoints);
+// console.log("todos los puntos turisticos",touristPoints);
 
   React.useEffect(() => {
     dispatch(fetchAllTouristPoints());
@@ -41,7 +43,7 @@ console.log("todos los puntos turisticos",touristPoints);
         {paginatedTouristPoints.map((point: TouristPoint) => (
           <Grid item xs={12} sm={6} md={4} key={point.id}>
             <Card className="tourist-point-card" onClick={() => navigate(`/tourist-points/${point.id}`)}>
-              <img src={point.images[0]?.image_path} alt={point.title} className="card-image" />
+              <img src={URL+point.images[0]?.image_path} alt={point.title} className="card-image" />
               <div className="card-content">
                 <div className='nameRating'>
                     <Typography variant="h6">{point.title}</Typography>

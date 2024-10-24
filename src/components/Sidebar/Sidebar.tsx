@@ -64,11 +64,11 @@ const Sidebar: React.FC = () => {
           name: "Puntos turísticos",
           style: "puntosturisticos"
         },
-        {
-          path: "/notifications",
-          name: "Notificaciones",
-          style: "notificaciones"
-        },
+        // {
+        //   path: "/notifications",
+        //   name: "Notificaciones",
+        //   style: "notificaciones"
+        // },
         {
           path: "/userProfile",
           name: "Perfil",
@@ -84,19 +84,19 @@ const Sidebar: React.FC = () => {
           name: "Salir",
           style: "salir"
         },
-        {
-          path: "/faq",
-          name: "FAQ",
-          style: "faqicono"
-        },
+        // {
+        //   path: "/faq",
+        //   name: "FAQ",
+        //   style: "faqicono"
+        // },
       ])
     } else {
       setRoutes([
-        {
-          path: "/faq",
-          name: "FAQ",
-          style: "faqicono"
-        }
+        // {
+        //   path: "/faq",
+        //   name: "FAQ",
+        //   style: "faqicono"
+        // }
       ])
     }
   }, [userActive]);

@@ -92,7 +92,7 @@ const Login = () => {
   return (
     <div className="login-container">
       {loading && <Loader />}
-      <div className="content">
+      <div className="contentlogin">
         <div className="form-container">
           <div className="logo">
             <form onSubmit={handleSubmit(onSubmit)} className="form">
