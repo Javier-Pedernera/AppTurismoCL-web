@@ -29,7 +29,7 @@ const Login = () => {
     timer: 2000,
     timerProgressBar: true,
     color: "#0F0C06",
-    width: "400px",
+    width: "450px",
     didOpen: (toast) => {
       toast.addEventListener("mouseenter", Swal.stopTimer);
       toast.addEventListener("mouseleave", Swal.resumeTimer);
