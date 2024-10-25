@@ -86,6 +86,7 @@ const UserProfile = () => {
     const response = await dispatch(updateUser(userData))
 console.log(response);
 if (response?.status == 200) {
+  setIsEditing(false)
   Toast.fire({
     icon: "success",
     title: `Información modificada correctamente`,
