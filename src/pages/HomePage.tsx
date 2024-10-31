@@ -3,7 +3,7 @@ import { useAppDispatch } from '../redux/store/hooks';
 // import { RootState } from '../redux/store/store';
 import '../styles/pages/Home.scss';
 import { fetchRoles, fetchStatuses } from '../redux/actions/userActions';
-import { fetchCountries } from '../redux/actions/globalDataActions';
+import { fetchCategories, fetchCountries } from '../redux/actions/globalDataActions';
 import { useNavigate } from 'react-router-dom';
 import video from '../assets/images/Loberia.mp4'
 import logo from '../assets/logo.png'
@@ -20,6 +20,7 @@ const HomePage = () => {
     dispatch(fetchRoles());
     dispatch(fetchStatuses());
     dispatch(fetchCountries());
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   const navigate = useNavigate();

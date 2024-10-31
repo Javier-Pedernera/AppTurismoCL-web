@@ -149,6 +149,15 @@ export const routes: RouteProps[] = [
         }
     },
     {
+        path: "/configuration",
+        element: lazy(async () => await import("../pages/Configuration")),
+        name: "Configuration",
+        layout: lazy(async () => await import("../pages/Layout/layout")),
+        authorization: {
+            allowedRoles: ['admin']
+        }
+    },
+    {
         path: "/reports",
         element: lazy(async () => await import("../pages/UnderConstruction")),
         name: "Reports",

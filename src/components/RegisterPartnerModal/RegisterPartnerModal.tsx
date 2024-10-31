@@ -22,11 +22,11 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
   // Acceder a los países y categorías desde el estado global
   const countries = useAppSelector((state: RootState) => state.globalData.countries);
   const categories = useAppSelector((state: RootState) => state.globalData.categories);
-  const roles = useAppSelector((state: RootState) => state.user.roles);
+  const roles = useAppSelector((state: RootState) => state?.user.roles);
   const [loading, setLoading] = useState(false);
   
   
-console.log("categorias",categories);
+// console.log("categorias",categories);
 
   useEffect(() => {
     dispatch(fetchAllPromotions());
@@ -120,7 +120,7 @@ console.log("categorias",categories);
             category_ids,
             user_id: createdUserAction.user_id
           };
-          console.log("partnerData en la creacion ",partnerData);
+          // console.log("partnerData en la creacion ",partnerData);
           const createPartnerAction = await dispatch(createPartner(partnerData));
           setLoading(false)
           if (createPartnerAction) {

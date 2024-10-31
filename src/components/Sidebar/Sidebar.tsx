@@ -15,6 +15,7 @@ import Route from '../../models/RouteModel';
 import { logOutUser } from '../../redux/actions/userActions';
 import { UserState } from '../../redux/reducers/userReducer';
 import logoutIcon from "../../assets/icons/logout.svg";
+import config from "../../assets/icons/config.svg"
 
 
 const Sidebar: React.FC = () => {
@@ -44,11 +45,6 @@ const Sidebar: React.FC = () => {
           name: "Panel General",
           style: "panelicono"
         },
-        // {
-        //   path: "/socioPerfil",
-        //   name: "Perfil de asociado",
-        //   style: "asociados"
-        // },
         {
           path: "/promotions",
           name: "Promociones",
@@ -73,6 +69,11 @@ const Sidebar: React.FC = () => {
           path: "/userProfile",
           name: "Perfil",
           style: "userProfile"
+        },
+        {
+          path: "/configuration",
+          name: "Configuración",
+          style: "configuration"
         },
         {
           path: "/reports",
@@ -135,6 +136,7 @@ const Sidebar: React.FC = () => {
                     {route.style == "usuarios" ? <img src={users} className='iconos' /> : null}
                     {route.style == "notificaciones" ? <img src={Messages} className='iconos' /> : null}
                     {route.style == "userProfile" ? <img src={profile} className='iconos' /> : null}
+                    {route.style == "configuration" ? <img src={config} className='iconos' /> : null}
                     {route.style == "faqicono" ? <img src={faq} className='iconos' /> : null}
                     {route.style == "puntosturisticos" ? <img src={touristPoint} className='iconos' /> : null}
                     <span className={`sidebar-text ${isSidebarOpen ? 'open' : ''}`}>{route.name}</span>
