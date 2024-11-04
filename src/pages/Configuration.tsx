@@ -36,7 +36,7 @@ const Configuration = () => {
   };
 
   const handleUpdateCategory = async() => {
-    console.log(editingCategoryId, editingCategoryName);
+    // console.log(editingCategoryId, editingCategoryName);
     
     if (editingCategoryId !== null) {
 

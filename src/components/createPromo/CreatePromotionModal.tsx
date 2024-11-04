@@ -53,7 +53,7 @@ const CreatePromotionModal = ({
     const isFormValid = () => {
         return title && description && startDate && expirationDate && discountPercentage && availableQuantity && branchId && images.length && selectedCategories.length > 0;
     };
-    console.log("formulario lleno", !isFormValid());
+    // console.log("formulario lleno", !isFormValid());
 
     const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {

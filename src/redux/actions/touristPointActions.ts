@@ -60,7 +60,7 @@ const updateTouristPointById = (touristPointId: string, touristPointData: Touris
             
       }
       const response = await axios.put(`${URL}/tourist_points/${touristPointId}`, touristPointData);
-      console.log("respuesta de la actualizacion",response);
+      // console.log("respuesta de la actualizacion",response);
       dispatch(updateTouristPoint(response.data));
       return response
     } catch (error) {

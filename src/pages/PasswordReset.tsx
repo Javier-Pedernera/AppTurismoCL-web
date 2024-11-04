@@ -32,8 +32,8 @@ const PasswordReset= () => {
       });
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        console.log("enviar codigo");
-        console.log(email,code,password);
+        // console.log("enviar codigo");
+        // console.log(email,code,password);
         if (password !== confirmPassword) {
             setError('Passwords do not match');
             return;

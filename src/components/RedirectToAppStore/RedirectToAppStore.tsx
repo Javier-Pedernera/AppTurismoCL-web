@@ -11,12 +11,12 @@ const RedirectToAppStore = () => {
       window.location.href = 'https://play.google.com/apps/internaltest/4701024993771966175';
     } else if (/iPad|iPhone|iPod/.test(userAgent)) {
       // Redirigir a App Store para dispositivos iOS
-      console.log("Link para dispositivo iOS");
+      // console.log("Link para dispositivo iOS");
       
     //   window.location.href = 'https://apps.apple.com/app/id1234567890';
     } else {
       // Opcionalmente, redirigir a una página de descarga genérica
-      window.location.href = 'https://app-cobquecura.vercel.app';
+      window.location.href = 'https://seal-app-dx4lr.ondigitalocean.app';
     }
   }, []);
 

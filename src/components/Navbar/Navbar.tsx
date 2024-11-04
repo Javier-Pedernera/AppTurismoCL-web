@@ -14,11 +14,11 @@ const URL = import.meta.env.VITE_API_URL;
 const Navbar: React.FC = () => {
     const userActive: UserState = useAppSelector((state: any) => state.user);
     const dispatch = useAppDispatch();
-    console.log("usuario activo navbar",userActive);
+    // console.log("usuario activo navbar",userActive);
     
     useEffect(() => {
         const token = Cookies.get("data");
-        console.log("token en navbar----",token);
+        // console.log("token en navbar----",token);
         
         if (token && !userActive.accessToken) {
             dispatch(userLogIn(null, token));

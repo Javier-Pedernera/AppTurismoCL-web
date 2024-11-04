@@ -36,13 +36,13 @@ const userLogIn = (user: UserLogin | null, token: string) => {
       
       
       if (!user && token.length) {
-        console.log("se envia token_____ user log",token);
+        // console.log("se envia token_____ user log",token);
         const response = await axios.get(`${URL}/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("respuesta de se envia token____");
+        // console.log("respuesta de se envia token____");
         
         const decodedToken: CustomJwtPayload = await jwtDecode(token);
 
@@ -129,7 +129,7 @@ const logOutUser = () => {
         Cookies.remove('data', { path: '/' });
         window.location.reload();
       } else {
-        console.log("La cookie 'userData' no existe.");
+        // console.log("La cookie 'userData' no existe.");
       }
       dispatch(logOut({}));
     } catch (error) {
@@ -157,7 +157,7 @@ const createUser = (userData: CreateUserModel) => {
     try {
       const response = await axios.post(`${URL}/signup`, userData);
       // dispatch(setUsers(response.data));
-      console.log("respuesta del registro", response);
+      // console.log("respuesta del registro", response);
       
       return response.data;
     } catch (error) {
@@ -173,7 +173,7 @@ const createPartnerUser = (userData: CreateUserModel) => {
     try {
       const response = await axios.post(`${URL}/signup-partner`, userData);
       // dispatch(setUsers(response.data));
-      console.log("respuesta del registro", response);
+      // console.log("respuesta del registro", response);
       
       return response.data;
     } catch (error) {
@@ -192,7 +192,7 @@ const fetchAllUsers = () => async (dispatch: Dispatch, getState: () => RootState
               Authorization: `Bearer ${accessToken}` // Agregar el token en el header
           }
       });
-      console.log("respuesta en la action",response);
+      // console.log("respuesta en la action",response);
       
       dispatch(setUsers(response.data));
   } catch (error) {
@@ -224,7 +224,7 @@ const fetchStatuses = () => async (dispatch: Dispatch, getState: () => RootState
         Authorization: `Bearer ${accessToken}`
       }
     });
-    console.log("respuesta de estados en", response);
+    // console.log("respuesta de estados en", response);
       
     dispatch(setStatuses(response.data));
   } catch (error) {

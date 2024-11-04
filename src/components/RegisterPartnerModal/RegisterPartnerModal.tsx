@@ -72,7 +72,7 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     
     const categoryId = parseInt(e.target.value);
     setFormData((prevFormData) => {
@@ -97,20 +97,20 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
     }
     try {
       const { address, contact_info, business_type, category_ids,confirmPassword, ...userForm } = formData;
-      console.log("formData en la creacion ",formData);
+      // console.log("formData en la creacion ",formData);
 
       const createdUserAction = await dispatch(createPartnerUser(userForm));
-      console.log("created user en payload",createdUserAction);
+      // console.log("created user en payload",createdUserAction);
       
       const rolAssociated = roles?.find((rol:any)=> rol.role_name == "associated")
-      console.log("rol buscado",rolAssociated);
+      // console.log("rol buscado",rolAssociated);
       if (createdUserAction && rolAssociated) {
         const data = {
           role_ids: [rolAssociated.role_id],
           user_id: createdUserAction.user_id
         }
         const assignRoleAction = await dispatch(assignRoleToUser(data));
-        console.log(assignRoleAction);
+        // console.log(assignRoleAction);
         
         if (assignRoleAction) {
           const partnerData = {

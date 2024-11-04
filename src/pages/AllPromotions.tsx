@@ -24,11 +24,11 @@ const AllPromotions = () => {
     const userData = useAppSelector((state: RootState) => state.user.userData) as User;
     const statuses = useAppSelector(state => state.user.statuses); 
 
-    console.log("usuario en las promociones", userData);
+    // console.log("usuario en las promociones", userData);
 
-    console.log("todas las promociones", promotions);
-    console.log("promocion elegida", selectedPromotion);
-    console.log("isCreateModal abierto?", isCreateModal, userData.user_id);
+    // console.log("todas las promociones", promotions);
+    // console.log("promocion elegida", selectedPromotion);
+    // console.log("isCreateModal abierto?", isCreateModal, userData.user_id);
 
     // Estados para los filtros
     const [nameFilter, setNameFilter] = useState('');
@@ -73,7 +73,7 @@ const AllPromotions = () => {
         // console.log(promotionId);
         // console.log("estado filtrado",statuses);
         const status = statuses?.filter(status => status.name == "deleted")
-        console.log("estado filtrado",status);
+        // console.log("estado filtrado",status);
         
         dispatch(deletePromotionById(promotionId, status))
 
@@ -87,7 +87,7 @@ const AllPromotions = () => {
         setIsCreateModal(false)
     };
     const handleSave = (idPromo:any, editedPromotion: any, deletedImageIds: any) => {
-        console.log(editedPromotion, deletedImageIds);
+        // console.log(editedPromotion, deletedImageIds);
         dispatch(updatePromotionById(idPromo, editedPromotion, deletedImageIds))
         
     };
@@ -106,7 +106,7 @@ const AllPromotions = () => {
         setCurrentPage(newPage);
     };
 
-    console.log("buscando rol asociado",userData.roles.find(role => role.role_name.toLowerCase() === 'associated'));
+    // console.log("buscando rol asociado",userData.roles.find(role => role.role_name.toLowerCase() === 'associated'));
     
     return (
         <div className="promotions-list">

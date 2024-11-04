@@ -24,7 +24,7 @@ const CreateTouristPointForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
                                         
 
-console.log("ubicacion en el formulario",location);
+// console.log("ubicacion en el formulario",location);
   const Toast = Swal.mixin({
     toast: true,
     position: "center",
