@@ -25,6 +25,7 @@ const Configuration = () => {
   const handleAddCategory = () => {
     if (newCategory) {
       dispatch(addNewCategory({ name: newCategory }));
+      dispatch(fetchCategories());
       setNewCategory('');
     }
   };
