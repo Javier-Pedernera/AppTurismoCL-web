@@ -36,7 +36,7 @@ const Register = () => {
   const roles = useAppSelector((state: RootState) => state.user.roles);
   const statusActive = useAppSelector((state: RootState) => state.user.statuses).find(s=>s.name === 'active');
   const countries = useAppSelector((state: RootState) => state.globalData.countries); 
-
+  const birthDate = watch('birth_date');
   // console.log("rol de turista",roles);
   // console.log("estado de turista",statusActive);
   // const Toast = Swal.mixin({
@@ -52,6 +52,8 @@ const Register = () => {
   // });
 
   const onSubmit = async (data: UserRegister) => {
+
+   
     const { confirmPassword, otro_genero, ...userData } = data;
     userData.email = userData.email.trim().toLowerCase();
     userData.status_id = statusActive?.id;
@@ -140,6 +142,7 @@ const Register = () => {
   // Verifica si todos los campos obligatorios están completos
   const isFormValid = firstName && lastName && country && email && password && confirmPassword;
 
+// console.log("fecha de nacimiento", register);
 
   return (
     <div className="register-container">
@@ -226,19 +229,24 @@ const Register = () => {
                 <option value="female">Femenino</option>
                 <option value="Otro">Otro</option>
               </select>
-              {showOtroGenero && (
-                <input
-                  type="text"
-                  placeholder="Especificar género si lo desea"
-                  className="form-input"
-                  {...register("otro_genero", { required: "Especificar género si lo desea." })}
-                />
-              )}
+              <div className='divFecha'>
               <input
                 type="date"
+                placeholder='Fecha de nacimiento'
                 className="form-input"
                 {...register("birth_date")}
-              />
+                />
+                {!birthDate && <span className='BirthDate'>Fecha de nacimiento</span>}
+              </div>
+                {showOtroGenero? (
+                  <input
+                    type="text"
+                    placeholder="Especificar género si lo desea"
+                    className="form-input"
+                    {...register("otro_genero", { required: "Especificar género si lo desea." })}
+                  />
+                ): <div></div> }
+              
             </div>
             <div className="password-divider">
               <input
