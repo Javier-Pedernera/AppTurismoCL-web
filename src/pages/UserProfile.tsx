@@ -95,7 +95,7 @@ if (response?.status == 200) {
   Swal.fire({
     icon: "error",
     title: "Error",
-    text: `Usuario o contraseña incorrectos`,
+    text: `No se pudieron modificar los datos`,
     width: "22rem",
     padding: "0.5rem",
   })
