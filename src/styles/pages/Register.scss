@@ -48,27 +48,38 @@ background-size: cover;
     @media (max-width: 500px) {
       display: flex;
       flex-direction: column;
+      gap: 0.1rem;
     }
     .form-input {
       width: 100%;
       padding: 0.75rem;
       border: 1px solid #ccc;
+      background-color: #fff;
       border-radius: 4px;
+      height: 40px;
     }
     .divFecha{
+      // width: 100%;
       position: relative;
       .BirthDate{
         background-color: #fff;
         position: absolute;
         left: 10px;
-        top: 50%;
+        top: 20%;
         font-size: small;
         color: #737272;
-        margin-top: -10px;
+        // margin-top: -10px;
       }
     }
   }
   
+  .form-input {
+    min-width:95%;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
   .password-divider {
     display: flex;
     flex-direction: column;
@@ -76,13 +87,6 @@ background-size: cover;
     width: 30%;
     @media (max-width: 500px) {
       width: 90%;
-    }
-    .form-input {
-      width: 100%;
-      margin-bottom: 1rem;
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
     }
   }
 

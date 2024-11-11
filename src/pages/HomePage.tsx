@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import video from '../assets/images/Loberia.mp4'
 import logo from '../assets/logo.png'
 import logo2 from '../assets/logo2.png'
+import QRCodeGenerator from '../components/QRCodeGenerator/QRCodeGenerator';
 
 const HomePage = () => {
   // const { userData, accessToken } = useAppSelector((state: RootState) => state.user);
@@ -48,6 +49,7 @@ const HomePage = () => {
             Your browser does not support the video tag.
           </video>
         </div>
+          {/* <QRCodeGenerator url="https://seal-app-dx4lr.ondigitalocean.app/register" /> */}
       </div>
       <section>
         <h2>Nuestra Misión</h2>

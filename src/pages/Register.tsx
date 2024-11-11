@@ -3,12 +3,14 @@ import '../styles/pages/Register.scss';
 import { FieldError, useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from "../assets/logo.png";
 import logo2 from "../assets/logo2.png";
-import { useAppSelector } from '../redux/store/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/store/hooks';
 import { RootState } from '../redux/store/store';
 import Loader from '../components/Loader/Loader';
+import { fetchRoles, fetchStatuses } from '../redux/actions/userActions';
+import {fetchCountries } from '../redux/actions/globalDataActions';
 
 // Actualiza el modelo para reflejar los nuevos campos
 interface UserRegister {
@@ -37,6 +39,8 @@ const Register = () => {
   const statusActive = useAppSelector((state: RootState) => state.user.statuses).find(s=>s.name === 'active');
   const countries = useAppSelector((state: RootState) => state.globalData.countries); 
   const birthDate = watch('birth_date');
+
+  const dispatch = useAppDispatch();
   // console.log("rol de turista",roles);
   // console.log("estado de turista",statusActive);
   // const Toast = Swal.mixin({
@@ -51,6 +55,11 @@ const Register = () => {
   //   },
   // });
 
+  useEffect(() => {
+    dispatch(fetchRoles());
+    dispatch(fetchStatuses());
+    dispatch(fetchCountries());
+  }, [dispatch]);
   const onSubmit = async (data: UserRegister) => {
 
    
