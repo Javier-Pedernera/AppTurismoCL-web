@@ -172,13 +172,14 @@ const createPartnerUser = (userData: CreateUserModel) => {
   return async () => {
     try {
       const response = await axios.post(`${URL}/signup-partner`, userData);
-      // dispatch(setUsers(response.data));
-      // console.log("respuesta del registro", response);
-      
       return response.data;
-    } catch (error) {
-      console.error("Error al crear un nuevo usuario:", error);
-      throw error;
+    } catch (error: any) {
+      // Verificar si existe error.response y error.response.data.message
+      const errorMessage = error.response?.data?.message === "A user with that email already exists."? "Ya existe un usuario con el correo electrónico ingresado": "Error al crear un nuevo usuario";
+      
+      console.error("Error al crear un nuevo usuario:", errorMessage);
+      // Lanzar el mensaje específico del error
+      throw new Error(errorMessage);
     }
   };
 };

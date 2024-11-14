@@ -32,7 +32,25 @@ const UserManagement = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 10;
 
+    type StatusNames = "active" | "inactive" | "pending" | "suspended" | "associated";
 
+    const statusTranslations: Record<StatusNames, string> = {
+    active: "Activo",
+    inactive: "Inactivo",
+    pending: "Pendiente",
+    suspended: "Suspendido",
+    associated: "Asociado",
+    };
+        
+      type RoleNames = "admin" | "user" | "associated" | "tourist" | "partner";
+
+    const roleTranslations: Record<RoleNames, string> = {
+    admin: "Administrador",
+    user: "Usuario",
+    associated: "Asociado",
+    tourist: "Turista",
+    partner: "Asociado",
+    };
     
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -69,7 +87,7 @@ const UserManagement = () => {
                 <select id="status" class="swal2-inputDate">
                     ${statuses?.filter(status => status.name !== 'deleted')
                     .map(status => `
-                        <option value="${status.id}" ${user.status.name === status.name ? 'selected' : ''}>${status.name}</option>
+                        <option value="${status.id}" ${user.status.name === status.name ? 'selected' : ''}>${statusTranslations[status.name as StatusNames]  || status.name}</option>
                     `).join('')}
                 </select>
                     <div class= "status-role">
@@ -78,7 +96,7 @@ const UserManagement = () => {
                     ${filteredRoles?.map(role => `
                         <div class="status">
                         <input type="checkbox" id="role_${role.role_name}" value="${role.role_id}" ${user.roles.some(userRole => userRole.role_name === role.role_name) ? 'checked' : ''}>
-                        <label for="role_${role.role_name}">${role.role_name}</label><br>
+                        <label for="role_${role.role_name}">${roleTranslations[role.role_name as RoleNames]|| role.role_name}</label><br>
                         </div>
                         `).join('')}
                         </div>
@@ -167,7 +185,7 @@ const UserManagement = () => {
               }
             }))
             .then(() => {
-              MySwal.fire('Usuario Eliminado', 'El usuario ha sido marcado como eliminado', 'success');
+              MySwal.fire('Usuario Eliminado', 'El usuario ha sido eliminado correctamente', 'success');
               dispatch(fetchAllUsers());
             })
             .catch((error) => {
@@ -220,6 +238,7 @@ const UserManagement = () => {
                     placeholder="Filtrar por nombre"
                     value={nameFilter}
                     onChange={(e) => setNameFilter(e.target.value)}
+                    autoComplete="off"
                 />
                 <input 
                     className='inputFilter'
@@ -227,6 +246,7 @@ const UserManagement = () => {
                     placeholder="Filtrar por email"
                     value={emailFilter}
                     onChange={(e) => setEmailFilter(e.target.value)}
+                    autoComplete="off"
                 />
                     <input
                         className='inputFilter'
@@ -234,6 +254,7 @@ const UserManagement = () => {
                         placeholder="Filtrar por país"
                         value={countryFilter}
                         onChange={(e) => setCountryFilter(e.target.value)}
+                        autoComplete="off"
                     />
                 <select
                     className='inputFilter'
