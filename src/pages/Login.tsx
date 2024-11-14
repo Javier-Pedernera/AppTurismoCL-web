@@ -116,6 +116,7 @@ const Login = () => {
                     message: "Correo no valido",
                   },
                 })}
+                autoComplete="username"
               />
               {errors.email && (
                 <span className="form-error"> {(errors.email as FieldError).message}</span>
@@ -130,6 +131,7 @@ const Login = () => {
                     message: "Ingresar contraseña por favor",
                   },
                 })}
+                autoComplete="current-password"
               />
               {errors.password && (
                 <span className="form-error"> {(errors.password as FieldError).message}</span>
