@@ -95,7 +95,7 @@ const Login = () => {
       <div className="contentlogin">
         <div className="form-containerLogin">
           <div className="logo">
-            <form onSubmit={handleSubmit(onSubmit)} className="form">
+            <form onSubmit={handleSubmit(onSubmit)} className="form" autoComplete="on">
               <div className="logoCapitanDiv">
                 <Link className="logoCapitan" to="/">
                   <img className="logo" src={logo} alt="logo" />
