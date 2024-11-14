@@ -93,7 +93,7 @@ const Login = () => {
     <div className="login-container">
       {loading && <Loader />}
       <div className="contentlogin">
-        <div className="form-container">
+        <div className="form-containerLogin">
           <div className="logo">
             <form onSubmit={handleSubmit(onSubmit)} className="form">
               <div className="logoCapitanDiv">
@@ -105,7 +105,7 @@ const Login = () => {
               <input
                 type="email"
                 placeholder="Correo Eléctronico"
-                className="form-input"
+                className="form-inputLogin"
                 {...register("email", {
                   required: {
                     value: true,
@@ -123,7 +123,7 @@ const Login = () => {
               <input
                 type="password"
                 placeholder="Contraseña"
-                className="form-input"
+                className="form-inputLogin"
                 {...register("password", {
                   required: {
                     value: true,
