@@ -38,7 +38,7 @@ const updatePartner = (partnerId: number, data: any) => {
     try {
       // Incluye `data` en la solicitud `PUT`
       const response = await axios.put(`${URL}/partners/${partnerId}`, data);
-      console.log("respuesta partner",response);
+      // console.log("respuesta partner",response);
       
       dispatch(setPartnerData(response.data));
       return response

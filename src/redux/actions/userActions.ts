@@ -193,8 +193,8 @@ const fetchAllUsers = () => async (dispatch: Dispatch, getState: () => RootState
           }
       });
       // console.log("respuesta en la action",response);
-      
-      dispatch(setUsers(response.data));
+      const activeUsers = response.data.filter(user => user.status?.name !== 'deleted');
+      dispatch(setUsers(activeUsers));
   } catch (error) {
       console.error("Error fetching users:", error);
       // Manejo de errores

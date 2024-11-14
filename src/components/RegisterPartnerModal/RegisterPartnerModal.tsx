@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { assignRoleToUser, createPartnerUser } from '../../redux/actions/userActions';
+import { assignRoleToUser, createPartnerUser, fetchAllUsers } from '../../redux/actions/userActions';
 import Swal from 'sweetalert2';
 import '../../styles/components/_RegisterPartnerModal.scss';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { createPartner } from '../../redux/actions/partnerActions';
 import { RootState } from '../../redux/store/store';
-import { fetchAllPromotions } from '../../redux/actions/promotionActions';
-import { fetchCountries } from '../../redux/actions/globalDataActions';
+// import { fetchCountries } from '../../redux/actions/globalDataActions';  
 import MarketStall from '../../assets/icons/MarketStall.svg';
 import Loader from '../Loader/Loader';
 
@@ -20,7 +19,7 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
   const dispatch = useAppDispatch();
 
   // Acceder a los países y categorías desde el estado global
-  const countries = useAppSelector((state: RootState) => state.globalData.countries);
+  // const countries = useAppSelector((state: RootState) => state.globalData.countries);
   const categories = useAppSelector((state: RootState) => state.globalData.categories);
   const roles = useAppSelector((state: RootState) => state?.user.roles);
   const [loading, setLoading] = useState(false);
@@ -29,8 +28,8 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
 // console.log("categorias",categories);
 
   useEffect(() => {
-    dispatch(fetchAllPromotions());
-    dispatch(fetchCountries());
+    dispatch(fetchAllUsers());
+    // dispatch(fetchCountries());
     
   }, [dispatch]);
 
@@ -39,7 +38,7 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
     confirmPassword: '',
     first_name: '',
     last_name: '',
-    country: '',
+    country: 'Chile',
     email: '',
     status_id: 1,
     city: '',
@@ -64,9 +63,20 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
         [name]: checked
       });
     } else {
-      setFormData({
-        ...formData,
-        [name]: value
+      setFormData((prevFormData) => {
+        if (name === 'email') {
+          const password = value.split('@')[0] || ''; 
+          return {
+            ...prevFormData,
+            email: value,
+            password: password,
+            confirmPassword: password
+          };
+        }
+        return {
+          ...prevFormData,
+          [name]: value
+        };
       });
     }
   };
@@ -123,6 +133,7 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
           // console.log("partnerData en la creacion ",partnerData);
           const createPartnerAction = await dispatch(createPartner(partnerData));
           setLoading(false)
+          dispatch(fetchAllUsers());
           if (createPartnerAction) {
             Swal.fire({
               title: '¡Usuario creado exitosamente!',
@@ -152,12 +163,12 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
   };
 
   const areRequiredFieldsFilled = () => {
-    const { first_name, last_name, email, country, password, confirmPassword } = formData;
-    const allRequiredFieldsFilled = first_name && last_name && email && country && password && confirmPassword;
+    const { first_name, last_name, email, password, confirmPassword } = formData;
+    const allRequiredFieldsFilled = first_name && last_name && email && password && confirmPassword;
     const passwordsMatch = password === confirmPassword;
     return allRequiredFieldsFilled && passwordsMatch;
   };
-
+  // console.log("formData en la creacion ",formData);
   return (
     <div className={`modal ${isOpen ? 'open' : ''}`}>
        {loading && <Loader />}
@@ -203,25 +214,6 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
               // onFocus={(e) => (e.target.type = 'date')} 
               // onBlur={(e) => (e.target.type = 'text')} 
             />
-          <select
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-          >
-            <option value="">* Seleccione un país</option>
-            {countries.map((country: any) => (
-              <option key={country.code} value={country.name}>
-                {country.name}
-              </option>
-            ))}
-          </select>
-          <input
-            type="text"
-            name="city"
-            placeholder="Ciudad"
-            value={formData.city}
-            onChange={handleChange}
-          />
         </div>
         <div className="column">
           
@@ -261,22 +253,6 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
             value={formData.contact_info}
             onChange={handleChange}
           />
-         <div className='passwordDiv'>
-  <input
-    type="password"
-    name="password"
-    placeholder="* Contraseña"
-    value={formData.password}
-    onChange={handleChange}
-  />
-  <input
-    type="password"
-    name="confirmPassword"
-    placeholder="* Confirmar Contraseña"
-    value={formData.confirmPassword}
-    onChange={handleChange}
-  />
-</div>
     </div>
       </div>
         

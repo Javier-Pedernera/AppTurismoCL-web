@@ -11,7 +11,7 @@ interface AppLayoutProps {
 
 const Layout = ({ children }: AppLayoutProps): JSX.Element => {
   const { accessToken } = useAppSelector((state: RootState) => state.user);
-  console.log("token layout",accessToken);
+  // console.log("token layout",accessToken);
   
   return (
     <div className="Container_layout">

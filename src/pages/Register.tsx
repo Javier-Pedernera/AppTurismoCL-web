@@ -71,14 +71,14 @@ const Register = () => {
     if (otro_genero) {
       userData.gender = otro_genero;
     }
-      console.log("data user a enviar",userData);
+      // console.log("data user a enviar",userData);
 
     try {
       // Registro del usuario
       setIsLoading(true);
       const userResponse = await axios.post(`${URL}/signup`, userData);
       
-      console.log("respuesta de creacion de usuario", userResponse);
+      // console.log("respuesta de creacion de usuario", userResponse);
       
       // Si la respuesta del registro del usuario es exitosa (status 201 o 200)
       if (userResponse.status === 201 || userResponse.status === 200) {
@@ -94,7 +94,7 @@ const Register = () => {
         };
   
         const touristResponse = await axios.post(`${URL}/tourists`, touristData);
-        console.log("respuesta de creacion de turista", touristResponse);
+        // console.log("respuesta de creacion de turista", touristResponse);
         // Asignar el rol de turista si el registro del turista fue exitoso
         if (touristResponse.status === 201 || touristResponse.status === 200) {
           const touristRole = roles.find(role => role.role_name === 'tourist');
@@ -103,7 +103,7 @@ const Register = () => {
               role_ids: [touristRole.role_id],
               user_id: userId,
             });
-            console.log("respuesta de creacion de usuario", responseRol);
+            // console.log("respuesta de creacion de usuario", responseRol);
             if (responseRol.status === 201 || responseRol.status === 200) {
               Swal.fire({
                 icon: "success",
