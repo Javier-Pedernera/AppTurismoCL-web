@@ -32,7 +32,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ center, zoom, markerPositio
   const [position, setPosition] = useState({ lat: initialRegion.latitude, lng: initialRegion.longitude });
   const [advancedMarker, setAdvancedMarker] = useState<google.maps.marker.AdvancedMarkerElement | null>(null);
   // console.log("imprimiendo la posicion",advancedMarker?.position);
-  console.log("Posición actualizada:", position, center, markerPosition);
+  // console.log("Posición actualizada:", position, center, markerPosition);
   
   useEffect(() => {
   

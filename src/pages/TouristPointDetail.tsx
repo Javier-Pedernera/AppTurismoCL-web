@@ -11,6 +11,7 @@ import { GoogleMapsProvider } from '../components/MapFunctions/GoogleMapsLoader'
 import MapComponent from '../components/MapFunctions/MapComponent';
 import { compressAndConvertToBase64 } from '../utils/imageUtils';
 import Loader from '../components/Loader/Loader';
+import Swal from 'sweetalert2';
 
 const TouristPointDetail = () => {
     const { id } = useParams();
@@ -18,7 +19,7 @@ const TouristPointDetail = () => {
     const dispatch = useAppDispatch();
     const touristPoint = useAppSelector((state: RootState) => state.touristPoints.selectedTouristPoint);
     const URL = import.meta.env.VITE_API_URL;
-    // console.log("punto turistico", touristPoint);
+    console.log("punto turistico", touristPoint);
     
     const [selectedImage, setSelectedImage] = useState<string | undefined>(touristPoint?.images[0]?.image_path);
     const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -28,6 +29,8 @@ const TouristPointDetail = () => {
     const [images, setImages] = useState(touristPoint?.images || []); 
     const [deletedImages, setDeletedImages] = useState<number[]>([]); 
     //imagenes que se envian
+    console.log("imageness a borrar",deletedImages);
+    
     const [newImages, setNewImages] = useState<{ filename: string, data: string }[]>([]);  
     //imagenes que se ven
     const [previewImages, setPreviewImages] = useState<string[]>([]); 
@@ -49,19 +52,35 @@ const TouristPointDetail = () => {
     }, [touristPoint]);
 
     const handleDelete = () => {
-        if (id) {
-            dispatch(deleteTouristPointById(Number(id)));
-            navigate('/tourist-points');
-        }
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¡Este cambio no se podrá deshacer!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (id) {
+                    dispatch(deleteTouristPointById(Number(id)));
+                    navigate('/tourist-points');
+                    Swal.fire(
+                        'Eliminado',
+                        'El punto turístico ha sido eliminado.',
+                        'success'
+                    );
+                }
+            }
+        });
     };
 
     const handleEdit = () => {
         setEditMode(true);
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (id && location) {
-            
             const updatedTouristPoint = {
                 title,
                 description,
@@ -69,11 +88,39 @@ const TouristPointDetail = () => {
                 longitude: location.lng,
                 images: newImages,
             };
-            console.log("punto turistico actualizado",updatedTouristPoint);
-            setPreviewImages([])
-            dispatch(updateTouristPointById(id, updatedTouristPoint, deletedImages));
-            dispatch(fetchTouristPointById(Number(id)));
-            setEditMode(false);
+   
+            // Mostrar alerta de cargando
+            Swal.fire({
+                title: 'Guardando...',
+                text: 'Por favor espera',
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+   
+            try {
+                await dispatch(updateTouristPointById(id, updatedTouristPoint, deletedImages));
+                await dispatch(fetchTouristPointById(Number(id)));
+                setNewImages([])
+                setEditMode(false);
+   
+                // Mostrar alerta de éxito
+                Swal.fire({
+                    title: '¡Éxito!',
+                    text: 'El punto turístico se ha actualizado correctamente.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar',
+                });
+            } catch (error) {
+                // Mostrar alerta de error si ocurre algún problema
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Hubo un problema al guardar los cambios.',
+                    icon: 'error',
+                    confirmButtonText: 'Intentar de nuevo',
+                });
+            }
         }
     };
 
@@ -112,6 +159,7 @@ const TouristPointDetail = () => {
     const handleCancel = () => {
         setEditMode(false)
         setPreviewImages([])
+        setDeletedImages([]);
         setNewImages([])
     }
 
@@ -173,7 +221,7 @@ const TouristPointDetail = () => {
                            
                                 <Typography variant="h4">{touristPoint.title}</Typography>
                                 <Rating name="read-only" value={touristPoint.average_rating} readOnly precision={0.5} />
-                                <Typography variant="body1">{touristPoint.description}</Typography>
+                                <Typography className='descriptionTOur' variant="body1">{touristPoint.description}</Typography>
                             </>
                         )}
 
