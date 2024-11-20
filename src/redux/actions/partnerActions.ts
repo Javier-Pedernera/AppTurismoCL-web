@@ -25,7 +25,10 @@ const fetchPartnerById = (partnerId: number) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.get(`${URL}/partners/${partnerId}`);
+      console.log("respuesta en acition", response);
+      
       dispatch(setPartnerData(response.data));
+      return response
     } catch (error) {
       console.error(`Error al obtener los datos del partner ${partnerId}:`, error);
     }

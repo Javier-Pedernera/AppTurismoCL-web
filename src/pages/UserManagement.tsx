@@ -9,6 +9,7 @@ import '../styles/pages/_userManagement.scss';
 import RegisterPartnerModal from '../components/RegisterPartnerModal/RegisterPartnerModal';
 import MarketStall from '../assets/icons/MarketStallwhite.svg';
 import { fetchCategories } from '../redux/actions/globalDataActions';
+import { createPartner, fetchPartnerById } from '../redux/actions/partnerActions';
 
 const UserManagement = () => {
     const users = useAppSelector((state: RootState) => state.user.users);
@@ -17,7 +18,7 @@ const UserManagement = () => {
     const statuses = useAppSelector((state: RootState) => state.user.statuses);
     const dispatch = useAppDispatch();
     const MySwal = withReactContent(Swal);
-    // console.log("todos los users", users);
+    console.log("todos los users", users[33]);
     // console.log("todos los roles", roles);
     // console.log("todos los estados", statuses);
     //Filtros
@@ -138,7 +139,45 @@ const UserManagement = () => {
         
           .then((responseRol) => {
               console.log("respuesta de actualizacion de rol",responseRol);
-                // Si la actualización de roles es exitosa, actualizar información del usuario
+            //   console.log("roles asignados____________",roles);
+              
+            const associatedRole = filteredRoles.find(r => r.role_name === "associated");
+            // console.log("El rol asociado buscado",associatedRole,"roles a asignar", roles);
+            
+            const isAssociatedRoleAssigned = associatedRole && roles.includes(associatedRole.role_id.toString());
+        
+            // console.log("isAssociatedRoleAssigned??????????????",isAssociatedRoleAssigned);
+            
+            if (isAssociatedRoleAssigned) {
+                dispatch(fetchPartnerById(user.user_id))
+                .then((response: any) => {
+                    console.log("response____________",response);
+                    
+                    if (response?.data) {
+                        console.log("El partner ya existe, no se necesita crear nuevamente.");
+                    } else {
+                        const partnerData = {
+                            address: `${user.city}, ${user.country}`,
+                            contact_info: user.email,
+                            business_type: 'desconocido',
+                            category_ids: [],
+                            user_id: user.user_id
+                        };
+                        console.log("Creando partner:", partnerData);
+                        // Aquí llamas la acción para crear el partner si no existe
+                        dispatch(createPartner(partnerData))
+                            .then(() => {
+                                console.log("Partner creado exitosamente.");
+                            })
+                            .catch(error => {
+                                console.error("Error al crear el partner:", error);
+                            });
+                    }
+                })
+                .catch((error:any) => {
+                    console.error("Error al verificar el partner:", error);
+                });
+        }
                 return dispatch(updateUser({
                     user_id: user.user_id,
                     data: {
