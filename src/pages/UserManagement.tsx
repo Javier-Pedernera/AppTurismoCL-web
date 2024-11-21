@@ -18,7 +18,7 @@ const UserManagement = () => {
     const statuses = useAppSelector((state: RootState) => state.user.statuses);
     const dispatch = useAppDispatch();
     const MySwal = withReactContent(Swal);
-    console.log("todos los users", users[33]);
+    // console.log("todos los users", users[33]);
     // console.log("todos los roles", roles);
     // console.log("todos los estados", statuses);
     //Filtros
@@ -74,7 +74,7 @@ const UserManagement = () => {
             html: `
             <input type="text" id="first_name" class="swal2-input" placeholder="Nombre" value="${user.first_name}">
             <input type="text" id="last_name" class="swal2-input" placeholder="Apellido" value="${user.last_name}">
-            <input type="email" id="email" class="swal2-input" placeholder="Email" value="${user.email}">
+             <input type="email" id="email" class="swal2-input" placeholder="Email" value="${user.email}" readonly>
             <input type="text" id="phone_number" class="swal2-input" placeholder="Teléfono" value="${user.phone_number}">
             <input type="text" id="city" class="swal2-input" placeholder="Ciudad" value="${user.city}">
             <input type="text" id="country" class="swal2-input" placeholder="País" value="${user.country}">
