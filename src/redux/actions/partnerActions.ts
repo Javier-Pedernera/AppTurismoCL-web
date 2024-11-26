@@ -1,6 +1,6 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import axios from "axios";
-import { setPartnerData, addBranch, updateBranch, deleteBranch, setSelectedBranch } from "../reducers/partnerReducer";
+import { setPartnerData, addBranch, updateBranch, setSelectedBranch } from "../reducers/partnerReducer";
 import { Branch } from "../../models/BranchModels";
 import { PartnerCreate } from "../../models/PartnerModels";
 
@@ -76,11 +76,12 @@ const updateBranchById = (branchId: number, branchData: Branch) => {
 };
 
 // Eliminar una sucursal
-const deleteBranchById = (branchId: number) => {
-  return async (dispatch: Dispatch) => {
+const deleteBranchById = (branchId: number, data: any) => {
+  return async () => {
     try {
-      await axios.delete(`${URL}/branches/${branchId}`);
-      dispatch(deleteBranch(branchId));
+      const response = await axios.put(`${URL}/branches/${branchId}`, data);
+      // dispatch(deleteBranch(branchId));
+      return response
     } catch (error) {
       console.error(`Error al eliminar la sucursal ${branchId}:`, error);
     }
@@ -98,4 +99,17 @@ const selectBranch = (branch: Branch | null) => {
   };
 };
 
-export { fetchPartnerById, createBranch, updateBranchById, deleteBranchById, selectBranch, createPartner, updatePartner };
+// Obtener sucursales de un socio (partner) por su ID
+const fetchBranchesByPartner = (partnerId: number) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await axios.get(`${URL}/partners/${partnerId}/branches`);
+      dispatch(setPartnerData(response.data)); // Si necesitas manejar las sucursales como parte del estado del partner
+      return response.data; // Retorna los datos para usarlos directamente si es necesario
+    } catch (error) {
+      console.error(`Error al obtener las sucursales del partner ${partnerId}:`, error);
+      throw error; // Relanzar el error para manejarlo en el componente
+    }
+  };
+};
+export { fetchPartnerById, createBranch, updateBranchById, deleteBranchById, selectBranch, createPartner, updatePartner, fetchBranchesByPartner };

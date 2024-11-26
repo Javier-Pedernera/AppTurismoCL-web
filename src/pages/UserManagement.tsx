@@ -9,7 +9,7 @@ import '../styles/pages/_userManagement.scss';
 import RegisterPartnerModal from '../components/RegisterPartnerModal/RegisterPartnerModal';
 import MarketStall from '../assets/icons/MarketStallwhite.svg';
 import { fetchCategories } from '../redux/actions/globalDataActions';
-import { createPartner, fetchPartnerById } from '../redux/actions/partnerActions';
+import { createPartner, deleteBranchById, fetchBranchesByPartner, fetchPartnerById } from '../redux/actions/partnerActions';
 
 const UserManagement = () => {
     const users = useAppSelector((state: RootState) => state.user.users);
@@ -18,7 +18,7 @@ const UserManagement = () => {
     const statuses = useAppSelector((state: RootState) => state.user.statuses);
     const dispatch = useAppDispatch();
     const MySwal = withReactContent(Swal);
-    // console.log("todos los users", users[33]);
+    console.log("todos los users", users[3],users);
     // console.log("todos los roles", roles);
     // console.log("todos los estados", statuses);
     //Filtros
@@ -206,34 +206,78 @@ const UserManagement = () => {
         }
         });
     };
+console.log("estado eliminado", statuses?.find(status => status.name === 'deleted')?.id);
 
-    const handleDeleteUser = (userId: number) => {
-        MySwal.fire({
-          title: '¿Estás seguro?',
-          text: 'Este cambio es irreversible',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Eliminar',
-          cancelButtonText: 'Cancelar'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            dispatch(updateUser({
-              user_id: userId,
-              data: {
-                status_id: statuses?.find(status => status.name === 'deleted')?.id
-              }
-            }))
-            .then(() => {
-              MySwal.fire('Usuario Eliminado', 'El usuario ha sido eliminado correctamente', 'success');
-              dispatch(fetchAllUsers());
-            })
-            .catch((error) => {
-                console.log(error);
-              MySwal.fire('Error', 'No se pudo eliminar al usuario', 'error');
-            });
-          }
-        });
-      };
+const handleDeleteUser = (userId: number) => {
+    MySwal.fire({
+      title: '¿Estás seguro?',
+      text: 'Este cambio es irreversible',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const deletedStatusId = statuses?.find(status => status.name === 'deleted')?.id;
+  
+        if (!deletedStatusId) {
+          MySwal.fire('Error', 'No se pudo encontrar el estado "deleted"', 'error');
+          return;
+        }
+  
+        // Paso 1: Obtener sucursales asociadas al socio
+        dispatch(fetchBranchesByPartner(userId))
+          .then((branches: any) => {
+            console.log("sucursales del usuario",branches);
+            
+            // Si no hay sucursales asociadas, solo elimina el usuario
+            if (!branches || branches.length === 0) {
+              dispatch(updateUser({
+                user_id: userId,
+                data: { status_id: deletedStatusId },
+              }))
+                .then(() => {
+                  MySwal.fire('Usuario Eliminado', 'El usuario ha sido eliminado correctamente', 'success');
+                  dispatch(fetchAllUsers());
+                })
+                .catch((error) => {
+                  console.error('Error al eliminar el usuario:', error);
+                  MySwal.fire('Error', 'No se pudo eliminar al usuario', 'error');
+                });
+              return;
+            }
+  
+            // Si hay sucursales, actualiza la primera a "deleted" antes de eliminar al usuario
+            const branch = branches[0];
+            console.log("sucursal 0", branch);
+            
+            dispatch(deleteBranchById(branch.branch_id, { status_id: deletedStatusId }))
+              .then(() => {
+                dispatch(updateUser({
+                  user_id: userId,
+                  data: { status_id: deletedStatusId },
+                }))
+                  .then(() => {
+                    MySwal.fire('Usuario Eliminado', 'El usuario y su sucursal han sido eliminados correctamente', 'success');
+                    dispatch(fetchAllUsers());
+                  })
+                  .catch((error:any) => {
+                    console.error('Error al eliminar el usuario:', error);
+                    MySwal.fire('Error', 'No se pudo eliminar al usuario', 'error');
+                  });
+              })
+              .catch((error:any) => {
+                console.error('Error al actualizar la sucursal:', error);
+                MySwal.fire('Error', 'No se pudo actualizar la sucursal', 'error');
+              });
+          })
+          .catch((error:any) => {
+            console.error('Error al obtener las sucursales:', error);
+            MySwal.fire('Error', 'No se pudieron obtener las sucursales del socio', 'error');
+          });
+      }
+    });
+  };
 
     const filteredUsers = users?.filter((user: User) => {
         return (
