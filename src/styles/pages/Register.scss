@@ -75,17 +75,25 @@ background-size: cover;
   
   .form-input {
     min-width:95%;
-    margin-bottom: 1rem;
+    margin-bottom: 0.1rem;
     padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
   .password-divider {
     display: flex;
-    flex-direction: column;
-    margin-top: 0.5rem;
-    width: 30%;
+    flex-direction: row;
+    // margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 90%;
+    align-self: center;
+    justify-content: center;
+    justify-content: space-evenly;
+    & input{
+      min-width:35%;
+    }
     @media (max-width: 500px) {
+      flex-direction: column;
       width: 90%;
     }
   }
@@ -103,46 +111,54 @@ background-size: cover;
   .form-error {
     color: red;
     font-size: 0.875rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8em;
     grid-column: span 2; 
   }
-  
-  .submit-button {
-    padding: 0.75rem;
-    border: none;
-    background-color: var(--primary-color);
-    color: #fff;
-    cursor: pointer;
-    border-radius: 4px;
-    grid-column: span 2;
-    width: 30%;
-    &:hover{
-      // color: var(--primary-color);
-      background-color: var(--greenSoft-color);
+  .btnsReg{
+    width: 90%;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    .submit-button {
+      padding: 0.75rem;
+      border: none;
+      background-color: var(--primary-color);
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+      grid-column: span 2;
+      width: 30%;
+      &:hover{
+        // color: var(--primary-color);
+        background-color: var(--greenSoft-color);
+      }
+      &:disabled {
+        background-color: var(--primarySoft-color);
+        cursor: auto;
+      }
+      @media (max-width: 500px) {
+        padding: 0.5rem;
+        width: 40%;
+      }
     }
-    &:disabled {
-      background-color: var(--primarySoft-color);
-      cursor: auto;
-    }
-    @media (max-width: 500px) {
-      width: 90%;
-    }
-  }
-  .cancel-button {
-    margin-top: 10px;
-    padding: 0.75rem;
-    border: none;
-    background-color: #727272;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 4px;
-    grid-column: span 2;
-    width: 30%;
-    &:hover{
-      background-color: #999;
-    }
-    @media (max-width: 500px) {
-      width: 90%;
+    .cancel-button {
+     
+      padding: 0.75rem;
+      border: none;
+      background-color: #727272;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+      grid-column: span 2;
+      width: 30%;
+      &:hover{
+        background-color: #999;
+      }
+      @media (max-width: 500px) {
+        padding: 0.5rem;
+        width: 40%;
+      }
     }
   }
   
@@ -191,3 +207,29 @@ background-size: cover;
       }
 }
       
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .form-input {
+    flex: 1;
+    padding-right: 2rem; // Deja espacio para el ícono
+  }
+
+  .toggle-password-visibility {
+    position: absolute;
+    right: 0.5rem;
+    top:10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+}
+.rulePass{
+  font-size: 0.8em;
+}
+.divmsgpss{
+  height: 30px;
+}

@@ -9,9 +9,9 @@ import { GoogleMapsProvider } from './components/MapFunctions/GoogleMapsLoader.t
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-    <GoogleMapsProvider>
-    <App />
-    </GoogleMapsProvider>
+      <GoogleMapsProvider>
+        <App />
+      </GoogleMapsProvider>
     </Provider>
 </React.StrictMode>
 )

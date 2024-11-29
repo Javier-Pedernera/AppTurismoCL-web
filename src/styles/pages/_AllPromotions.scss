@@ -144,6 +144,17 @@
 
 .align-center {
     text-align: center !important;
+    &.status-active {
+        color: green !important;
+    }
+    
+    &.status-inactive {
+        color: orange !important;;
+    }
+    
+    &.status-deleted {
+        color: red !important;;
+    }
 }
 
 .filtroFechas {
@@ -305,3 +316,4 @@
         }
     }
 }
+
