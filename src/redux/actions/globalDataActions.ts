@@ -22,7 +22,8 @@ export const addNewCategory = (category: { name: string }) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.post(`${URL}/categories`, category);
-      if (response.status === 201) {
+      if (response.status === 200) {
+        
         return dispatch(addCategory(response.data));
       }
     } catch (error) {
