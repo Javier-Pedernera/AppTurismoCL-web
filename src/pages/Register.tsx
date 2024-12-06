@@ -235,8 +235,8 @@ const Register = () => {
                 onChange={handleGeneroChange}
               >
                 <option value=''>Seleccione Género</option>
-                <option value="male">Masculino</option>
-                <option value="female">Femenino</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
                 <option value="Otro">Otro</option>
               </select>
               <div className='divFecha'>

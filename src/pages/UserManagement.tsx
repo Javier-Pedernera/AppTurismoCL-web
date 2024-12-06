@@ -151,7 +151,7 @@ const UserManagement = () => {
             if (isAssociatedRoleAssigned) {
                 dispatch(fetchPartnerById(user.user_id))
                 .then((response: any) => {
-                    console.log("response____________",response);
+                    // console.log("response____________",response);
                     
                     if (response?.data) {
                         console.log("El partner ya existe, no se necesita crear nuevamente.");
@@ -343,6 +343,7 @@ const handleDeleteUser = (userId: number) => {
                     className='inputFilter'
                     value={roleFilter}
                     onChange={(e) => setRoleFilter(e.target.value)}
+                    autoComplete="off"
                 >
                     <option value="">Filtrar por rol</option>
                     {roles?.map((role) => (

@@ -44,7 +44,7 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
     city: '',
     birth_date: '',
     phone_number: '',
-    gender: 'male',
+    gender: '',
     subscribed_to_newsletter: false,
     // Partner data
     address: '',
