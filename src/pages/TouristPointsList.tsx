@@ -16,7 +16,7 @@ const TouristPointsList = () => {
   const touristPoints = useAppSelector((state: RootState) => state.touristPoints.allTouristPoints).filter(touristPoint => { return touristPoint.status.name === 'active'});;
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-// console.log("todos los puntos turisticos",touristPoints);
+console.log("todos los puntos turisticos",touristPoints);
 
   React.useEffect(() => {
     dispatch(fetchAllTouristPoints());
