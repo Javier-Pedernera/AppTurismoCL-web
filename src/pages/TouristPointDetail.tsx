@@ -22,7 +22,7 @@ const TouristPointDetail = () => {
     console.log("punto turistico", touristPoint);
     
     const [selectedImage, setSelectedImage] = useState<string | undefined>(touristPoint?.images[0]?.image_path);
-    const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
+    const [location, setLocation] = useState<{ lat: number; lng: number } | null>( null);
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState(touristPoint?.title || '');
     const [description, setDescription] = useState(touristPoint?.description || '');
@@ -30,7 +30,7 @@ const TouristPointDetail = () => {
     const [deletedImages, setDeletedImages] = useState<number[]>([]); 
     //imagenes que se envian
     console.log("imageness a borrar",deletedImages);
-    
+    console.log("punto turistico elegido",touristPoint);
     const [newImages, setNewImages] = useState<{ filename: string, data: string }[]>([]);  
     //imagenes que se ven
     const [previewImages, setPreviewImages] = useState<string[]>([]); 
