@@ -1,6 +1,8 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setPartnerData} from "../reducers/partnerReducer";
+import { Branch } from "../../models/BranchModels";
+
 import { PartnerCreate } from "../../models/PartnerModels";
 
 const URL = import.meta.env.VITE_API_URL;
@@ -24,7 +26,10 @@ const fetchPartnerById = (partnerId: number) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.get(`${URL}/partners/${partnerId}`);
+      console.log("respuesta en acition", response);
+      
       dispatch(setPartnerData(response.data));
+      return response
     } catch (error) {
       console.error(`Error al obtener los datos del partner ${partnerId}:`, error);
     }
@@ -37,7 +42,7 @@ const updatePartner = (partnerId: number, data: any) => {
     try {
       // Incluye `data` en la solicitud `PUT`
       const response = await axios.put(`${URL}/partners/${partnerId}`, data);
-      console.log("respuesta partner",response);
+      // console.log("respuesta partner",response);
       
       dispatch(setPartnerData(response.data));
       return response
@@ -83,6 +88,7 @@ const updatePartner = (partnerId: number, data: any) => {
 //   };
 // };
 
+
 // // Seleccionar una sucursal
 // const selectBranch = (branch: Branch | null) => {
 //   return async (dispatch: Dispatch) => {
@@ -95,3 +101,4 @@ const updatePartner = (partnerId: number, data: any) => {
 // };
 
 export { fetchPartnerById, createPartner, updatePartner };
+

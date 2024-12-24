@@ -32,8 +32,8 @@ const PasswordReset= () => {
       });
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        console.log("enviar codigo");
-        console.log(email,code,password);
+        // console.log("enviar codigo");
+        // console.log(email,code,password);
         if (password !== confirmPassword) {
             setError('Passwords do not match');
             return;
@@ -75,7 +75,7 @@ const PasswordReset= () => {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
-                <label htmlFor="code">Code:</label>
+                <label htmlFor="code">Código:</label>
                 <input
                     type="text"
                     id="code"
@@ -83,7 +83,7 @@ const PasswordReset= () => {
                     onChange={(e) => setCode(e.target.value)}
                     required
                 />
-                <label htmlFor="password">New Password:</label>
+                <label htmlFor="password">Nueva contraseña:</label>
                 <input
                     type="password"
                     id="password"
@@ -91,7 +91,7 @@ const PasswordReset= () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
-                <label htmlFor="confirm_password">Confirm Password:</label>
+                <label htmlFor="confirm_password">Confirmar contraseña:</label>
                 <input
                     type="password"
                     id="confirm_password"
@@ -100,7 +100,7 @@ const PasswordReset= () => {
                     required
                 />
                 {error && <div className="error">{error}</div>}
-                <button type="submit">Reset Password</button>
+                <button type="submit">Cambiar contraseña</button>
             </form>
             </div>
         </div>

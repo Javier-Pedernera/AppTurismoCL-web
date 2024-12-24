@@ -82,7 +82,7 @@ const updatePromotionById = (promotionId: number, promotionData: Promotion, dele
 
 // Eliminar una promoción ----- Borrado lógico ------
 const deletePromotionById = (promotionId: number, status: any) => {
-  console.log("status en action",status);
+  // console.log("status en action",status);
   
   return async (dispatch: Dispatch) => {
     try {

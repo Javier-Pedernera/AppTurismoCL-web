@@ -36,13 +36,13 @@ const userLogIn = (user: UserLogin | null, token: string) => {
       
       
       if (!user && token.length) {
-        console.log("se envia token_____ user log",token);
+        // console.log("se envia token_____ user log",token);
         const response = await axios.get(`${URL}/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("respuesta de se envia token____");
+        // console.log("respuesta de se envia token____");
         
         const decodedToken: CustomJwtPayload = await jwtDecode(token);
 
@@ -79,6 +79,8 @@ const userLogIn = (user: UserLogin | null, token: string) => {
 
       // Si tenemos usuario pero no token, autenticamos con las credenciales
       } else if (user && !token.length) {
+        console.log("user en el login", user);
+        
         const response = await axios.post(`${URL}/login`, user);
         const decodedToken: CustomJwtPayload = await jwtDecode(response.data.token);
 
@@ -129,7 +131,7 @@ const logOutUser = () => {
         Cookies.remove('data', { path: '/' });
         window.location.reload();
       } else {
-        console.log("La cookie 'userData' no existe.");
+        // console.log("La cookie 'userData' no existe.");
       }
       dispatch(logOut({}));
     } catch (error) {
@@ -172,13 +174,14 @@ const createPartnerUser = (userData: CreateUserModel) => {
   return async () => {
     try {
       const response = await axios.post(`${URL}/signup-partner`, userData);
-      // dispatch(setUsers(response.data));
-      console.log("respuesta del registro", response);
-      
       return response.data;
-    } catch (error) {
-      console.error("Error al crear un nuevo usuario:", error);
-      throw error;
+    } catch (error: any) {
+      // Verificar si existe error.response y error.response.data.message
+      const errorMessage = error.response?.data?.message === "A user with that email already exists."? "Ya existe un usuario con el correo electrónico ingresado": "Error al crear un nuevo usuario";
+      
+      console.error("Error al crear un nuevo usuario:", errorMessage);
+      // Lanzar el mensaje específico del error
+      throw new Error(errorMessage);
     }
   };
 };
@@ -192,9 +195,9 @@ const fetchAllUsers = () => async (dispatch: Dispatch, getState: () => RootState
               Authorization: `Bearer ${accessToken}` // Agregar el token en el header
           }
       });
-      console.log("respuesta en la action",response);
-      
-      dispatch(setUsers(response.data));
+      // console.log("respuesta en la action",response);
+      const activeUsers = response.data.filter(user => user.status?.name !== 'deleted');
+      dispatch(setUsers(activeUsers));
   } catch (error) {
       console.error("Error fetching users:", error);
       // Manejo de errores
@@ -224,7 +227,7 @@ const fetchStatuses = () => async (dispatch: Dispatch, getState: () => RootState
         Authorization: `Bearer ${accessToken}`
       }
     });
-    console.log("respuesta de estados en", response);
+    // console.log("respuesta de estados en", response);
       
     dispatch(setStatuses(response.data));
   } catch (error) {

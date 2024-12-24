@@ -5,26 +5,29 @@
     flex-direction: column;
     align-items: center;
     // background-color: var(--primary-color);
-    // background-image: url(../../assets/images/fondo-poli.svg);
-    background-size: cover;
+    background-image: url(../../assets/images/fondo-poli.svg);
+    background-size:contain;
     justify-content: center;
   }
-.content {
+.contentlogin {
   padding-top: 2%;
-  // background-color:#eaeaeada;
       width: 50%;
       display: flex;
       flex-direction: column;
       align-items: center;
+      @media (max-width: 500px) {
+        width: 85%;
+      }
     }
     
-.form-container {
+.form-containerLogin {
       width: 100%;
       display: flex;
       justify-content: center;
       flex-direction: column;
       align-items: center;
       height: 100%;
+      
     }
 .logoCapitanDiv{
   display: flex;
@@ -33,6 +36,7 @@
   flex-direction: column;
   align-content: center;
   align-items: center;
+  background-color: #fff;
     }
 .logoCapitan{
   display: flex;
@@ -91,7 +95,7 @@
       align-items: center;
     }
    
-.form-input {
+.form-inputLogin {
       padding: 10px;
       border: 2px solid #e5e7eb;
       width: 250px;
@@ -99,7 +103,7 @@
       margin-bottom: 10px;
     }
     
-.form-input:focus {
+.form-inputLogin:focus {
       outline: none;
       border-color: var(--greenSoft-color);
     }

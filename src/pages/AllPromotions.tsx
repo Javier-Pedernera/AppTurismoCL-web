@@ -24,11 +24,11 @@ const AllPromotions = () => {
     const userData = useAppSelector((state: RootState) => state.user.userData) as User;
     const statuses = useAppSelector(state => state.user.statuses); 
 
-    console.log("usuario en las promociones", userData);
+    // console.log("usuario en las promociones", userData);
 
-    console.log("todas las promociones", promotions);
-    console.log("promocion elegida", selectedPromotion);
-    console.log("isCreateModal abierto?", isCreateModal, userData.user_id);
+    // console.log("todas las promociones", promotions);
+    // console.log("promocion elegida", selectedPromotion);
+    // console.log("isCreateModal abierto?", isCreateModal, userData.user_id);
 
     // Estados para los filtros
     const [nameFilter, setNameFilter] = useState('');
@@ -73,7 +73,7 @@ const AllPromotions = () => {
         // console.log(promotionId);
         // console.log("estado filtrado",statuses);
         const status = statuses?.filter(status => status.name == "deleted")
-        console.log("estado filtrado",status);
+        // console.log("estado filtrado",status);
         
         dispatch(deletePromotionById(promotionId, status))
 
@@ -87,7 +87,7 @@ const AllPromotions = () => {
         setIsCreateModal(false)
     };
     const handleSave = (idPromo:any, editedPromotion: any, deletedImageIds: any) => {
-        console.log(editedPromotion, deletedImageIds);
+        // console.log(editedPromotion, deletedImageIds);
         dispatch(updatePromotionById(idPromo, editedPromotion, deletedImageIds))
         
     };
@@ -105,8 +105,14 @@ const AllPromotions = () => {
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage);
     };
+    type StatusName = 'active' | 'inactive' | 'deleted';
 
-    console.log("buscando rol asociado",userData.roles.find(role => role.role_name.toLowerCase() === 'associated'));
+    const statusTranslations: Record<StatusName, string> = {
+        active: 'Activa',
+        inactive: 'Inactiva',
+        deleted: 'Eliminada',
+    };
+    // console.log("buscando rol asociado",userData.roles.find(role => role.role_name.toLowerCase() === 'associated'));
     
     return (
         <div className="promotions-list">
@@ -174,6 +180,7 @@ const AllPromotions = () => {
                             <th className='align-center'>Cantidad Disponible</th>
                             <th className='align-center'>Cantidad Consumidas</th>
                             <th className='align-center'>Descuento (%)</th>
+                            <th className='align-center'>Estado</th>
                             <th className='align-center'>Acciones</th>
                         </tr>
                     </thead>
@@ -186,6 +193,15 @@ const AllPromotions = () => {
                                     <td className='align-center'>{promotion.available_quantity || 'Sin límite'}</td>
                                     <td className='align-center'>{promotion.consumed_quantity || 0}</td>
                                     <td className='align-center'>{promotion.discount_percentage}</td>
+                                    <td 
+                                        className={`align-center ${
+                                            promotion.status?.name === 'active' ? 'status-active' :
+                                            promotion.status?.name === 'inactive' ? 'status-inactive' :
+                                            'status-deleted'
+                                        }`}
+                                    >
+                                        {statusTranslations[promotion.status?.name as StatusName] || 'Desconocido'}
+                                    </td>
                                     <td>
                                     <button className="edit-btn2" onClick={() => handleEdit(promotion)}><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16"><path fill="currentColor" d="M16 4s0-1-1-2s-1.9-1-1.9-1L12 2.1V0H0v16h12V8zm-9.7 7.4l-.6-.6l.3-1.1l1.5 1.5zm.9-1.9l-.6-.6l5.2-5.2c.2.1.4.3.6.5zm6.9-7l-.9 1c-.2-.2-.4-.3-.6-.5l.9-.9c.1.1.3.2.6.4M11 15H1V1h10v2.1L5.1 9L4 13.1L8.1 12L11 9z" /></svg>
                                     </button>

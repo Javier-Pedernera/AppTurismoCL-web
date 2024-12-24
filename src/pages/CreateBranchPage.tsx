@@ -11,7 +11,7 @@ const CreateBranchPage = () => {
     if (latitude !== null && longitude !== null) {
       data.latitude = latitude;
       data.longitude = longitude;
-      console.log('Sucursal creada:', data);
+      // console.log('Sucursal creada:', data);
       // Aquí iría la llamada a la API para enviar los datos
     }
   };

@@ -24,6 +24,9 @@
       align-items: center;
       .contImageP{
         width: 15%;
+        @media (max-width: 568px) {
+          width: auto;
+        }
       .profile-image {
         width: 150px;
         height: 150px;
@@ -72,7 +75,11 @@
     display: flex;
     flex-direction: column;
     width: 47%;
+    @media (max-width: 568px) {
+      width: 90%;
+    }
   } 
+
   p {
     margin: 10px 0;
     font-size: 16px;
@@ -97,6 +104,10 @@
       border: 1px solid #ddd;
       font-size: 16px;
     }
+}
+@media (max-width: 568px) {
+  flex-direction: column;
+  align-items: center;
 }
 }
     .edit-buttons {
@@ -127,6 +138,9 @@
         &:hover{
           background-color: #d03328;
         }
+      }
+      @media (max-width: 568px) {
+        width: 90%;
       }
     }
 
@@ -169,7 +183,7 @@
     border-radius: 50%;
     z-index: 10;
     // width: 150px;
-    // height: 150px;
+    height: 150px;
     & svg{
       position: absolute;
       top:50;

@@ -1,25 +1,26 @@
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../redux/store/hooks';
-import { RootState } from '../redux/store/store';
+import { useAppDispatch } from '../redux/store/hooks';
+// import { RootState } from '../redux/store/store';
 import '../styles/pages/Home.scss';
 import { fetchRoles, fetchStatuses } from '../redux/actions/userActions';
-import { fetchCountries } from '../redux/actions/globalDataActions';
+import { fetchCategories, fetchCountries } from '../redux/actions/globalDataActions';
 import { useNavigate } from 'react-router-dom';
-import video from '../assets/images/Loberia.mp4'
-import logo from '../assets/logo.png'
-import logo2 from '../assets/logo2.png'
+import video from '../assets/images/Loberia.mp4';
+import logo from '../assets/logo.png';
+import logo2 from '../assets/logo2.png';
 
 const HomePage = () => {
-  const { userData, accessToken } = useAppSelector((state: RootState) => state.user);
-  console.log("componente home",userData, accessToken);
+  // const { userData, accessToken } = useAppSelector((state: RootState) => state.user);
+  // console.log("componente home",userData, accessToken);
 
   const dispatch = useAppDispatch();
-  console.log("usuario activo navbar");
+  // console.log("usuario activo navbar");
   
   useEffect(() => {
     dispatch(fetchRoles());
     dispatch(fetchStatuses());
     dispatch(fetchCountries());
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const HomePage = () => {
             Your browser does not support the video tag.
           </video>
         </div>
+          {/* <QRCodeGenerator url="https://seal-app-dx4lr.ondigitalocean.app/register" /> */}
       </div>
       <section>
         <h2>Nuestra Misión</h2>

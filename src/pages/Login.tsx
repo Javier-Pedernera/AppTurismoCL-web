@@ -92,10 +92,10 @@ const Login = () => {
   return (
     <div className="login-container">
       {loading && <Loader />}
-      <div className="content">
-        <div className="form-container">
+      <div className="contentlogin">
+        <div className="form-containerLogin">
           <div className="logo">
-            <form onSubmit={handleSubmit(onSubmit)} className="form">
+            <form onSubmit={handleSubmit(onSubmit)} className="form" autoComplete="on">
               <div className="logoCapitanDiv">
                 <Link className="logoCapitan" to="/">
                   <img className="logo" src={logo} alt="logo" />
@@ -105,7 +105,7 @@ const Login = () => {
               <input
                 type="email"
                 placeholder="Correo Eléctronico"
-                className="form-input"
+                className="form-inputLogin"
                 {...register("email", {
                   required: {
                     value: true,
@@ -116,6 +116,7 @@ const Login = () => {
                     message: "Correo no valido",
                   },
                 })}
+                autoComplete="username"
               />
               {errors.email && (
                 <span className="form-error"> {(errors.email as FieldError).message}</span>
@@ -123,13 +124,14 @@ const Login = () => {
               <input
                 type="password"
                 placeholder="Contraseña"
-                className="form-input"
+                className="form-inputLogin"
                 {...register("password", {
                   required: {
                     value: true,
                     message: "Ingresar contraseña por favor",
                   },
                 })}
+                autoComplete="current-password"
               />
               {errors.password && (
                 <span className="form-error"> {(errors.password as FieldError).message}</span>

@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { assignRoleToUser, createPartnerUser } from '../../redux/actions/userActions';
+import { assignRoleToUser, createPartnerUser, fetchAllUsers } from '../../redux/actions/userActions';
 import Swal from 'sweetalert2';
 import '../../styles/components/_RegisterPartnerModal.scss';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { createPartner } from '../../redux/actions/partnerActions';
 import { RootState } from '../../redux/store/store';
-import { fetchAllPromotions } from '../../redux/actions/promotionActions';
-import { fetchCountries } from '../../redux/actions/globalDataActions';
+// import { fetchCountries } from '../../redux/actions/globalDataActions';  
 import MarketStall from '../../assets/icons/MarketStall.svg';
 import Loader from '../Loader/Loader';
 
@@ -20,17 +19,17 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
   const dispatch = useAppDispatch();
 
   // Acceder a los países y categorías desde el estado global
-  const countries = useAppSelector((state: RootState) => state.globalData.countries);
+  // const countries = useAppSelector((state: RootState) => state.globalData.countries);
   const categories = useAppSelector((state: RootState) => state.globalData.categories);
-  const roles = useAppSelector((state: RootState) => state.user.roles);
+  const roles = useAppSelector((state: RootState) => state?.user.roles);
   const [loading, setLoading] = useState(false);
   
   
-console.log("categorias",categories);
+// console.log("categorias",categories);
 
   useEffect(() => {
-    dispatch(fetchAllPromotions());
-    dispatch(fetchCountries());
+    dispatch(fetchAllUsers());
+    // dispatch(fetchCountries());
     
   }, [dispatch]);
 
@@ -39,13 +38,13 @@ console.log("categorias",categories);
     confirmPassword: '',
     first_name: '',
     last_name: '',
-    country: '',
+    country: 'Chile',
     email: '',
     status_id: 1,
     city: '',
     birth_date: '',
     phone_number: '',
-    gender: 'male',
+    gender: '',
     subscribed_to_newsletter: false,
     // Partner data
     address: '',
@@ -64,15 +63,26 @@ console.log("categorias",categories);
         [name]: checked
       });
     } else {
-      setFormData({
-        ...formData,
-        [name]: value
+      setFormData((prevFormData) => {
+        if (name === 'email') {
+          const password = value.split('@')[0] || ''; 
+          return {
+            ...prevFormData,
+            email: value,
+            password: password,
+            confirmPassword: password
+          };
+        }
+        return {
+          ...prevFormData,
+          [name]: value
+        };
       });
     }
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     
     const categoryId = parseInt(e.target.value);
     setFormData((prevFormData) => {
@@ -97,20 +107,20 @@ console.log("categorias",categories);
     }
     try {
       const { address, contact_info, business_type, category_ids,confirmPassword, ...userForm } = formData;
-      console.log("formData en la creacion ",formData);
+      // console.log("formData en la creacion ",formData);
 
       const createdUserAction = await dispatch(createPartnerUser(userForm));
-      console.log("created user en payload",createdUserAction);
+      // console.log("created user en payload",createdUserAction);
       
       const rolAssociated = roles?.find((rol:any)=> rol.role_name == "associated")
-      console.log("rol buscado",rolAssociated);
+      // console.log("rol buscado",rolAssociated);
       if (createdUserAction && rolAssociated) {
         const data = {
           role_ids: [rolAssociated.role_id],
           user_id: createdUserAction.user_id
         }
         const assignRoleAction = await dispatch(assignRoleToUser(data));
-        console.log(assignRoleAction);
+        // console.log(assignRoleAction);
         
         if (assignRoleAction) {
           const partnerData = {
@@ -120,9 +130,10 @@ console.log("categorias",categories);
             category_ids,
             user_id: createdUserAction.user_id
           };
-          console.log("partnerData en la creacion ",partnerData);
+          // console.log("partnerData en la creacion ",partnerData);
           const createPartnerAction = await dispatch(createPartner(partnerData));
           setLoading(false)
+          dispatch(fetchAllUsers());
           if (createPartnerAction) {
             Swal.fire({
               title: '¡Usuario creado exitosamente!',
@@ -152,12 +163,12 @@ console.log("categorias",categories);
   };
 
   const areRequiredFieldsFilled = () => {
-    const { first_name, last_name, email, country, password, confirmPassword } = formData;
-    const allRequiredFieldsFilled = first_name && last_name && email && country && password && confirmPassword;
+    const { first_name, last_name, email, password, confirmPassword } = formData;
+    const allRequiredFieldsFilled = first_name && last_name && email && password && confirmPassword;
     const passwordsMatch = password === confirmPassword;
     return allRequiredFieldsFilled && passwordsMatch;
   };
-
+  // console.log("formData en la creacion ",formData);
   return (
     <div className={`modal ${isOpen ? 'open' : ''}`}>
        {loading && <Loader />}
@@ -203,25 +214,6 @@ console.log("categorias",categories);
               // onFocus={(e) => (e.target.type = 'date')} 
               // onBlur={(e) => (e.target.type = 'text')} 
             />
-          <select
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-          >
-            <option value="">* Seleccione un país</option>
-            {countries.map((country: any) => (
-              <option key={country.code} value={country.name}>
-                {country.name}
-              </option>
-            ))}
-          </select>
-          <input
-            type="text"
-            name="city"
-            placeholder="Ciudad"
-            value={formData.city}
-            onChange={handleChange}
-          />
         </div>
         <div className="column">
           
@@ -261,22 +253,6 @@ console.log("categorias",categories);
             value={formData.contact_info}
             onChange={handleChange}
           />
-         <div className='passwordDiv'>
-  <input
-    type="password"
-    name="password"
-    placeholder="* Contraseña"
-    value={formData.password}
-    onChange={handleChange}
-  />
-  <input
-    type="password"
-    name="confirmPassword"
-    placeholder="* Confirmar Contraseña"
-    value={formData.confirmPassword}
-    onChange={handleChange}
-  />
-</div>
     </div>
       </div>
         

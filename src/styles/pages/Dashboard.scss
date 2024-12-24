@@ -46,10 +46,10 @@
     &:hover {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         .cardLabel{
-            color: #00e1ff;
+            color: var(--primary-color-active);
         }
         .cardIcon{
-            color: #00e1ff;
+            color: var(--primary-color-active);
         }
     }
 

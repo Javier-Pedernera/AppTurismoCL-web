@@ -17,6 +17,8 @@ import { UserState } from '../../redux/reducers/userReducer';
 import logoutIcon from "../../assets/icons/logout.svg";
 import branchesIcon from "../../assets/icons/store.svg";
 import commentsIcon from "../../assets/icons/comments.svg";
+import config from "../../assets/icons/config.svg"
+
 
 
 const Sidebar: React.FC = () => {
@@ -46,11 +48,6 @@ const Sidebar: React.FC = () => {
           name: "Panel General",
           style: "panelicono"
         },
-        // {
-        //   path: "/socioPerfil",
-        //   name: "Perfil de asociado",
-        //   style: "asociados"
-        // },
         {
           path: "/promotions",
           name: "Promociones",
@@ -87,6 +84,11 @@ const Sidebar: React.FC = () => {
           style: "userProfile"
         },
         {
+          path: "/configuration",
+          name: "Configuración",
+          style: "configuration"
+        },
+        {
           path: "/reports",
           name: "Reportes",
           style: "reportes"
@@ -96,19 +98,19 @@ const Sidebar: React.FC = () => {
           name: "Salir",
           style: "salir"
         },
-        {
-          path: "/faq",
-          name: "FAQ",
-          style: "faqicono"
-        },
+        // {
+        //   path: "/faq",
+        //   name: "FAQ",
+        //   style: "faqicono"
+        // },
       ])
     } else {
       setRoutes([
-        {
-          path: "/faq",
-          name: "FAQ",
-          style: "faqicono"
-        }
+        // {
+        //   path: "/faq",
+        //   name: "FAQ",
+        //   style: "faqicono"
+        // }
       ])
     }
   }, [userActive]);
@@ -149,6 +151,7 @@ const Sidebar: React.FC = () => {
                     {route.style == "branches" ? <img src={branchesIcon} className='iconos' /> : null}
                     {route.style == "commentsModeration" ? <img src={commentsIcon} className='iconos' /> : null}
                     {route.style == "userProfile" ? <img src={profile} className='iconos' /> : null}
+                    {route.style == "configuration" ? <img src={config} className='iconos' /> : null}
                     {route.style == "faqicono" ? <img src={faq} className='iconos' /> : null}
                     {route.style == "puntosturisticos" ? <img src={touristPoint} className='iconos' /> : null}
                     <span className={`sidebar-text ${isSidebarOpen ? 'open' : ''}`}>{route.name}</span>
