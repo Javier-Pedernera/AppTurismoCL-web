@@ -4,6 +4,7 @@ import promotionReducer from '../reducers/promotionReducer';
 import partnerReducer from '../reducers/partnerReducer';
 import globalDataReducer from '../reducers/globalDataReducer';
 import touristPointsReducer from '../reducers/touristPointsReducer';
+import branchesReducer from '../reducers/branchReducer';
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
        promotions: promotionReducer,
        partner: partnerReducer,
        globalData: globalDataReducer,
-       touristPoints: touristPointsReducer
+       touristPoints: touristPointsReducer,
+       branches: branchesReducer
     },
 });
 // Documentacion Redux

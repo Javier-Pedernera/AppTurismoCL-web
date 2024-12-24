@@ -6,8 +6,8 @@ import User from "../../models/User";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
 import { RootState } from "../store/store";
-import Status from "../types/types";
 import { Role } from "../../models/RoleModel";
+import { Status } from "../types/types";
 
 interface CustomJwtPayload extends JwtPayload {
   public_id: string;

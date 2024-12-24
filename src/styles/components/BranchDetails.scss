@@ -1,0 +1,102 @@
+.branch-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    min-height: 100vh;
+    &__image {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  
+    &__title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-align: center;
+    }
+  
+    &__description {
+      font-size: 1.2rem;
+      color: #555;
+      text-align: justify;
+      line-height: 1.5;
+      padding: 0 1rem;
+    }
+  
+    &__address {
+      font-size: 1.2rem;
+      color: #777;
+      font-style: italic;
+    }
+  
+    &__status {
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 16px;
+      text-transform: capitalize;
+  
+      &--active {
+        color: #fff;
+        background-color: var(--primary-color);
+      }
+  
+      &--inactive {
+        color: #fff;
+        background-color: var(--secundary-color);
+      }
+  
+      &--deleted {
+        color: #fff;
+        background-color: #d9534f;
+      }
+  
+      &--unknown {
+        color: #fff;
+        background-color: #6c757d;
+      }
+    }
+  
+    &__actions {
+      display: flex;
+      gap: 1rem;
+  
+    //   &__button {
+    //     padding: 0.8rem 1.5rem;
+    //     font-size: 1rem;
+    //     border-radius: 8px;
+    //     border: none;
+    //     cursor: pointer;
+    //     transition: background-color 0.3s ease, color 0.3s ease;
+  
+    //     &--edit {
+    //       background-color: var(--primarySoft-color);
+    //       color: var(--primary-color);
+  
+    //       &:hover {
+    //         background-color: var(--primary-color);
+    //         color: #fff;
+    //       }
+    //     }
+  
+    //     &--delete {
+    //       background-color: #d9534f;
+    //       color: #fff;
+  
+    //       &:hover {
+    //         background-color: #c9302c;
+    //       }
+    //     }
+    //   }
+    }
+  }
+  
