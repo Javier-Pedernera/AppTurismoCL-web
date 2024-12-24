@@ -186,5 +186,32 @@ export const routes: RouteProps[] = [
         authorization: {
             allowedRoles: ['admin']
         }
-    }
+    },
+    {
+        path: "/branches",
+        element: lazy(async () => await import("../pages/BranchesTable")),
+        name: "Sucursales",
+        layout: lazy(async () => await import("../pages/Layout/layout")),
+        authorization: {
+            allowedRoles: ['admin']
+        }
+    },
+    {
+        path: "/branches/:branch_id",
+        element: lazy(async () => await import("../components/BranchDetails/BranchDetails")),
+        name: "DetalleSucursal",
+        layout: lazy(async () => await import("../pages/Layout/layout")),
+        authorization: {
+            allowedRoles: ['admin']
+        }
+    },
+    // {
+    //     path: "/comments-moderation",
+    //     element: lazy(async () => await import("../pages/CommentsModeration")),
+    //     name: "Moderar Comentarios",
+    //     layout: lazy(async () => await import("../pages/Layout/layout")),
+    //     authorization: {
+    //         allowedRoles: ['admin']
+    //     }
+    // }
 ];

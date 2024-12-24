@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Typography, Card, Container, Grid, TextField } from '@mui/material';
 import { Rating } from '@mui/material';
-import { FaEdit, FaTrashAlt, FaSave, FaPlusCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaPlusCircle, FaTimesCircle } from 'react-icons/fa';
 import { deleteTouristPointById, fetchTouristPointById, updateTouristPointById } from '../redux/actions/touristPointActions';
 import { RootState } from '../redux/store/store';
 import '../styles/pages/TouristPointDetail.scss';
@@ -11,6 +11,10 @@ import { GoogleMapsProvider } from '../components/MapFunctions/GoogleMapsLoader'
 import MapComponent from '../components/MapFunctions/MapComponent';
 import { compressAndConvertToBase64 } from '../utils/imageUtils';
 import Loader from '../components/Loader/Loader';
+import SaveButton from '../components/buttons/SaveButton';
+import EditButton from '../components/buttons/EditButton';
+import DeleteButton from '../components/buttons/DeleteButton';
+import CancelButton from '../components/buttons/CancelButton';
 
 const TouristPointDetail = () => {
     const { id } = useParams();
@@ -177,38 +181,15 @@ const TouristPointDetail = () => {
                         )}
 
                         <div className="buttons-container">
-                            {editMode ? (
+                        {editMode ? (
                                 <>
-                                    <Button
-                                        className='btnSave'
-                                        startIcon={<FaSave />}
-                                        onClick={handleSave}
-                                    >
-                                        Save
-                                    </Button>
-                                    <Button
-                                        className='btnCancel'
-                                        onClick={handleCancel}
-                                    >
-                                        Cancel
-                                    </Button>
+                                    <SaveButton onClick={handleSave} />
+                                    <CancelButton onClick={handleCancel} />
                                 </>
                             ) : (
                                 <>
-                                    <Button
-                                        className='btnEdit'
-                                        startIcon={<FaEdit />}
-                                        onClick={handleEdit}
-                                    >
-                                        Editar
-                                    </Button>
-                                    <Button
-                                        className='btnDelete'
-                                        startIcon={<FaTrashAlt />}
-                                        onClick={handleDelete}
-                                    >
-                                        Eliminar
-                                    </Button>
+                                    <EditButton onClick={handleEdit} />
+                                    <DeleteButton onClick={handleDelete} />
                                 </>
                             )}
                         </div>
@@ -235,10 +216,6 @@ const TouristPointDetail = () => {
                                           >
                                             <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 16 16"><path fill="#ce0000" fillRule="evenodd" d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM9 2H6v1h3zM4 13h7V4H4zm2-8H5v7h1zm1 0h1v7H7zm2 0h1v7H9z" clipRule="evenodd"/></svg>
                                           </button>
-                                            // <FaTimesCircle
-                                            //     className="remove-icon"
-                                            //     onClick={() => handleRemoveImage(image, index)}
-                                            // />
                                         )}
                                     </div>
                                 </Grid>

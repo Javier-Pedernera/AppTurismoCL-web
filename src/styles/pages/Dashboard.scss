@@ -17,11 +17,15 @@
 
 .cardsContainer {
     z-index: 0;
+    width: 70%;
     padding-left: 2%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+    @media (max-width: 768px) {
+       width: 90%;
+      }
 }
 
 .card {
@@ -58,6 +62,7 @@
 
     .cardLabel {
         font-size: 0.8rem;
+        width: 90%;
         color: #fff;
     }
 }

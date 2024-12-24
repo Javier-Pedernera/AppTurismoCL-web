@@ -1,0 +1,39 @@
+.btnSave {
+    color: var(--primary-color);
+    background-color: #f0f8ff;
+    border: 1px solid var(--primary-color);
+    &:hover {
+        color: #fff;
+        // background-color: #00b6ce;
+    }
+}
+
+.btnCancel {
+    color: #af2432;
+    background-color: #f8d7da;
+    border: 1px solid #af2432;
+    &:hover {
+        color: #fff;
+        background-color: #de1227;
+    }
+}
+
+.btnEdit {
+    color: var(--primary-color);
+    border: solid 0.2px var(--primary-color);
+    padding: 5px 15px;
+    &:hover {
+        color: #fff;
+        background-color: var(--greenSoft-color);
+    }
+}
+
+.btnDelete {
+    color: #af2432;
+    border: solid 0.2px #af2432;
+    padding: 5px 15px;
+    &:hover {
+        color: #fff;
+        background-color: #af2432;
+    }
+}
