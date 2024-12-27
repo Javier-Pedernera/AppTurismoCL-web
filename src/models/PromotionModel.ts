@@ -1,4 +1,4 @@
-import Status from "../redux/types/types";
+import {Status} from "../redux/types/types";
 import { Category } from "./CategoryModels";
 
 export interface PromotionImage {
