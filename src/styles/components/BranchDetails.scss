@@ -8,7 +8,7 @@
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     min-height: 100vh;
-    padding-top: 10%;
+    padding-top: 15%;
     @media (max-width: 600px) {
       padding-top: 25%;
     }
@@ -192,8 +192,11 @@
     z-index: 0;
     border-radius: 30%;
     padding: 8px 8px;
-    top: 18%;
+    top: 20%;
     left: 15%;
+    & h4{
+      margin-left: 10px;
+    }
     &:hover {
       color: rgb(0, 170, 196); 
       border-radius: 50%;
@@ -208,7 +211,11 @@
     }
 
     @media (max-width: 600px) {
-     background-color: #e2e2e2ea;
+     background-color: #e2e2e2f4;
      font-size: 1rem;
   }
+}
+.swal2-imageBranch{
+  margin-top: 5%;
+  margin-bottom: 5%;
 }

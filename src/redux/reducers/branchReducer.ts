@@ -31,6 +31,9 @@ const branchReducer = createSlice({
     setBranch: (state, action: PayloadAction<Branch | null>) => {
       state.selectedBranch = action.payload;
     },
+    cleanBranch: (state, action: PayloadAction<Branch | null>) => {
+      state.selectedBranch = action.payload;
+    },
     addBranch: (state, action: PayloadAction<Branch>) => {
       state.allBranches.push(action.payload);
     },
@@ -49,6 +52,7 @@ const branchReducer = createSlice({
         state.selectedBranch = null;
       }
     },
+
   },
 });
 
@@ -58,6 +62,7 @@ export const {
   addBranch,
   updateBranch,
   deleteBranch,
+  cleanBranch
 } = branchReducer.actions;
 
 export default branchReducer.reducer;

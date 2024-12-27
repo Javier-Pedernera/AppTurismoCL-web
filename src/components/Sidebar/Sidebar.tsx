@@ -127,6 +127,7 @@ const Sidebar: React.FC = () => {
   // const handleNavigation = (path) => {
   //   // history.push(path);
   // };
+  
   const logOut = () => {
     dispatch(logOutUser())
 

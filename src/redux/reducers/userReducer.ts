@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import User from "../../models/User";
 import { Role } from "../../models/RoleModel";
-import Status from "../types/types";
+import { Status } from "../types/types";
 
 
 export interface UserState {

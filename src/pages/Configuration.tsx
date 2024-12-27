@@ -5,7 +5,7 @@ import { GlobalDataState } from '../redux/reducers/globalDataReducer';
 import { addNewCategory, fetchCategories, updateCategory } from '../redux/actions/globalDataActions';
 import { useAppDispatch } from '../redux/store/hooks';
 
-const ITEMS_PER_PAGE = 22;
+const ITEMS_PER_PAGE = 15;
 
 const Configuration = () => {
   const categories = useSelector((state: { globalData: GlobalDataState }) => state.globalData.categories);
