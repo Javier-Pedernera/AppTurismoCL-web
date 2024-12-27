@@ -7,6 +7,9 @@ import noimage from '../../assets/images/noImageAvailable.png';
 import SaveButton from '../buttons/SaveButton';
 import CancelButton from '../buttons/CancelButton';
 import upload from '../../assets/images/uploadImage.png';
+import MapComponent from '../MapFunctions/MapComponent';
+import Loader from '../Loader/Loader';
+import Swal from 'sweetalert2';
 
 interface EditBranchModalProps {
   showModal: boolean;
@@ -30,6 +33,10 @@ const EditBranchModal: React.FC<EditBranchModalProps> = ({ showModal, branch, on
   );
   const [imageData, setImageData] = useState<{ filename: string; data: string } | null>(null);
   const [errors, setErrors] = useState({ name: '', address: '', description: '' });
+  const [latitude, setLatitude] = useState<number>(branch?.latitude || -36.133852565671226);
+  const [longitude, setLongitude] = useState<number>(branch?.longitude || -72.79750640571565);
+  const [loading, setLoading] = useState<boolean>(false);
+// console.log(latitude,longitude);
 
   const validateField = (fieldName: string, value: string) => {
     const newErrors = { ...errors };
@@ -92,14 +99,25 @@ const EditBranchModal: React.FC<EditBranchModalProps> = ({ showModal, branch, on
         name,
         description,
         address,
+        latitude,
+        longitude,
         image_data: imageData?.data || null,
       };
+      setLoading(true);
     //   console.log('data a enviar para actualizar', updatedBranch);
 
-      dispatch(updateBranchById(branchId, updatedBranch));
-      dispatch(fetchBranchById(branchId)).then(() => {
-        onClose();
-      });
+    dispatch(updateBranchById(branchId, updatedBranch))
+        .then(() => {
+          setLoading(false);
+          Swal.fire('¡Éxito!', 'Sucursal actualizada correctamente', 'success'); 
+          dispatch(fetchBranchById(branchId)).then(() => {
+            onClose();
+          });
+        })
+        .catch(() => {
+          setLoading(false); 
+          Swal.fire('Error', 'Hubo un problema al actualizar la sucursal', 'error');
+        });
     } else {
       alert('Por favor, completa todos los campos.');
     }
@@ -114,13 +132,19 @@ const EditBranchModal: React.FC<EditBranchModalProps> = ({ showModal, branch, on
     onClose();
   };
 
+  const handleLocationChange = (lat: number, lng: number) => {
+    setLatitude(lat);
+    setLongitude(lng);
+  };
   return (
     <div className={`modal ${showModal ? 'show' : ''}`}>
+        {loading && <Loader></Loader>}
       <div className="modal-content">
         <button className="close-btn" onClick={handleCancel}>
           <FaTimes />
         </button>
         <h2>Editar Sucursal</h2>
+        <div className='gralContent'>
         <div className="modal-inputs">
           <input
             type="text"
@@ -159,11 +183,24 @@ const EditBranchModal: React.FC<EditBranchModalProps> = ({ showModal, branch, on
             style={{ display: 'none' }}
             onChange={handleImageChange}
           />
-          {/* Imagen que actúa como botón */}
           <div className="image-preview" onClick={triggerFileInput}>
           <img className="uploadImage" src={upload} alt="Subir imagen" />
             <img src={selectedImage || noimage} alt="Imagen seleccionada" />
           </div>
+              </div>
+          <div className="mapContainer">
+          <MapComponent
+          center={{ lat: latitude, lng: longitude }}
+          zoom={15}
+          markerPosition={{ lat: latitude, lng: longitude }}
+          onLocationChange={handleLocationChange}
+          editMode={true}
+        />
+        <div className="coordinates-display">
+          <p>Latitud: {latitude}</p>
+          <p>Longitud: {longitude}</p>
+        </div>
+        </div>
         </div>
         <div className="modal-actions">
           <SaveButton onClick={handleSave} />
