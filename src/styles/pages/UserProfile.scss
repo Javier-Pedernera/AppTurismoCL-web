@@ -5,6 +5,11 @@
   min-height: 100vh;
   // background-color: #f9f9f9;
   background-image: url(../../assets/images/fondo-poli.svg);
+  
+  @media (max-width: 600px) {
+    padding-top: 15%;
+    padding-left: 10%;
+  }
   // background-repeat: no-repeat;
   // background-size: cover;
 

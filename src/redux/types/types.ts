@@ -33,3 +33,15 @@ export enum UserActionTypes {
     };
     image_url: string;
   }
+
+  export interface BranchUpload {
+    partner_id?: number;
+    name: string;
+    address: string;
+    latitude?: number;
+    longitude?: number;
+    description: string;
+    status_id?: number;
+    image_url?: string;
+    image_data?: string | null;
+  }

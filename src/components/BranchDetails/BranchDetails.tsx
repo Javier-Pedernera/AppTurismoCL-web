@@ -1,111 +1,91 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
-import { deleteBranchById, fetchBranchById, updateBranchById } from '../../redux/actions/branchesActions';
-import { useEffect } from 'react';
-import '../../styles/components/BranchDetails.scss'
+import { fetchBranchById, resetBranch, deleteBranchById } from '../../redux/actions/branchesActions';
+import { useEffect, useState } from 'react';
+import '../../styles/components/BranchDetails.scss';
+import { FaArrowLeft } from 'react-icons/fa';
 import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import { RootState } from '../../redux/store/store';
-
-const URL = import.meta.env.VITE_API_URL;
-const MySwal = withReactContent(Swal);
+import EditBranchModal from '../EditBranchModal/EditBranchModal';
+import EditButton from '../buttons/EditButton';
+import DeleteButton from '../buttons/DeleteButton';
+import noimage from '../../assets/images/noImageAvailable.png'
+import { useMediaQuery } from 'react-responsive';
 
 const BranchDetails = () => {
-
-  const statuses = useAppSelector((state: RootState) => state.user.statuses);
   const { branch_id } = useParams<{ branch_id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
+  const URL = import.meta.env.VITE_API_URL;
+console.log(branch_id);
 
-  // Selecciona la sucursal actual del estado
   const branch = useAppSelector((state: any) => state.branches.selectedBranch);
-    console.log("sucursal en el componente de detalles", branch);
-    
+  const statuses = useAppSelector((state: any) => state.user.statuses);
+
   useEffect(() => {
-    console.log("id de la sucursal", branch_id);
-    
     if (branch_id) {
-        console.log("se hace el dispatch");
       dispatch(fetchBranchById(Number(branch_id)));
     }
-  }, [branch_id, dispatch]);
+  }, [branch_id, dispatch, showModal]);
 
-  const handleEdit = () => {
-    MySwal.fire({
-      title: 'Editar sucursal',
-      html: `
-        <input id="name" class="swal2-input" placeholder="Nombre" value="${branch?.name || ''}" />
-        <textarea id="description" class="swal2-textarea" placeholder="Descripción">${branch?.description || ''}</textarea>
-        <input id="address" class="swal2-input" placeholder="Dirección" value="${branch?.address || ''}" />
-      `,
-      showCancelButton: true,
-      confirmButtonText: 'Guardar',
-      cancelButtonText: 'Cancelar',
-      preConfirm: () => {
-        const name = (document.getElementById('name') as HTMLInputElement).value;
-        const description = (document.getElementById('description') as HTMLTextAreaElement).value;
-        const address = (document.getElementById('address') as HTMLInputElement).value;
-
-        if (!name || !description || !address) {
-          Swal.showValidationMessage('Todos los campos son obligatorios');
-        }
-
-        return { name, description, address };
-      },
-    }).then((result) => {
-      if (result.isConfirmed && branch && branch_id) {
-        const updatedBranch = {
-          ...branch,
-          name: result.value?.name,
-          description: result.value?.description,
-          address: result.value?.address,
-        };
-        dispatch(updateBranchById(Number(branch_id), updatedBranch));
-      }
-    });
+  const handleBack = () => {
+    dispatch(resetBranch());
+    navigate(-1);
   };
 
- 
   const handleDelete = () => {
-    const statusDeleted = statuses.find(s=>s.name === 'deleted');
+    const statusDeleted = statuses.find((s:any) => s.name === 'deleted');
     Swal.fire({
       title: '¿Estás seguro?',
-      text: 'La sucursal será marcada como eliminada (borrado lógico).',
+      text: 'La sucursal será eliminada.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar',
-    }).then((result:any) => {
+    }).then((result: any) => {
       if (result.isConfirmed && branch_id) {
-      
-        dispatch(deleteBranchById(Number(branch_id), statusDeleted)); 
+        const deleteBranch = {
+          status_id: statusDeleted?.id
+        };
+        // console.log("id de la sucursal a eliminar", deleteBranch);
+        
+        dispatch(deleteBranchById(Number(branch_id), deleteBranch));
         Swal.fire('¡Eliminado!', 'La sucursal ha sido marcada como eliminada.', 'success');
         navigate('/branches');
       }
     });
   };
+
   if (!branch) {
-    return  <div className="branch-details"><p>Cargando detalles de la sucursal...</p></div>;
+    return <div className="branch-details"><p>Cargando detalles de la sucursal...</p></div>;
   }
 
   return (
-
     <div className="branch-details">
-      <img src={`${URL}${branch.image_url}`} alt={branch.name || 'Sucursal'} className="branch-details__image" />
+      <button className="back-button" onClick={handleBack}>
+        <FaArrowLeft className="back-icon" />
+              {!isMobile && <h4>   Volver</h4>}
+      </button>
+      {branch && branch.image_url? <img src={`${URL}${branch.image_url}`} alt={branch.name} className="branch-details__image" />:<img src={noimage} alt={branch.name} className="branch-details__image" />}
       <h2 className="branch-details__title">{branch.name || 'Nombre no disponible'}</h2>
       <p className="branch-details__description">{branch.description || 'Descripción no disponible'}</p>
       <p className="branch-details__address">{branch.address || 'Dirección no disponible'}</p>
-      <p className={`branch-details__status branch-details__status--${branch.status?.name?.toLowerCase() || 'unknown'}`}>
+      <p className={`branch-details__status branch-details__status--${branch.status?.name?.toLowerCase() || 'unknown'}`} >
         Estado: {branch.status?.name || 'Estado no disponible'}
       </p>
       <div className="branch-details__actions">
-        <button onClick={handleEdit} className="branch-details__button branch-details__button--edit">
-          Editar
-        </button>
-        <button onClick={handleDelete} className="branch-details__button branch-details__button--delete">
-          Eliminar
-        </button>
+          <EditButton onClick={() => setShowModal(true)}/>
+          <DeleteButton onClick={handleDelete} />
       </div>
+
+      {/* Mostrar el modal de edición */}
+      <EditBranchModal
+        showModal={showModal}
+        branch={branch}
+        onClose={() => setShowModal(false)}
+        branchId={Number(branch_id)}
+      />
     </div>
   );
 };

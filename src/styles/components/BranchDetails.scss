@@ -3,11 +3,15 @@
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-    padding: 2rem;
+    padding-left:10%;
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     min-height: 100vh;
+    padding-top: 15%;
+    @media (max-width: 600px) {
+      padding-top: 25%;
+    }
     &__image {
       width: 100%;
       max-width: 300px;
@@ -15,6 +19,9 @@
       border-radius: 8px;
       object-fit: cover;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      @media (max-width: 600px) {
+        max-width: 90%;
+      }
     }
   
     &__title {
@@ -22,6 +29,9 @@
       font-weight: bold;
       color: var(--primary-color);
       text-align: center;
+      @media (max-width: 600px) {
+        font-size: 1.2rem;
+      }
     }
   
     &__description {
@@ -30,12 +40,24 @@
       text-align: justify;
       line-height: 1.5;
       padding: 0 1rem;
+      width: 70%;
+      align-self: center;
+      text-align: center;
+      @media (max-width: 600px) {
+        font-size: 0.9rem;
+        width: 90%;
+      }
     }
   
     &__address {
       font-size: 1.2rem;
       color: #777;
       font-style: italic;
+      @media (max-width: 600px) {
+        font-size: 0.8rem;
+        width: 80%;
+        text-align: center;
+      }
     }
   
     &__status {
@@ -64,39 +86,136 @@
         color: #fff;
         background-color: #6c757d;
       }
+      @media (max-width: 600px) {
+        font-size: 0.8rem;
+      }
     }
   
     &__actions {
       display: flex;
       gap: 1rem;
   
-    //   &__button {
-    //     padding: 0.8rem 1.5rem;
-    //     font-size: 1rem;
-    //     border-radius: 8px;
-    //     border: none;
-    //     cursor: pointer;
-    //     transition: background-color 0.3s ease, color 0.3s ease;
-  
-    //     &--edit {
-    //       background-color: var(--primarySoft-color);
-    //       color: var(--primary-color);
-  
-    //       &:hover {
-    //         background-color: var(--primary-color);
-    //         color: #fff;
-    //       }
-    //     }
-  
-    //     &--delete {
-    //       background-color: #d9534f;
-    //       color: #fff;
-  
-    //       &:hover {
-    //         background-color: #c9302c;
-    //       }
-    //     }
-    //   }
     }
   }
+  .swal2-popup{
+    width: 60%;
+  }
+  .swal2-input {
+    max-width: 100%;
+    width: 90% !important; 
+    padding: 10px;
+    box-sizing: border-box;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .swal2-textarea{
+    margin-left: 0px;
+    max-width: 100%;
+    padding: 10px;
+    width: 100%;
+    margin-right: 0px;
+  }
   
+  .swal2-title {
+    font-size: 1.5rem;
+    color: rgb(2, 122, 140);
+    text-align: center;
+  }
+  
+  .swal2-html-container {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .my-confirm-button-class {
+    background-color: rgb(2, 122, 140);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .my-cancel-button-class {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 600px) {
+    .swal2-popup {
+      padding: 10px;
+      width: 90%;
+    }
+  
+    .swal2-title {
+      font-size: 1.2rem;
+    }
+  
+    .swal2-html-container{
+      padding: 0px;
+      font-size: 0.9rem;
+      width: 100%;
+    }
+  
+    .my-confirm-button-class,
+    .my-cancel-button-class {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+     .swal2-input{
+      width: 100% !important; 
+      font-size: 0.9rem;
+    }
+    .swal2-textarea{
+      width: 100%;
+      font-size: 0.9rem;
+    }
+  }
+
+  .back-button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    color: rgb(2, 122, 140);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: absolute;
+    z-index: 0;
+    border-radius: 30%;
+    padding: 8px 8px;
+    top: 20%;
+    left: 15%;
+    & h4{
+      margin-left: 10px;
+    }
+    &:hover {
+      color: rgb(0, 170, 196); 
+      border-radius: 50%;
+      background-color: transparent;
+    }
+
+    .back-icon {
+      font-size: 1.5rem;
+      @media (max-width: 600px) {
+        font-size: 1rem;
+     }
+    }
+
+    @media (max-width: 600px) {
+     background-color: #e2e2e2f4;
+     font-size: 1rem;
+  }
+}
+.swal2-imageBranch{
+  margin-top: 5%;
+  margin-bottom: 5%;
+}

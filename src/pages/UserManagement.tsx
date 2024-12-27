@@ -9,14 +9,20 @@ import '../styles/pages/_userManagement.scss';
 import RegisterPartnerModal from '../components/RegisterPartnerModal/RegisterPartnerModal';
 import MarketStall from '../assets/icons/MarketStallwhite.svg';
 import { fetchCategories } from '../redux/actions/globalDataActions';
-import { createPartner, deleteBranchById, fetchBranchesByPartner, fetchPartnerById } from '../redux/actions/partnerActions';
+import { createPartner, fetchBranchesByPartner, fetchPartnerById } from '../redux/actions/partnerActions';
+import { deleteBranchById } from '../redux/actions/branchesActions';
+import { translateRoleToSpanish, translateStatusToSpanish } from '../utils/utils';
+import Pagination from '../components/Pagination/pagination';
+import { useMediaQuery } from 'react-responsive';
 
 const UserManagement = () => {
+    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const users = useAppSelector((state: RootState) => state.user.users);
     const roles = useAppSelector((state: RootState) => state.user.roles);
     const filteredRoles = roles?.filter(role => role.role_name !== 'admin');
     const statuses = useAppSelector((state: RootState) => state.user.statuses);
     const dispatch = useAppDispatch();
+    const countries = useAppSelector((state: RootState) => state.globalData.countries);
     const MySwal = withReactContent(Swal);
     console.log("todos los users", users[3],users);
     // console.log("todos los roles", roles);
@@ -31,7 +37,7 @@ const UserManagement = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const usersPerPage = 10;
+    const usersPerPage = 7;
 
     type StatusNames = "active" | "inactive" | "pending" | "suspended" | "associated";
 
@@ -206,7 +212,7 @@ const UserManagement = () => {
         }
         });
     };
-console.log("estado eliminado", statuses?.find(status => status.name === 'deleted')?.id);
+// console.log("estado eliminado", statuses?.find(status => status.name === 'deleted')?.id);
 
 const handleDeleteUser = (userId: number) => {
     MySwal.fire({
@@ -251,7 +257,7 @@ const handleDeleteUser = (userId: number) => {
             const branch = branches[0];
             console.log("sucursal 0", branch);
             
-            dispatch(deleteBranchById(branch.branch_id, { status_id: deletedStatusId }))
+            dispatch(deleteBranchById(branch.branch_id, deletedStatusId ))
               .then(() => {
                 dispatch(updateUser({
                   user_id: userId,
@@ -301,7 +307,7 @@ const handleDeleteUser = (userId: number) => {
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
-
+    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     return (
         <div className="user-management">
@@ -331,16 +337,23 @@ const handleDeleteUser = (userId: number) => {
                     onChange={(e) => setEmailFilter(e.target.value)}
                     autoComplete="off"
                 />
-                    <input
-                        className='inputFilter'
-                        type="text"
-                        placeholder="Filtrar por país"
-                        value={countryFilter}
-                        onChange={(e) => setCountryFilter(e.target.value)}
-                        autoComplete="off"
-                    />
+                <select id="country" 
+                name="country" 
+                className={isMobile? 'inputFilter': 'inputFilterStatus'}
+                value={countryFilter}
+                onChange={(e) => setCountryFilter(e.target.value)}
+                >
+                    <option value="" >
+                        Filtrar por país
+                    </option>
+                    {countries.map((country) => (
+                    <option key={country.code} value={country.name}>
+                        {country.name}
+                    </option>
+                    ))}
+                </select>
                 <select
-                    className='inputFilter'
+                    className={isMobile? 'inputFilter': 'inputFilterStatus'}
                     value={roleFilter}
                     onChange={(e) => setRoleFilter(e.target.value)}
                     autoComplete="off"
@@ -348,29 +361,22 @@ const handleDeleteUser = (userId: number) => {
                     <option value="">Filtrar por rol</option>
                     {roles?.map((role) => (
                         <option key={role.role_id} value={role.role_name}>
-                            {role.role_name}
+                            {translateRoleToSpanish(role.role_name)}
                         </option>
                     ))}
                 </select>
                 <select
-                    className='inputFilter'
+                    className={isMobile? 'inputFilter': 'inputFilterStatus'}
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                 >
                     <option value="">Filtrar por estado</option>
                     {statuses?.map((status) => (
                         <option key={status.id} value={status.name}>
-                            {status.name}
+                            {translateStatusToSpanish(status.name)}
                         </option>
                     ))}
                 </select>
-                {/* <input
-                    className='inputFilter'
-                    type="text"
-                    placeholder="Filtrar por ciudad"
-                    value={cityFilter}
-                    onChange={(e) => setCityFilter(e.target.value)}
-                /> */}
                 <button className='btnFilter' onClick={handleClearFilters}>Limpiar Filtros</button>
             </div>
             {/* <div className='contBtn'><button className='btnFilter' onClick={handleClearFilters}>Limpiar Filtros</button> </div> */}
@@ -390,20 +396,22 @@ const handleDeleteUser = (userId: number) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentUsers.map((user: User) => (
+                {filteredUsers.length === 0 ? (
+                <tr>
+                    <td colSpan={6} className="no-results">No se encontraron resultados</td>
+                </tr>
+            ) : (currentUsers.map((user: User) => (
                         <tr key={user.user_id} >
                             <td>{user.first_name}</td>
                             <td>{user.last_name}</td>
                             <td>{user.email}</td>
                             <td>{user.roles.map(role => role.role_name).join(', ')}</td>
-                            <td>{user.status.name}</td>
+                            <td>{translateStatusToSpanish(user.status.name) }</td>
                             <td>
-                            {/* Botón de editar */}
                             <div className='btnsTable'>
                                 <button className='buttonEd' onClick={() => handleUserClick(user)}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 16 16"><path fill="currentColor" d="M16 4s0-1-1-2s-1.9-1-1.9-1L12 2.1V0H0v16h12V8zm-9.7 7.4l-.6-.6l.3-1.1l1.5 1.5zm.9-1.9l-.6-.6l5.2-5.2c.2.1.4.3.6.5zm6.9-7l-.9 1c-.2-.2-.4-.3-.6-.5l.9-.9c.1.1.3.2.6.4M11 15H1V1h10v2.1L5.1 9L4 13.1L8.1 12L11 9z"/></svg>
                             </button>
-                            {/* Botón de eliminar */}
                             <button className='buttonDel' onClick={() => handleDeleteUser(user.user_id)}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 40 40"><path fill="currentColor" d="M32.937 7.304H27.19v-.956c0-1.345-.423-2.32-1.278-2.915c-.604-.39-1.353-.588-2.224-.588h-6.441l-.014.003l-.014-.003h-.909c-2.259 0-3.503 1.244-3.503 3.503v.956H7.063a.75.75 0 0 0 0 1.5h.647l1.946 25.785c0 1.631.945 2.566 2.594 2.566h15.461c1.611 0 2.557-.93 2.592-2.51L32.25 8.804h.686a.75.75 0 0 0 .001-1.5m-2.302 2.976H9.326l-.111-1.476h21.531zM14.308 6.348c0-1.423.58-2.003 2.003-2.003h7.378c.578 0 1.053.117 1.389.333c.413.287.613.833.613 1.67v.956H14.308zm14.498 28.224c-.019.81-.295 1.083-1.095 1.083H12.25c-.818 0-1.094-.269-1.096-1.123L9.439 11.779h21.082z"/><path fill="currentColor" d="M17.401 12.969a.75.75 0 0 0-.722.776l.704 19.354a.75.75 0 0 0 .748.723l.028-.001a.75.75 0 0 0 .722-.776l-.703-19.355c-.015-.414-.353-.757-.777-.721m-4.649.001a.75.75 0 0 0-.696.8l1.329 19.354a.75.75 0 0 0 .747.698l.053-.002a.75.75 0 0 0 .696-.8l-1.329-19.354a.756.756 0 0 0-.8-.696m9.784-.001c-.419-.04-.762.308-.776.722l-.705 19.354a.75.75 0 0 0 .722.776l.028.001a.75.75 0 0 0 .748-.723l.705-19.354a.75.75 0 0 0-.722-.776m4.649.001a.757.757 0 0 0-.8.696L25.056 33.02a.75.75 0 0 0 .696.8l.053.002a.75.75 0 0 0 .747-.698l1.329-19.354a.75.75 0 0 0-.696-.8"/></svg>
                             </button>
@@ -411,17 +419,17 @@ const handleDeleteUser = (userId: number) => {
                             
                             </td>
                         </tr>
+                        )
                     ))}
                 </tbody>
             </table>
             </div>
-            
-            <div className="pagination">
-                {[...Array(Math.ceil(filteredUsers.length / usersPerPage))].map((_, index) => (
-                    <button key={index} onClick={() => paginate(index + 1)} className={currentPage === index + 1 ? 'active' : ''}>
-                        {index + 1}
-                    </button>
-                ))}
+            <div className='pagCont'>
+                <Pagination
+                    totalPages={totalPages} 
+                    currentPage={currentPage} 
+                    onPageChange={paginate} 
+                />
             </div>
             {isModalOpen && <RegisterPartnerModal isOpen={isModalOpen} onClose={closeModal} />}
         </div>

@@ -11,7 +11,7 @@ import users from "../assets/icons/users.svg";
 // import Messages from "../assets/icons/Messages.svg";
 import branchesIcon from "../assets/icons/store.svg";
 import commentsIcon from "../assets/icons/comments.svg";
-import fondo from '../assets/images/fondo-poli.svg';
+// import fondo from '../assets/images/fondo-poli.svg';
 
 const Dashboard = () => {
     // const user = useAppSelector((state) => state.user.userData);
@@ -31,8 +31,8 @@ const Dashboard = () => {
 
     return (
         <div className='dashboardContainer'>
-            <img className='Background' src={fondo} alt="" />
-            <h1 className='dashboardTitle'>Dashboard</h1>
+            {/* <img className='Background' src={fondo} alt="" /> */}
+            {/* <h1 className='dashboardTitle'>Dashboard</h1> */}
             <div className='cardsContainer'>
                 {routes.map((route, index) => (
                     <Link to={route.path} key={index} className='card'>

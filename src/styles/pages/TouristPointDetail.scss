@@ -1,7 +1,12 @@
   .tourist-point-detail {
-    height: 100vh;
-    padding-top: 2%;
+    // height: 100vh;
+    padding-top: 10%;
     width: 100vw;
+    @media (max-width: 768px) {
+      width: 90%;
+      margin-left: 7%;
+      padding-bottom: 2%;
+     }
     // background-image: url(../../assets/images/fondo-poli.svg);
     .detail-card {
         padding: 16px;
@@ -28,39 +33,40 @@
         justify-content: space-around;
         margin-top: 30px;
         margin-bottom: 50px;
-        .btnSave {
-            color: var(--primary-color);
-            &:hover{
-                color: #00b6ce;
-            }
-        }
+        // .btnSave {
+        //     color: var(--primary-color);
+        //     &:hover{
+        //         color: #00b6ce;
+        //     }
+        // }
         
-        .btnCancel{
-            color: #af2432;
-            &:hover{
-               color: #de1227;
-            }
-        }
-        .btnEdit{
-            color: var(--primary-color);
-            border: solid 0.2px var(--primary-color);
-            padding: 5px 15px;
-            &:hover{
-                color:#fff;
-                background-color:  var(--greenSoft-color);
-            }
-        }
-        .btnDelete{
-            color: #af2432;
-            border: solid 0.2px #af2432;
-            padding: 5px 15px;
-            &:hover{
-                color:#fff;
-                background-color:  #af2432;
-            }
-        }
+        // .btnCancel{
+        //     color: #af2432;
+        //     &:hover{
+        //        color: #de1227;
+        //     }
+        // }
+        // .btnEdit{
+        //     color: var(--primary-color);
+        //     border: solid 0.2px var(--primary-color);
+        //     padding: 5px 15px;
+        //     &:hover{
+        //         color:#fff;
+        //         background-color:  var(--greenSoft-color);
+        //     }
+        // }
+        // .btnDelete{
+        //     color: #af2432;
+        //     border: solid 0.2px #af2432;
+        //     padding: 5px 15px;
+        //     &:hover{
+        //         color:#fff;
+        //         background-color:  #af2432;
+        //     }
+        // }
       }
     }
+    
   }
   .listimages{
     display: flex;

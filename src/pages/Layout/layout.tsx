@@ -16,8 +16,9 @@ const Layout = ({ children }: AppLayoutProps): JSX.Element => {
   return (
     <div className="Container_layout">
       <Navbar />
-      <div className="layout">
+
                 {accessToken && <Sidebar />}
+            <div className="layout">
                 <div className="childrenLayout">{children}</div>
             </div>
       <Footer />

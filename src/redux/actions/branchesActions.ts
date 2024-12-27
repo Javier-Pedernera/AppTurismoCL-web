@@ -1,7 +1,7 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import axios from "axios";
-import { addBranch, deleteBranch, setAllBranches, setBranch, updateBranch } from "../reducers/branchReducer";
-import { Branch } from "../types/types";
+import { addBranch, cleanBranch, deleteBranch, setAllBranches, setBranch, updateBranch } from "../reducers/branchReducer";
+import { Branch, BranchUpload } from "../types/types";
 
 const URL = import.meta.env.VITE_API_URL;
 
@@ -45,10 +45,12 @@ const createBranch = (branchData: Branch) => {
 };
 
 // Actualizar una sucursal existente
-const updateBranchById = (branchId: number, branchData: Branch) => {
+const updateBranchById = (branchId: number, branchData: BranchUpload) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.put(`${URL}/branches/${branchId}`, branchData);
+      console.log("respuesta en la actuailzacion........",response);
+      
       dispatch(updateBranch(response.data));
       return response;
     } catch (error) {
@@ -58,7 +60,7 @@ const updateBranchById = (branchId: number, branchData: Branch) => {
 };
 
 // Eliminar una sucursal
-const deleteBranchById = (branchId: number, branchData: Branch) => {
+const deleteBranchById = (branchId: number, branchData: any) => {
   return async (dispatch: Dispatch) => {
     try {
         const response = await axios.put(`${URL}/branches/${branchId}`, branchData);
@@ -70,10 +72,21 @@ const deleteBranchById = (branchId: number, branchData: Branch) => {
   };
 };
 
+const resetBranch = () => {
+  return async (dispatch: Dispatch) => {
+    try {
+      return dispatch(cleanBranch(null));
+    } catch (error) {
+      console.error(`Error al limpiar la sucursal `, error);
+    }
+  };
+};
+
 export {
   fetchAllBranches,
   fetchBranchById,
   createBranch,
   updateBranchById,
   deleteBranchById,
+  resetBranch
 };

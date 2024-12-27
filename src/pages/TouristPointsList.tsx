@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, Typography, Grid, Pagination } from '@mui/material';
+import { Button, Card, IconButton, Slider, TextField, Typography } from '@mui/material';
 import { Rating } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { fetchAllTouristPoints } from '../redux/actions/touristPointActions';
@@ -7,16 +7,24 @@ import '../styles/pages/TouristPointsList.scss';
 import { TouristPoint } from '../models/TouristPoint';
 import { RootState } from '../redux/store/store';
 import { useAppDispatch, useAppSelector } from '../redux/store/hooks';
+import Pagination from '../components/Pagination/pagination';
+import { useMediaQuery } from 'react-responsive';
+import iconclean from '../assets/icons/clear.svg'
 
 const URL = import.meta.env.VITE_API_URL;
 
 const TouristPointsList = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const touristPoints = useAppSelector((state: RootState) => state.touristPoints.allTouristPoints).filter(touristPoint => { return touristPoint.status.name === 'active'});;
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
+  const touristPoints = useAppSelector((state: RootState) => state.touristPoints.allTouristPoints);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-console.log("todos los puntos turisticos",touristPoints);
+  const itemsPerPage = isMobile? 6 : 5;
+  const totalPages = Math.ceil(touristPoints.length / itemsPerPage);
+  const [titleFilter, setTitleFilter] = useState('');
+  const [ratingFilter, setRatingFilter] = useState<number | number[]>([0, 5]);
+
+  console.log("todos los puntos turisticos",touristPoints);
 
   React.useEffect(() => {
     dispatch(fetchAllTouristPoints());
@@ -25,47 +33,102 @@ console.log("todos los puntos turisticos",touristPoints);
   const handlePageChange = ( page: number) => {
     setCurrentPage(page);
   };
+const handleTitleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitleFilter(event.target.value);
+  };
+
+  const handleRatingFilterChange = (event: Event, newValue: number | number[]) => {
+    console.log(event);
+    
+    setRatingFilter(newValue as number[]);
+  };
+
+  // Filtrar los puntos turísticos según el título y la valoración
+  const filteredTouristPoints = touristPoints.filter((point) => {
+    const matchesTitle = point.title.toLowerCase().includes(titleFilter.toLowerCase());
+    const matchesRating = Array.isArray(ratingFilter)
+      ? point.average_rating >= ratingFilter[0] && point.average_rating <= ratingFilter[1]
+      : point.average_rating >= ratingFilter;
+    return matchesTitle && matchesRating;
+  });
 
   // Paginación
-  const paginatedTouristPoints = touristPoints.slice(
+  const paginatedTouristPoints = filteredTouristPoints.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
+  const handleClearFilters = () => {
+    setTitleFilter('');
+    setRatingFilter([0, 5]);
+  };
   return (
     <div className="tourist-points-list">
       <div className="button-container">
-        <Button variant="contained" className="add-button"onClick={() => navigate('/create-tourist-point')}>
+        <Button variant="contained" className="add-button" onClick={() => navigate('/create-tourist-point')}>
           Crear Punto Turístico
         </Button>
+      <div className="filter-container">
+        {/* Filtro por título */}
+        <TextField
+          label="Buscar por título"
+          variant="outlined"
+          value={titleFilter}
+          onChange={handleTitleFilterChange}
+          fullWidth
+          className="filter-input-title"
+          size="small"
+        />
+
+        <div className='RatingFilter'>
+        <Slider
+          value={ratingFilter}
+          onChange={handleRatingFilterChange}
+          valueLabelDisplay="auto"
+          min={0}
+          max={5}
+          step={0.5}
+          valueLabelFormat={(value) => `${value}`}
+          className="rating-slider"
+        />
+        <Typography variant="body2" className='textColor'>Filtrar por valoración</Typography>
+        </div>
+        <div className='CleanFilter'>
+          <IconButton onClick={handleClearFilters} className="clear-filters-button">
+                  <img src={iconclean} alt='Limpiar filtros' className="iconClean" />
+          </IconButton>
+          <Typography className='textColor' variant="body2">Limpiar</Typography>
+        </div>
+        
       </div>
-      <Grid container spacing={2} justifyContent="center">
+      </div>
+      <div className="cards-container">
         {paginatedTouristPoints.map((point: TouristPoint) => (
-          <Grid item xs={12} sm={6} md={4} key={point.id}>
-            <Card className="tourist-point-card" onClick={() => navigate(`/tourist-points/${point.id}`)}>
-              <img src={URL+point.images[0]?.image_path} alt={point.title} className="card-image" />
-              <div className="card-content">
-                <div className='nameRating'>
-                    <Typography variant="h6">{point.title}</Typography>
-                    <Rating name="read-only" value={point.average_rating} readOnly precision={0.5} />    
-                </div>
-                
-                <Typography variant="body2">
-                  {point.description.slice(0, 100)}...
-                </Typography>
+          <Card className="tourist-point-card" onClick={() => navigate(`/tourist-points/${point.id}`)} key={point.id}>
+            <img src={URL + point.images[0]?.image_path} alt={point.title} className="card-image" />
+            <div className="card-content">
+                <Rating className="Rating" name="read-only" value={point.average_rating} readOnly precision={0.5} />
+              <div className="nameRating">
+                <Typography variant="h6">{point.title}</Typography>
               </div>
-            </Card>
-          </Grid>
+              <Typography variant="body2">
+                {point.description.slice(0, 50)}...
+              </Typography>
+            </div>
+          </Card>
         ))}
-      </Grid>
+      </div>
+      
+      {/* Paginación modular */}
+      <div className='pagCont'>
       {touristPoints.length > itemsPerPage && (
         <Pagination
-          count={Math.ceil(touristPoints.length / itemsPerPage)}
-          page={currentPage}
-          onChange={(_, page) => handlePageChange(page)}
-          className="pagination"
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
         />
       )}
+      </div>
     </div>
   );
 };

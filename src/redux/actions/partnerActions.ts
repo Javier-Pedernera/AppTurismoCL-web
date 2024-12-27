@@ -1,7 +1,6 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setPartnerData} from "../reducers/partnerReducer";
-import { Branch } from "../../models/BranchModels";
 
 import { PartnerCreate } from "../../models/PartnerModels";
 
@@ -52,53 +51,19 @@ const updatePartner = (partnerId: number, data: any) => {
     }
   };
 };
-// // Crear una nueva sucursal para un Partner
-// const createBranch = (partnerId: number, branchData: Branch) => {
-//   return async (dispatch: Dispatch) => {
-//     try {
-//       const response = await axios.post(`${URL}/partners/${partnerId}/branches`, branchData);
-//       dispatch(addBranch(response.data));
-//     } catch (error) {
-//       console.error("Error al crear una nueva sucursal:", error);
-//     }
-//   };
-// };
+// Acción para obtener sucursales de un socio
+const fetchBranchesByPartner = (partnerId: number) => {
+  return async () => {
+    try {
+      const response = await axios.get(`${URL}/partners/${partnerId}/branches`); // Asumiendo que esta es la ruta correcta
+      console.log("Sucursales del socio", response.data);
+      return response.data; // Retorna las sucursales si es necesario en el componente
+    } catch (error) {
+      console.error(`Error al obtener las sucursales del partner ${partnerId}:`, error);
+      throw error; // Puedes lanzar el error si necesitas manejarlo en el componente
+    }
+  };
+};
 
-// // Actualizar una sucursal existente
-// const updateBranchById = (branchId: number, branchData: Branch) => {
-//   return async (dispatch: Dispatch) => {
-//     try {
-//       const response = await axios.put(`${URL}/branches/${branchId}`, branchData);
-//       dispatch(updateBranch(response.data));
-//     } catch (error) {
-//       console.error(`Error al actualizar la sucursal ${branchId}:`, error);
-//     }
-//   };
-// };
-
-// // Eliminar una sucursal
-// const deleteBranchById = (branchId: number) => {
-//   return async (dispatch: Dispatch) => {
-//     try {
-//       await axios.delete(`${URL}/branches/${branchId}`);
-//       dispatch(deleteBranch(branchId));
-//     } catch (error) {
-//       console.error(`Error al eliminar la sucursal ${branchId}:`, error);
-//     }
-//   };
-// };
-
-
-// // Seleccionar una sucursal
-// const selectBranch = (branch: Branch | null) => {
-//   return async (dispatch: Dispatch) => {
-//     try {
-//       dispatch(setSelectedBranch(branch));
-//     } catch (error) {
-//       console.error("Error al seleccionar la sucursal:", error);
-//     }
-//   };
-// };
-
-export { fetchPartnerById, createPartner, updatePartner };
+export { fetchPartnerById, createPartner, updatePartner, fetchBranchesByPartner };
 

@@ -1,12 +1,22 @@
 .branches-table-container {
-    padding: 20px;
-    background-color: #f9f9f9; 
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    min-height: 90vh;
-    padding-left: 7%;
-    margin-right: 2%;
+    // background-color: #f9f9f9; 
+    // border-radius: 8px;
+    // box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    // margin-bottom: 20px;
+    min-height: 100vh;
+    padding-left: 5%;
+    padding-top: 10%;
+    width: 100%;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    @media (max-width: 600px) {
+      padding-left: 8%;
+    }
+    @media (max-width: 600px) {
+        padding-top: 20%;
+        padding-left: 11%;
+        padding-right: 2%;
+      }
   }
   
   .branches-table {
@@ -17,9 +27,10 @@
     overflow: hidden; 
     
     th, td {
-      padding: 12px 15px;
+      padding: 5px 10px;
       text-align: left;
       font-size: 14px;
+
     }
     
     th {
@@ -30,7 +41,12 @@
     td {
       border-bottom: 1px solid #ddd; 
     }
-  
+    tr{
+        height: 80px;
+        @media (max-width: 600px) {
+            height: 50px;
+          }
+    }
     tr:hover {
       background-color: var(--primarySoft-color); 
     }
@@ -57,4 +73,11 @@
       color: #fff;
     }
   }
-  
+  .pagCont{
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    position: absolute;
+    bottom: 0;
+
+}
