@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { createPartner } from '../../redux/actions/partnerActions';
 import { RootState } from '../../redux/store/store';
 // import { fetchCountries } from '../../redux/actions/globalDataActions';  
-import MarketStall from '../../assets/icons/MarketStall.svg';
+import MarketStall from '../../assets/icons/branches.svg';
 import Loader from '../Loader/Loader';
 
 
@@ -278,7 +278,7 @@ const RegisterPartnerModal: React.FC<RegisterPartnerModalProps> = ({ isOpen, onC
        </div>
        <p>* Datos obligatorios</p>
        <div className='btnsDiv'>
-          <button className={!areRequiredFieldsFilled()? 'inactive':'active'} onClick={ handleSubmit} disabled={!areRequiredFieldsFilled()}>Registrar Asociado</button>
+          <button className={!areRequiredFieldsFilled()? 'inactive':'active'} onClick={ handleSubmit} disabled={!areRequiredFieldsFilled()}>Registrar</button>
           <button className='cancel' onClick={onClose}>Cancelar</button>
        </div>
   </div>

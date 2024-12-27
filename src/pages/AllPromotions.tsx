@@ -11,6 +11,7 @@ import { fetchCategories } from '../redux/actions/globalDataActions';
 import CreatePromotionModal from '../components/createPromo/CreatePromotionModal';
 import User from '../models/User';
 import { fetchPartnerById } from '../redux/actions/partnerActions';
+import Pagination from '../components/Pagination/pagination';
 
 
 const AllPromotions = () => {
@@ -121,9 +122,7 @@ const AllPromotions = () => {
                 <button onClick={handleCreate} className="createProm-btn">+ Crear Promoción</button>
             </div>
             }
-            
             <h2>Promociones Disponibles</h2>
-
 
             {/* Filtros */}
             <div className="filters">
@@ -213,7 +212,14 @@ const AllPromotions = () => {
                 </table>
                 </div>
             )}
-            <div className="pagination">
+                <div className="pagination">
+            <Pagination
+                totalPages={totalPages}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+            />
+                </div>
+            {/* <div className="pagination">
                 {Array.from({ length: totalPages }, (_, index) => (
                     <button
                         key={index + 1}
@@ -223,7 +229,7 @@ const AllPromotions = () => {
                         {index + 1}
                     </button>
                 ))}
-            </div>
+            </div> */}
             {selectedPromotion && (
                 <EditPromotionModal
                 idPromo={selectedPromotion.promotion_id}

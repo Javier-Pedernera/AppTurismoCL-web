@@ -6,19 +6,21 @@
     background-color: #ffffff;
     border-radius: 8px;
     font-family: 'Arial', sans-serif;
-
+    position: relative;
+    padding-top: 9%;
+    background-image: url(../../assets/images/fondo-poli.svg);
     @media (max-width: 768px) {
         width: 95%;
         height: 100%;
         padding: 0%;
-        padding-left: 8%;
-        padding-top: 5%;
+        padding-left: 10%;
+        padding-top: 100px;
         padding-bottom: 5%;
     }
 
     & .filters {
         display: flex;
-        flex-wrap: wrap; // Permite que los filtros se ajusten en pantallas pequeñas
+        flex-wrap: wrap; 
         justify-content: space-between;
         margin-bottom: 15px;
         align-items: center;
@@ -29,11 +31,24 @@
     }
 
     & .inputFilter {
-        padding-left: 0.75em;
+        padding-left: 0.5em;
         border: 1px solid #d9d9d9;
         border-radius: 0.1875em;
         width: 100%; // Ocupa el 100% del ancho en pantallas pequeñas
-        max-width: 250px; // Limita el ancho máximo en pantallas grandes
+        max-width: 220px; // Limita el ancho máximo en pantallas grandes
+        height: 2.5rem;
+        margin-top: 10px;
+        outline: none;
+        color: #333;
+        font-size: 0.9rem;
+        box-sizing: border-box;
+    }
+    & .inputFilterStatus {
+        padding-left: 0.5em;
+        border: 1px solid #d9d9d9;
+        border-radius: 0.1875em;
+        width: 100%; // Ocupa el 100% del ancho en pantallas pequeñas
+        max-width: 150px; // Limita el ancho máximo en pantallas grandes
         height: 2.5rem;
         margin-top: 10px;
         outline: none;
@@ -154,7 +169,7 @@
 }
 
 .swal2-input {
-    width: 60% !important; // Ocupa el 100% del ancho disponible
+    width: 60% !important; 
     height: 2.5rem !important;
     padding: 0.75em;
     margin-top: 10px;
@@ -245,8 +260,8 @@
 }
 .user-table-wrapper {
     width: 100%;
-    overflow-x: auto; /* Permite el scroll horizontal en pantallas pequeñas */
-    -webkit-overflow-scrolling: touch; /* Hace el scroll suave en dispositivos iOS */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .user-table {
@@ -277,27 +292,6 @@
 .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-}
-
-.pagination button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    margin: 0 5px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.pagination button.active {
-    background-color: var(--primary-color-active);
-}
-
-.pagination button:hover:not(.active) {
-    background-color: var(--greenSoft-color);
 }
 
 .btnsTable{
@@ -335,5 +329,20 @@
         background-color: #33333313;
         color: var(--primary-color);
         font-weight: 600;
+
+    }
+
+    .no-results {
+        text-align: center !important;
+        color: #00798c9f;
+        font-size: 16px;
+        padding: 10px 0;
+    }
+    .pagCont{
+        display: flex;
+        justify-content: center;
+        width: 90%;
+        position: absolute;
+        bottom: 0;
 
     }

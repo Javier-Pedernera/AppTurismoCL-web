@@ -6,6 +6,10 @@ import '../../styles/components/BranchDetails.scss'
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { RootState } from '../../redux/store/store';
+import EditButton from '../buttons/EditButton';
+import DeleteButton from '../buttons/DeleteButton';
+import { translateStatusToSpanish } from '../../utils/utils';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const URL = import.meta.env.VITE_API_URL;
 const MySwal = withReactContent(Swal);
@@ -60,6 +64,8 @@ const BranchDetails = () => {
           description: result.value?.description,
           address: result.value?.address,
         };
+        console.log("informacion a enviar", updatedBranch);
+        
         dispatch(updateBranchById(Number(branch_id), updatedBranch));
       }
     });
@@ -70,7 +76,7 @@ const BranchDetails = () => {
     const statusDeleted = statuses.find(s=>s.name === 'deleted');
     Swal.fire({
       title: '¿Estás seguro?',
-      text: 'La sucursal será marcada como eliminada (borrado lógico).',
+      text: 'La sucursal será eliminada.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
@@ -84,6 +90,9 @@ const BranchDetails = () => {
       }
     });
   };
+  const handleBack = () => {
+    navigate(-1);
+  };
   if (!branch) {
     return  <div className="branch-details"><p>Cargando detalles de la sucursal...</p></div>;
   }
@@ -91,20 +100,19 @@ const BranchDetails = () => {
   return (
 
     <div className="branch-details">
+       <button className="back-button" onClick={handleBack}>
+        <FaArrowLeft className="back-icon" />
+      </button>
       <img src={`${URL}${branch.image_url}`} alt={branch.name || 'Sucursal'} className="branch-details__image" />
       <h2 className="branch-details__title">{branch.name || 'Nombre no disponible'}</h2>
       <p className="branch-details__description">{branch.description || 'Descripción no disponible'}</p>
       <p className="branch-details__address">{branch.address || 'Dirección no disponible'}</p>
       <p className={`branch-details__status branch-details__status--${branch.status?.name?.toLowerCase() || 'unknown'}`}>
-        Estado: {branch.status?.name || 'Estado no disponible'}
+        Estado: {translateStatusToSpanish(branch.status?.name)  || 'Estado no disponible'}
       </p>
       <div className="branch-details__actions">
-        <button onClick={handleEdit} className="branch-details__button branch-details__button--edit">
-          Editar
-        </button>
-        <button onClick={handleDelete} className="branch-details__button branch-details__button--delete">
-          Eliminar
-        </button>
+      <EditButton onClick={handleEdit} />
+      <DeleteButton onClick={handleDelete} />
       </div>
     </div>
   );

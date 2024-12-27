@@ -49,6 +49,8 @@ const updateBranchById = (branchId: number, branchData: Branch) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.put(`${URL}/branches/${branchId}`, branchData);
+      console.log(response);
+      
       dispatch(updateBranch(response.data));
       return response;
     } catch (error) {

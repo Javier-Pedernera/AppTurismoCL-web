@@ -16,7 +16,7 @@ const URL = import.meta.env.VITE_API_URL;
 const fetchAllTouristPoints = () => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.get(`${URL}/tourist_points`);
+      const response = await axios.get(`${URL}/tourist_points/active-inactive`);
       dispatch(setAllTouristPoints(response.data));
     } catch (error) {
       console.error("Error al obtener todos los puntos turísticos:", error);

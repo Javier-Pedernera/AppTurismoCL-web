@@ -88,11 +88,11 @@ const Sidebar: React.FC = () => {
           name: "Configuración",
           style: "configuration"
         },
-        {
-          path: "/reports",
-          name: "Reportes",
-          style: "reportes"
-        },
+        // {
+        //   path: "/reports",
+        //   name: "Reportes",
+        //   style: "reportes"
+        // },
         {
           path: "/",
           name: "Salir",
@@ -167,7 +167,7 @@ const Sidebar: React.FC = () => {
 
       </div>
       <div className={`politicas ${isSidebarOpen ? 'open' : ''}`}>
-        <span className={`sidebar-textVersion ${isSidebarOpen ? 'open' : ''}`}>Version 0.1.2</span>
+        <span className={`sidebar-textVersion ${isSidebarOpen ? 'open' : ''}`}>Version 0.1.3</span>
         <span className={`sidebar-textVersion ${isSidebarOpen ? 'open' : ''}`}>Fecha 17/09/2024</span>
 
         <h3>Políticas y Términos</h3>
