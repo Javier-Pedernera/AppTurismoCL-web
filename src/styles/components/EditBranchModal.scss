@@ -94,10 +94,10 @@
 .mapContainer {
     width: 48%;
     height: 100%;
-    margin-top: 50px;
     border-radius: 8px;
     // overflow: hidden;
     @media (max-width: 600px) {
+        margin-top: 50px;
         // height: 350px;
         width: 100%;
       }   
