@@ -10,6 +10,7 @@ import EditButton from '../buttons/EditButton';
 import DeleteButton from '../buttons/DeleteButton';
 import noimage from '../../assets/images/noImageAvailable.png'
 import { useMediaQuery } from 'react-responsive';
+import MapComponent from '../MapFunctions/MapComponent';
 
 const BranchDetails = () => {
   const { branch_id } = useParams<{ branch_id: string }>();
@@ -18,11 +19,11 @@ const BranchDetails = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
   const URL = import.meta.env.VITE_API_URL;
-console.log(branch_id);
-
+  
   const branch = useAppSelector((state: any) => state.branches.selectedBranch);
   const statuses = useAppSelector((state: any) => state.user.statuses);
-
+  
+  // console.log(branch.image_url);
   useEffect(() => {
     if (branch_id) {
       dispatch(fetchBranchById(Number(branch_id)));
@@ -63,6 +64,7 @@ console.log(branch_id);
 
   return (
     <div className="branch-details">
+      <div className='textInfo'>
       <button className="back-button" onClick={handleBack}>
         <FaArrowLeft className="back-icon" />
               {!isMobile && <h4>   Volver</h4>}
@@ -78,6 +80,20 @@ console.log(branch_id);
           <EditButton onClick={() => setShowModal(true)}/>
           <DeleteButton onClick={handleDelete} />
       </div>
+      </div>
+
+      <div className='MapInfo'>
+      {branch.latitude && branch.longitude && (
+        <div className="branch-details__map">
+          <MapComponent
+            center={{ lat: branch.latitude, lng: branch.longitude }}
+            zoom={15}
+            markerPosition={{ lat: branch.latitude, lng: branch.longitude }}
+            editMode={false} 
+            onLocationChange={() => {}} 
+          />
+        </div>
+      )}</div>
 
       {/* Mostrar el modal de edición */}
       <EditBranchModal
