@@ -38,6 +38,9 @@ const touristPointSlice = createSlice({
             state.allTouristPoints = state.allTouristPoints.filter((point:any) => point.id !== action.payload);
             if (state.selectedTouristPoint?.id === action.payload) state.selectedTouristPoint = null;
         },
+        cleanTouristPoint: (state, action: PayloadAction<TouristPoint | null>) => {
+              state.selectedTouristPoint = action.payload;
+            },
     }
 });
 
@@ -46,7 +49,8 @@ export const {
     setSelectedTouristPoint,
     addTouristPoint,
     updateTouristPoint,
-    deleteTouristPoint
+    deleteTouristPoint,
+    cleanTouristPoint
 } = touristPointSlice.actions;
 
 export default touristPointSlice.reducer;
