@@ -5,15 +5,16 @@
   margin-left: 5%;
   background-image: url(../../assets/images/fondo-poli.svg);
   background-size: cover;
-  padding-top: 120px;
+  padding-top: 10%;
   .button-container {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 20px;
+    margin-bottom: 5%;
     align-content: center;
     align-items: center;
     @media (max-width: 600px) {
       flex-direction: column;
+      margin-bottom: 20px;
       width: 100%;
     }
   }
@@ -83,6 +84,7 @@
     align-items: center;
   }
   @media (max-width: 600px) {
+    padding-top: 20%;
     margin-bottom: 5%;
   }
 }

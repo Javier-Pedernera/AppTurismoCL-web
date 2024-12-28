@@ -5,7 +5,8 @@ import {
   setSelectedTouristPoint,
   addTouristPoint,
   updateTouristPoint,
-  deleteTouristPoint
+  deleteTouristPoint,
+  cleanTouristPoint
 } from "../reducers/touristPointsReducer";
 import { TouristPointCreate } from "../../models/TouristPoint";
 
@@ -81,10 +82,21 @@ const deleteTouristPointById = (touristPointId: number) => {
   };
 };
 
+const resetTouristPoint = () => {
+  return async (dispatch: Dispatch) => {
+    try {
+      return dispatch(cleanTouristPoint(null));
+    } catch (error) {
+      console.error(`Error al limpiar la sucursal `, error);
+    }
+  };
+};
+
 export {
   fetchAllTouristPoints,
   fetchTouristPointById,
   createTouristPoint,
   updateTouristPointById,
   deleteTouristPointById,
+  resetTouristPoint
 };

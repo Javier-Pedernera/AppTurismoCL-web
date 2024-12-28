@@ -9,7 +9,8 @@ import { RootState } from '../redux/store/store';
 import { useAppDispatch, useAppSelector } from '../redux/store/hooks';
 import Pagination from '../components/Pagination/pagination';
 import { useMediaQuery } from 'react-responsive';
-import iconclean from '../assets/icons/clear.svg'
+import iconclean from '../assets/icons/clear.svg';
+import noimage from '../assets/images/noImageAvailable.png';
 
 const URL = import.meta.env.VITE_API_URL;
 
@@ -105,7 +106,7 @@ const handleTitleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => 
       <div className="cards-container">
         {paginatedTouristPoints.map((point: TouristPoint) => (
           <Card className="tourist-point-card" onClick={() => navigate(`/tourist-points/${point.id}`)} key={point.id}>
-            <img src={URL + point.images[0]?.image_path} alt={point.title} className="card-image" />
+            {point.images[0]? <img src={URL + point.images[0]?.image_path} alt={point.title} className="card-image" />:<img src={noimage} alt={"sin imagen"} className="card-image" />}
             <div className="card-content">
                 <Rating className="Rating" name="read-only" value={point.average_rating} readOnly precision={0.5} />
               <div className="nameRating">

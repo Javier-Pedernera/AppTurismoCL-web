@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Typography, Card, Container, Grid, TextField } from '@mui/material';
 import { Rating } from '@mui/material';
 import { FaPlusCircle, FaTimesCircle } from 'react-icons/fa';
-import { deleteTouristPointById, fetchTouristPointById, updateTouristPointById } from '../redux/actions/touristPointActions';
+import { deleteTouristPointById, fetchTouristPointById, resetTouristPoint, updateTouristPointById } from '../redux/actions/touristPointActions';
 import { RootState } from '../redux/store/store';
 import '../styles/pages/TouristPointDetail.scss';
 import { useAppDispatch, useAppSelector } from '../redux/store/hooks';
@@ -16,6 +16,9 @@ import EditButton from '../components/buttons/EditButton';
 import DeleteButton from '../components/buttons/DeleteButton';
 import CancelButton from '../components/buttons/CancelButton';
 import Swal from 'sweetalert2';
+import noimage from '../assets/images/noImageAvailable.png';
+import { FaArrowLeft } from 'react-icons/fa';
+import { useMediaQuery } from 'react-responsive';
 
 const TouristPointDetail = () => {
     const { id } = useParams();
@@ -32,13 +35,20 @@ const TouristPointDetail = () => {
     const [description, setDescription] = useState(touristPoint?.description || '');
     const [images, setImages] = useState(touristPoint?.images || []); 
     const [deletedImages, setDeletedImages] = useState<number[]>([]); 
+    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     //imagenes que se envian
-    console.log("imageness a borrar",deletedImages);
-    console.log("punto turistico elegido",touristPoint);
+    // console.log("imageness a borrar",deletedImages);
+    // console.log("punto turistico elegido",touristPoint);
     const [newImages, setNewImages] = useState<{ filename: string, data: string }[]>([]);  
     //imagenes que se ven
     const [previewImages, setPreviewImages] = useState<string[]>([]); 
     
+
+    const handleBack = () => {
+        dispatch(resetTouristPoint());
+        navigate(-1);
+      };
+
     useEffect(() => {
         if (id) {
             dispatch(fetchTouristPointById(Number(id)));
@@ -172,7 +182,7 @@ const TouristPointDetail = () => {
     return (
         <Container className="tourist-point-detail">
             
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <Card className="detail-card">
                         {editMode ? (
@@ -201,7 +211,12 @@ const TouristPointDetail = () => {
                             </>
                         ) : (
                             <>
-                                <img src={URL+selectedImage} alt={touristPoint.title} className="detail-image" />
+                             {!editMode &&<button className="back-button" onClick={handleBack}>
+                            <FaArrowLeft className="back-icon" />
+                          {!isMobile && <h4>   Volver</h4>}
+                         </button>}
+                            {selectedImage? <img src={URL+selectedImage} alt={touristPoint.title} className="detail-image" />:<img src={noimage} alt={"sin imagen"}className="detail-image"  />}
+                                {/* <img src={URL+selectedImage} alt={touristPoint.title} className="detail-image" /> */}
                                 <div className='listimages'>
                                 {images.map((image, index) => (
                                         <Grid item key={index}>
