@@ -5,6 +5,7 @@
     // margin-bottom: 20px;
     min-height: 100vh;
     padding-left: 5%;
+    padding-right: 2%;
     padding-top: 10%;
     width: 100%;
     overflow: hidden;
@@ -29,8 +30,11 @@
     th, td {
       padding: 5px 10px;
       text-align: left;
-      font-size: 14px;
-
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      @media (max-width: 600px) {
+        font-size: 0.93rem;
+      }
     }
     
     th {
@@ -39,7 +43,7 @@
     }
     
     td {
-      border-bottom: 1px solid #ddd; 
+      border-bottom: 1px solid #52838b48; ; 
     }
     tr{
         height: 80px;
@@ -48,7 +52,7 @@
           }
     }
     tr:hover {
-      background-color: var(--primarySoft-color); 
+      background-color:#00798c17; 
     }
   }
   
@@ -63,8 +67,9 @@
     color: var(--primary-color);
     text-decoration: none;
     font-weight: 600;
-    padding: 6px 10px;
-    border: 1px solid var(--primary-color);
+    width: 100px;
+    padding: 6px 15px;
+    border: 1px solid #00798c5d; ;
     border-radius: 5px;
     transition: all 0.3s ease;
   

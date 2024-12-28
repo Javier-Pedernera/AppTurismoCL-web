@@ -163,15 +163,15 @@ export const routes: RouteProps[] = [
             allowedRoles: ['admin']
         }
     },
-    {
-        path: "/reports",
-        element: lazy(async () => await import("../pages/UnderConstruction")),
-        name: "Reports",
-        layout: lazy(async () => await import("../pages/Layout/layout")),
-        authorization: {
-            allowedRoles: ['admin']
-        }
-    },
+    // {
+    //     path: "/reports",
+    //     element: lazy(async () => await import("../pages/UnderConstruction")),
+    //     name: "Reports",
+    //     layout: lazy(async () => await import("../pages/Layout/layout")),
+    //     authorization: {
+    //         allowedRoles: ['admin']
+    //     }
+    // },
     {
         path: "/socioPerfil",
         element: lazy(async () => await import("../pages/PartnerDetail")),
@@ -226,13 +226,13 @@ export const routes: RouteProps[] = [
             allowedRoles: ['admin']
         }
     },
-    // {
-    //     path: "/comments-moderation",
-    //     element: lazy(async () => await import("../pages/CommentsModeration")),
-    //     name: "Moderar Comentarios",
-    //     layout: lazy(async () => await import("../pages/Layout/layout")),
-    //     authorization: {
-    //         allowedRoles: ['admin']
-    //     }
-    // }
+    {
+        path: "/comments-moderation",
+        element: lazy(async () => await import("../pages/UnderConstruction")),
+        name: "Moderar Comentarios",
+        layout: lazy(async () => await import("../pages/Layout/layout")),
+        authorization: {
+            allowedRoles: ['admin']
+        }
+    }
 ];
