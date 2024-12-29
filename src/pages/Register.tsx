@@ -34,7 +34,7 @@ const Register = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
   const URL = import.meta.env.VITE_API_URL;
   const { handleSubmit, register, watch, formState: { errors } } = useForm<UserRegister>({
-    mode: "onChange",
+    mode: "onSubmit",
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -55,7 +55,8 @@ const Register = () => {
   }, [dispatch]);
 
   const onSubmit = async (data: UserRegister) => {
- 
+    console.log("presiono submit...............");
+    
     const { confirmPassword, otro_genero, ...userData } = data;
     userData.email = userData.email.trim().toLowerCase();
     userData.status_id = statusActive?.id;
@@ -64,7 +65,7 @@ const Register = () => {
     if (otro_genero) {
       userData.gender = otro_genero;
     }
-      // console.log("data user a enviar",userData);
+      console.log("data user a enviar",userData);
 
     try {
       // Registro del usuario
@@ -140,13 +141,20 @@ const Register = () => {
   const email = watch('email');
   const confirmPassword = watch('confirmPassword');
   const password = watch("password");
+  console.log(!firstName ,!lastName , !country, !email ,!password, !confirmPassword);
+  
   // Verifica si todos los campos obligatorios están completos
-  const isFormValid = firstName && lastName && country && email && password && confirmPassword;
+  const isFormValid = !firstName || !lastName || !country || !email || !password || !confirmPassword;
+console.log("formulario valido?", isFormValid);
 
 // console.log("fecha de nacimiento", register);
   const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev); // Alterna entre visible y no visible
+    setShowPassword((prev) => !prev);
   };
+
+  console.log(errors.password, "errores", Object.keys(errors).length);
+  
+
   return (
     <div className="register-container">
       {isLoading && <Loader></Loader>}
@@ -158,7 +166,7 @@ const Register = () => {
               <img className="logo2register" src={logo2} alt="logo2register" />
             </Link>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)} className="form">
+          <form onSubmit={handleSubmit(onSubmit)} className="form" noValidate>
             <div className="form-grid">
             <input
                 type="text"
@@ -301,7 +309,7 @@ const Register = () => {
                   message: "La contraseña debe tener al menos 8 caracteres"
                 },
                 pattern: {
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
                   message: "La contraseña debe incluir al menos una letra mayúscula, una minúscula, un número y un carácter especial"
                 }
               })}
@@ -347,7 +355,7 @@ const Register = () => {
                 </div>
               )}
               <div className='btnsReg'>
-            <button type="submit" className="submit-button" disabled={!isFormValid}>
+            <button type="submit" className="submit-button" disabled={isFormValid}>
               Registrar
             </button>
             <button type="button" className="cancel-button" onClick={handleCancel}>Cancelar</button>
