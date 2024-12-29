@@ -109,9 +109,16 @@ background-size: cover;
   }
   
   .form-error {
+    width: 50%;
     color: red;
     font-size: 0.875rem;
-    margin-bottom: 0.8em;
+    margin-bottom: 0.7em;
+    grid-column: span 2; 
+  }
+  .form-error-right{
+    color: red;
+    font-size: 0.7rem;
+    margin-bottom: 0.5em;
     grid-column: span 2; 
   }
   .btnsReg{
