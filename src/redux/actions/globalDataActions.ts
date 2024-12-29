@@ -8,7 +8,7 @@ export const fetchCategories = () => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.get(`${URL}/categories`);
-      console.log("respuesta de categorias", response);
+      // console.log("respuesta de categorias", response);
       
       dispatch(setCategories(response.data));
     } catch (error) {

@@ -25,7 +25,7 @@ const fetchPartnerById = (partnerId: number) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.get(`${URL}/partners/${partnerId}`);
-      console.log("respuesta en acition", response);
+      // console.log("respuesta en acition", response);
       
       dispatch(setPartnerData(response.data));
       return response
@@ -56,7 +56,7 @@ const fetchBranchesByPartner = (partnerId: number) => {
   return async () => {
     try {
       const response = await axios.get(`${URL}/partners/${partnerId}/branches`); // Asumiendo que esta es la ruta correcta
-      console.log("Sucursales del socio", response.data);
+      // console.log("Sucursales del socio", response.data);
       return response.data; // Retorna las sucursales si es necesario en el componente
     } catch (error) {
       console.error(`Error al obtener las sucursales del partner ${partnerId}:`, error);

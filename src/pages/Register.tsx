@@ -55,7 +55,7 @@ const Register = () => {
   }, [dispatch]);
 
   const onSubmit = async (data: UserRegister) => {
-    console.log("presiono submit...............");
+    // console.log("presiono submit...............");
     
     const { confirmPassword, otro_genero, ...userData } = data;
     userData.email = userData.email.trim().toLowerCase();
@@ -65,7 +65,7 @@ const Register = () => {
     if (otro_genero) {
       userData.gender = otro_genero;
     }
-      console.log("data user a enviar",userData);
+      // console.log("data user a enviar",userData);
 
     try {
       // Registro del usuario

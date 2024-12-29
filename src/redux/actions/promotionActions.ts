@@ -52,7 +52,7 @@ const createPromotion = (promotionData: Promotion) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.post(`${URL}//promotions`, promotionData);
-      console.log("respuesta de la creacion", promotionData);
+      // console.log("respuesta de la creacion", promotionData);
       
       dispatch(addPromotion(response.data));
     } catch (error) {

@@ -22,7 +22,7 @@ const fetchBranchById = (branchId: number) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.get(`${URL}/branches/${branchId}`);
-      console.log("data de la respuesta en sucursal",response.data);
+      // console.log("data de la respuesta en sucursal",response.data);
       
       dispatch(setBranch(response.data));
     } catch (error) {
@@ -49,7 +49,7 @@ const updateBranchById = (branchId: number, branchData: BranchUpload) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.put(`${URL}/branches/${branchId}`, branchData);
-      console.log("respuesta en la actuailzacion........",response);
+      // console.log("respuesta en la actuailzacion........",response);
       
       dispatch(updateBranch(response.data));
       return response;

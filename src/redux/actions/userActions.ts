@@ -79,7 +79,7 @@ const userLogIn = (user: UserLogin | null, token: string) => {
 
       // Si tenemos usuario pero no token, autenticamos con las credenciales
       } else if (user && !token.length) {
-        console.log("user en el login", user);
+        // console.log("user en el login", user);
         
         const response = await axios.post(`${URL}/login`, user);
         const decodedToken: CustomJwtPayload = await jwtDecode(response.data.token);
