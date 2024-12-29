@@ -48,7 +48,7 @@ const Login = () => {
       const resp: Error | { payload: User; type: "user/loginUser"; } | undefined = await dispatch(userLogIn(formattedData, ""));
 
       setLoading(false);
-      console.log("respuesta del dispatch. tiene payload?",resp);
+      // console.log("respuesta del dispatch. tiene payload?",resp);
       
       if (resp && "payload" in resp){
         Cookies.set("data",resp?.payload?.token, { expires: 3 });

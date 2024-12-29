@@ -84,7 +84,7 @@ const UserProfile = () => {
     const userData = {user_id: user.user_id, data: formData}
 
     const response = await dispatch(updateUser(userData))
-console.log(response);
+// console.log(response);
 if (response?.status == 200) {
   setIsEditing(false)
   Toast.fire({

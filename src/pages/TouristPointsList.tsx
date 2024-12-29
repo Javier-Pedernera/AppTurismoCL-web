@@ -25,7 +25,7 @@ const TouristPointsList = () => {
   const [titleFilter, setTitleFilter] = useState('');
   const [ratingFilter, setRatingFilter] = useState<number | number[]>([0, 5]);
 
-  console.log("todos los puntos turisticos",touristPoints);
+  // console.log("todos los puntos turisticos",touristPoints);
 
   React.useEffect(() => {
     dispatch(fetchAllTouristPoints());

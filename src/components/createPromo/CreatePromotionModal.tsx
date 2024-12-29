@@ -67,7 +67,7 @@ const CreatePromotionModal = ({
                         filename: file.name,
                         data: base64Data
                     };
-                    console.log(imageObject);
+                    // console.log(imageObject);
 
                     setImages((prevImages) => [...prevImages, imageObject]);
                 }

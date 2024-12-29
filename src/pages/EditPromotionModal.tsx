@@ -103,7 +103,7 @@ const EditPromotionModal: React.FC<EditPromotionModalProps> = ({ idPromo, isOpen
                 images: processedImages,
                 status_id: status?.id || 1,
             };
-            console.log("datos para actualizar la promoción", editedPromotion, "imagenes borradas", deletedImageIds);
+            // console.log("datos para actualizar la promoción", editedPromotion, "imagenes borradas", deletedImageIds);
             onSave(idPromo, editedPromotion, deletedImageIds);
             onClose();
         }
