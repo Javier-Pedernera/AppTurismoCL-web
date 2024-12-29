@@ -34,7 +34,7 @@ const Register = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
   const URL = import.meta.env.VITE_API_URL;
   const { handleSubmit, register, watch, formState: { errors } } = useForm<UserRegister>({
-    mode: "onSubmit",
+    mode: "onChange",
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
