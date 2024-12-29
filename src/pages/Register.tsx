@@ -11,6 +11,7 @@ import { RootState } from '../redux/store/store';
 import Loader from '../components/Loader/Loader';
 import { fetchRoles, fetchStatuses } from '../redux/actions/userActions';
 import {fetchCountries } from '../redux/actions/globalDataActions';
+import { useMediaQuery } from 'react-responsive';
 
 // Actualiza el modelo para reflejar los nuevos campos
 interface UserRegister {
@@ -30,8 +31,11 @@ interface UserRegister {
 }
 
 const Register = () => {
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
   const URL = import.meta.env.VITE_API_URL;
-  const { handleSubmit, register, watch, formState: { errors } } = useForm<UserRegister>();
+  const { handleSubmit, register, watch, formState: { errors } } = useForm<UserRegister>({
+    mode: "onChange",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [showOtroGenero, setShowOtroGenero] = useState(false);
@@ -43,17 +47,6 @@ const Register = () => {
   const dispatch = useAppDispatch();
   // console.log("rol de turista",roles);
   // console.log("estado de turista",statusActive);
-  // const Toast = Swal.mixin({
-  //   toast: true,
-  //   position: "center",
-  //   showConfirmButton: false,
-  //   timer: 2000,
-  //   timerProgressBar: true,
-  //   didOpen: (toast) => {
-  //     toast.addEventListener("mouseenter", Swal.stopTimer);
-  //     toast.addEventListener("mouseleave", Swal.resumeTimer);
-  //   },
-  // });
 
   useEffect(() => {
     dispatch(fetchRoles());
@@ -167,24 +160,35 @@ const Register = () => {
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="form">
             <div className="form-grid">
-              <input
+            <input
                 type="text"
                 placeholder="* Nombre"
                 className="form-input"
-                {...register("first_name", { required: "Nombre requerido" })}
+                {...register("first_name", {
+                  required: "Nombre requerido",
+                  maxLength: {
+                    value: 30,
+                    message: "El nombre no debe exceder los 30 caracteres."
+                  }
+                })}
               />
-              {errors.first_name && (
-                <span className="form-error">{(errors.first_name as FieldError).message}</span>
-              )}
+              {errors.first_name && <span className="form-error">{errors.first_name.message}</span>}
+                <div>
               <input
                 type="text"
                 placeholder="* Apellido"
                 className="form-input"
-                {...register("last_name", { required: "Apellido requerido" })}
+                {...register("last_name", {
+                  required: "Apellido requerido",
+                  maxLength: {
+                    value: 30,
+                    message: "El apellido no debe exceder los 30 caracteres."
+                  }
+                })}
               />
-              {errors.last_name && (
-                <span className="form-error">{(errors.last_name as FieldError).message}</span>
-              )}
+              {errors.last_name && <span className={isMobile? "form-error":"form-error-right"}>{errors.last_name.message}</span>}
+                </div>
+
                <select
                 className="form-input"
                 {...register("country", { required: "País requerido" })}
@@ -199,36 +203,53 @@ const Register = () => {
               {errors.country && (
                 <span className="form-error">{(errors.country as FieldError).message}</span>
               )}
-              <input
+              <div>
+                <input
                 type="text"
                 placeholder="Ciudad"
                 className="form-input"
-                // {...register("city", { required: "Ciudad requerida" })}
+                {...register("city", {
+                  maxLength: {
+                    value: 50,
+                    message: "La ciudad no debe exceder los 50 caracteres."
+                  }
+                })}
               />
-              {errors.city && (
-                <span className="form-error">{(errors.city as FieldError).message}</span>
-              )}
+              {errors.city && <span className="form-error">{errors.city.message}</span>}
+              </div>
+              <div>
               <input
                 type="email"
                 placeholder="* Correo electrónico"
                 className="form-input"
                 {...register("email", {
                   required: "Correo electrónico requerido",
+                  maxLength: {
+                    value: 50,
+                    message: "El correo no debe exceder los 50 caracteres."
+                  },
                   pattern: {
                     value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                    message: "Correo electrónico no válido",
-                  },
+                    message: "Correo electrónico no válido"
+                  }
                 })}
               />
-              {errors.email && (
-                <span className="form-error">{(errors.email as FieldError).message}</span>
-              )}
-              <input
+              {errors.email && <span className="form-error">{errors.email.message}</span>}
+              </div>
+              <div>
+                 <input
                 type="text"
                 placeholder="Número de Teléfono"
                 className="form-input"
-                {...register("phone_number")}
+                {...register("phone_number", {
+                  pattern: {
+                    value: /^[0-9]{7,15}$/,
+                    message: "Número de teléfono no válido. Debe ser número y contener entre 7 y 15 dígitos."
+                  }
+                })}
               />
+              {errors.phone_number && <span className="form-error">{errors.phone_number.message}</span>}
+              </div>
               <select
                 className="form-input"
                 {...register("gender")}
