@@ -81,6 +81,27 @@ const resetBranch = () => {
     }
   };
 };
+const inactivateBranch = (branchId: number, statusId: number | undefined) => {
+  return async (dispatch: Dispatch) => {
+    try {
+
+      // Primero, actualizamos el estado de la sucursal
+      const branchResponse = await axios.put(`${URL}/branches/${branchId}`, {
+        status_id: statusId,
+      })
+      // , {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      console.log('Sucursal marcada como inactiva:', branchResponse.data);
+      dispatch(updateBranch(branchResponse.data));
+    } catch (error) {
+      console.error('Error al actualizar el estado de la sucursal y promociones:', error);
+      throw error; 
+    }
+  };
+};
 
 export {
   fetchAllBranches,
@@ -88,5 +109,6 @@ export {
   createBranch,
   updateBranchById,
   deleteBranchById,
-  resetBranch
+  resetBranch,
+  inactivateBranch
 };
