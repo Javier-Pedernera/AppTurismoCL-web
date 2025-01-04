@@ -1,7 +1,8 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import axios from "axios";
-import { addBranch, cleanBranch, deleteBranch, setAllBranches, setBranch, updateBranch } from "../reducers/branchReducer";
+import { addBranch, cleanBranch, deleteBranch, setAllBranches, setBranch, setCommentsBranch, setCommentsBranchLastWeek, updateBranch } from "../reducers/branchReducer";
 import { Branch, BranchUpload } from "../types/types";
+import { AppDispatch } from "../store/store";
 
 const URL = import.meta.env.VITE_API_URL;
 
@@ -103,6 +104,32 @@ const inactivateBranch = (branchId: number, statusId: number | undefined) => {
   };
 };
 
+const fetchBranchCommentsLastWeek = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.get(`${URL}/branches/ratings/last_4_weeks`);
+      console.log("respuesta de peticion puntos turisticos", response);
+      
+      dispatch(setCommentsBranchLastWeek(response.data));
+    } catch (error) {
+      console.error("Error al cargar los comentarios de la última semana", error);
+    }
+  };
+};
+
+const fetchBranchCommentsById = (BranchId: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.get(`${URL}/branches/admin/${BranchId}/ratings/all`);
+      console.log("respuesta de peticion de la sucursal idd",response);
+      
+      dispatch(setCommentsBranch(response.data));
+    } catch (error) {
+      console.error("Error al cargar los comentarios del punto turístico", error);
+    }
+  };
+};
+
 export {
   fetchAllBranches,
   fetchBranchById,
@@ -110,5 +137,7 @@ export {
   updateBranchById,
   deleteBranchById,
   resetBranch,
-  inactivateBranch
+  inactivateBranch,
+  fetchBranchCommentsLastWeek,
+  fetchBranchCommentsById
 };

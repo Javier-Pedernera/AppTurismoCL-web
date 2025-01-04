@@ -8,6 +8,14 @@ export const translateStatusToSpanish = (status: string): string => {
         return 'Eliminado';
       case 'suspended':
         return 'Suspendido';
+      case 'pending':
+        return 'Pendiente';
+      case 'approved':
+        return 'Aprobado';
+      case 'rejected':
+        return 'Rechazado';
+      case 'edited':
+        return 'Editado';
       default:
         return status;
     }

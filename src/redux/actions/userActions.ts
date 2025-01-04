@@ -1,11 +1,11 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import UserLogin from "../../models/UserLogin";
-import { logOut, loginUser, setRoles, setStatuses, setUsers } from "../reducers/userReducer";
+import { logOut, loginUser, setCommentsTourist, setCommentsTouristLastWeek, setRoles, setStatuses, setUsers } from "../reducers/userReducer";
 import axios from "axios";
 import User from "../../models/User";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
-import { RootState } from "../store/store";
+import { AppDispatch, RootState } from "../store/store";
 import { Role } from "../../models/RoleModel";
 import { Status } from "../types/types";
 
@@ -269,5 +269,29 @@ const assignRoleToUser = (data: { role_ids: number[]; user_id: number; }) => {
 };
 
 
+const fetchTouristCommentsLastWeek = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.get(`${URL}/tourists/ratings/last-4-weeks`);
+      console.log("respuesta de peticion puntos turisticos", response);
+      
+      dispatch(setCommentsTouristLastWeek(response.data));
+    } catch (error) {
+      console.error("Error al cargar los comentarios de la última semana", error);
+    }
+  };
+};
 
-export { userLogIn, logOutUser,resetPassword,fetchAllUsers, fetchRoles, fetchStatuses, updateUser, assignRoleToUser, createUser, createPartnerUser };
+const fetchTouristCommentsById = (TouristId: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.get(`${URL}/tourists/${TouristId}/ratings/all`);
+      dispatch(setCommentsTourist(response.data));
+    } catch (error) {
+      console.error("Error al cargar los comentarios del punto turístico", error);
+    }
+  };
+};
+
+
+export { userLogIn, logOutUser,resetPassword,fetchAllUsers, fetchRoles, fetchStatuses, updateUser, assignRoleToUser, createUser, createPartnerUser,fetchTouristCommentsLastWeek, fetchTouristCommentsById };
