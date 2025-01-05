@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Typography, Card, Container, Grid, TextField } from '@mui/material';
+import { Button, Typography, Card, Container, TextField } from '@mui/material';
 import { Rating } from '@mui/material';
 import { FaPlusCircle, FaTimesCircle } from 'react-icons/fa';
 import { deleteTouristPointById, fetchTouristPointById, resetTouristPoint, updateTouristPointById } from '../redux/actions/touristPointActions';
@@ -180,157 +180,156 @@ const TouristPointDetail = () => {
     if (!touristPoint) return <Loader/>;
 
     return (
-        <Container className="tourist-point-detail">
-            
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
-                    <Card className="detail-card">
-                        {editMode ? (
-                            <>
-                                <TextField
-                                    label="Title"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    fullWidth
-                                    margin="normal"
-                                />
-                                <TextField
-                                    label="Description"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    fullWidth
-                                    margin="normal"
-                                    multiline
-                                    rows={4}
-                                />
-                                {/* Input para agregar nuevas imágenes */}
-                                <Button component="label" className="btnMore" startIcon={<FaPlusCircle />}>
-                                    Agregar Imágenes
-                                    <input type="file" accept="image/*" multiple hidden onChange={handleAddImage} />
-                                </Button>
-                            </>
-                        ) : (
-                            <>
-                             {!editMode &&<button className="back-button" onClick={handleBack}>
-                            <FaArrowLeft className="back-icon" />
-                          {!isMobile && <h4>   Volver</h4>}
-                         </button>}
-                            {selectedImage? <img src={URL+selectedImage} alt={touristPoint.title} className="detail-image" />:<img src={noimage} alt={"sin imagen"}className="detail-image"  />}
-                                {/* <img src={URL+selectedImage} alt={touristPoint.title} className="detail-image" /> */}
-                                <div className='listimages'>
-                                {images.map((image, index) => (
-                                        <Grid item key={index}>
-                                            <div className="thumbnail-wrapper-list">
-                                                <img
-                                                    src={URL+image.image_path}
-                                                    alt={`Thumbnail ${index}`}
-                                                    className="thumbnail"
-                                                    onClick={() => setSelectedImage(image.image_path)}
-                                                />
-                                                {editMode && (
-                                                    <FaTimesCircle
-                                                        className="remove-icon"
-                                                        onClick={() => handleRemoveImage(image, index)}
-                                                    />
-                                                )}
-                                            </div>
-                                        </Grid>
-                                    ))}
-                                </div>
-                           
-                                <Typography variant="h4">{touristPoint.title}</Typography>
-                                <Rating name="read-only" value={touristPoint.average_rating} readOnly precision={0.5} />
-                                <Typography className='descriptionTOur' variant="body1">{touristPoint.description}</Typography>
-                            </>
-                        )}
+        <Container className="tourist-point-detail" sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "20px" }}>
+      {/* Detalles y Galería */}
+      <div className="detail-content" >
+        <Card className="detail-card">
+          {editMode ? (
+            <>
+              <TextField
+                label="Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                fullWidth
+                margin="normal"
+                multiline
+                rows={4}
+              />
+              <Button component="label" className="btnMore" startIcon={<FaPlusCircle />}>
+                Agregar Imágenes
+                <input type="file" accept="image/*" multiple hidden onChange={handleAddImage} />
+              </Button>
+            </>
+          ) : (
+            <>
+              <button className="back-button" onClick={handleBack}>
+                <FaArrowLeft className="back-icon" />
+                {!isMobile && <h4>Volver</h4>}
+              </button>
+              {selectedImage ? (
+                <img src={URL + selectedImage} alt="selected" className="detail-image" />
+              ) : (
+                <img src={noimage} alt="sin imagen" className="detail-image" />
+              )}
+              <div className="listimages">
+                {images.map((image, index) => (
+                  <div key={index} className="thumbnail-wrapper-list">
+                    <img
+                      src={URL + image.image_path}
+                      alt={`Thumbnail ${index}`}
+                      className="thumbnail"
+                      onClick={() => setSelectedImage(image.image_path)}
+                    />
+                    {editMode && (
+                      <FaTimesCircle
+                        className="remove-icon"
+                        onClick={() => handleRemoveImage(image, index)}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+              <Typography variant="h4">{touristPoint.title}</Typography>
+              <Rating name="read-only" value={touristPoint.average_rating} readOnly precision={0.5} />
+              <Typography className="descriptionTour" variant="body1">{touristPoint.description}</Typography>
+            </>
+          )}
 
-                        <div className="buttons-container">
-                        {editMode ? (
-                                <>
-                                    <SaveButton onClick={handleSave} />
-                                    <CancelButton onClick={handleCancel} />
-                                </>
-                            ) : (
-                                <>
-                                    <EditButton onClick={handleEdit} />
-                                    <DeleteButton onClick={handleDelete} />
-                                </>
-                            )}
-                        </div>
-                    </Card>
+          <div className="buttons-container">
+            {editMode ? (
+              <>
+                <SaveButton onClick={handleSave} />
+                <CancelButton onClick={handleCancel} />
+              </>
+            ) : (
+              <>
+                <EditButton onClick={handleEdit} />
+                <DeleteButton onClick={handleDelete} />
+              </>
+            )}
+          </div>
+        </Card>
+        {/* Galería de miniaturas */}
+        <div className="thumbnails-container" style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+          {editMode &&
+            images.map((image, index) => (
+              <div key={index} className="thumbnail-wrapper">
+                <img
+                  src={URL + image.image_path}
+                  alt={`Thumbnail ${index}`}
+                  className="thumbnail"
+                  onClick={() => setSelectedImage(image.image_path)}
+                />
+                {editMode && (
+                  <button
+                    type="button"
+                    className="remove-icon"
+                    onClick={() => handleRemoveImage(image, index)}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 16 16">
+                      <path
+                        fill="#ce0000"
+                        fillRule="evenodd"
+                        d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM9 2H6v1h3zM4 13h7V4H4zm2-8H5v7h1zm1 0h1v7H7zm2 0h1v7H9z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            ))}
+        </div>
+        {/* Renderizar nuevas imágenes en base64 */}
+        {previewImages.map((base64Image, index) => (
+          <div key={`new-${index}`} className="thumbnail-wrapper">
+            <img
+              src={base64Image}
+              alt={`New Thumbnail ${index}`}
+              className="thumbnail"
+              onClick={() => setSelectedImage(base64Image)}
+            />
+            {editMode && (
+              <button
+                type="button"
+                className="remove-icon"
+                onClick={() => handleRemoveImage(base64Image, index)}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 16 16">
+                  <path
+                    fill="#ce0000"
+                    fillRule="evenodd"
+                    d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM9 2H6v1h3zM4 13h7V4H4zm2-8H5v7h1zm1 0h1v7H7zm2 0h1v7H9z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
 
-                    {/* Galería de miniaturas */}
-
-                   <Grid container spacing={1} className="thumbnails-container">
-                     {editMode &&
-                            (images.map((image, index) => (
-                                <Grid item key={index}>
-                                    <div className="thumbnail-wrapper">
-                                        <img
-                                            src={URL+image.image_path}
-                                            alt={`Thumbnail ${index}`}
-                                            className="thumbnail"
-                                            onClick={() => setSelectedImage(image.image_path)}
-                                        />
-                                        {editMode && (
-                                            <button
-                                            type="button"
-                                            className="remove-icon"
-                                            onClick={() => handleRemoveImage(image, index)}
-                                          >
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 16 16"><path fill="#ce0000" fillRule="evenodd" d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM9 2H6v1h3zM4 13h7V4H4zm2-8H5v7h1zm1 0h1v7H7zm2 0h1v7H9z" clipRule="evenodd"/></svg>
-                                          </button>
-                                        )}
-                                    </div>
-                                </Grid>
-                            )))
-                   }
-
-                            {/* Renderizar nuevas imágenes en base64 */}
-                            {previewImages.map((base64Image, index) => (
-                                <Grid item key={`new-${index}`}>
-                                    <div className="thumbnail-wrapper">
-                                        <img
-                                            src={base64Image}
-                                            alt={`New Thumbnail ${index}`}
-                                            className="thumbnail"
-                                            onClick={() => setSelectedImage(base64Image)}
-                                        />
-                                        {editMode && (
-                                            <button
-                                            type="button"
-                                            className="remove-icon"
-                                            onClick={() => handleRemoveImage(base64Image, index)}
-                                          >
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 16 16"><path fill="#ce0000" fillRule="evenodd" d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM9 2H6v1h3zM4 13h7V4H4zm2-8H5v7h1zm1 0h1v7H7zm2 0h1v7H9z" clipRule="evenodd"/></svg>
-                                          </button>
-                                            // <FaTimesCircle
-                                            //     className="remove-icon"
-                                            //     onClick={() => handleRemoveImage(base64Image, index)}
-                                            // />
-                                        )}
-                                    </div>
-                                </Grid>
-                            ))}
-                        </Grid>
-                </Grid>
-
-                {/* Mapa */}
-                <Grid item xs={12} md={6}>
-                    <Card className="map-card">
-                        <GoogleMapsProvider>
-                            <MapComponent
-                                center={location || { lat: touristPoint.latitude, lng: touristPoint.longitude }}
-                                onLocationChange={handleLocationChange}
-                                zoom={13}
-                                markerPosition={location || { lat: touristPoint.latitude, lng: touristPoint.longitude }}
-                                editMode={editMode} 
-                            />
-                        </GoogleMapsProvider>
-                    </Card>
-                </Grid>
-            </Grid>
-        </Container>
+      {/* Mapa */}
+      <div className="map-container-view" style={{ flex: "1 1 20%" }}>
+        <Card className="map-card">
+          <GoogleMapsProvider>
+            <MapComponent
+              center={{ lat: touristPoint.latitude, lng: touristPoint.longitude }}
+              onLocationChange={handleLocationChange}
+              zoom={13}
+              markerPosition={{ lat: touristPoint.latitude, lng: touristPoint.longitude }}
+              editMode={editMode}
+            />
+          </GoogleMapsProvider>
+        </Card>
+      </div>
+    </Container>
     );
 };
 

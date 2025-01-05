@@ -1,15 +1,20 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { TouristPoint } from "../../models/TouristPoint";
+import { TouristPointComment, TouristPointCommentId } from "../types/types";
 
 export interface TouristPointState {
     allTouristPoints: TouristPoint[];
     selectedTouristPoint: TouristPoint | null;
+    commentsLastWeek: TouristPointComment[];
+    commentsTouristPoint: TouristPointCommentId | null;
 }
 
 const initialState: TouristPointState = {
     allTouristPoints: [],
     selectedTouristPoint: null,
-};
+    commentsLastWeek: [],
+    commentsTouristPoint: null, 
+  };
 
 const touristPointSlice = createSlice({
     name: 'touristPoints',
@@ -40,7 +45,17 @@ const touristPointSlice = createSlice({
         },
         cleanTouristPoint: (state, action: PayloadAction<TouristPoint | null>) => {
               state.selectedTouristPoint = action.payload;
-            },
+        },
+        setCommentsLastWeek: (state, action: PayloadAction<TouristPointComment[]>) => {
+                state.commentsLastWeek = action.payload;
+        },
+        setCommentsTouristPoint: (state, action: PayloadAction<TouristPointCommentId>) => {
+                state.commentsTouristPoint = action.payload;
+        },
+        cleanCommentsTouristPoint: (state) => {
+            state.commentsLastWeek = [];
+            state.commentsTouristPoint = null;
+        },
     }
 });
 
@@ -50,7 +65,10 @@ export const {
     addTouristPoint,
     updateTouristPoint,
     deleteTouristPoint,
-    cleanTouristPoint
+    cleanTouristPoint,
+    setCommentsLastWeek,
+    setCommentsTouristPoint,
+    cleanCommentsTouristPoint
 } = touristPointSlice.actions;
 
 export default touristPointSlice.reducer;

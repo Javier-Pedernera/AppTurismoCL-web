@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { BranchComment, BranchCommentId } from "../types/types";
 
 export interface Branch {
   branch_id: number;
@@ -14,11 +15,15 @@ export interface Branch {
 export interface BranchState {
   allBranches: Branch[];
   selectedBranch: Branch | null;
+  commentsBranchLastWeek: BranchComment[];
+  commentsBranch: BranchCommentId | null;
 }
 
 const initialState: BranchState = {
   allBranches: [],
   selectedBranch: null,
+  commentsBranchLastWeek:[],
+  commentsBranch:null
 };
 
 const branchReducer = createSlice({
@@ -52,7 +57,16 @@ const branchReducer = createSlice({
         state.selectedBranch = null;
       }
     },
-
+    setCommentsBranchLastWeek: (state, action: PayloadAction<BranchComment[]>) => {
+        state.commentsBranchLastWeek = action.payload;
+    },
+    setCommentsBranch: (state, action: PayloadAction<BranchCommentId>) => {
+        state.commentsBranch = action.payload;
+    },
+    cleanCommentsBranch: (state) => {
+        state.commentsBranchLastWeek = [];
+        state.commentsBranch = null;
+    },
   },
 });
 
@@ -62,7 +76,10 @@ export const {
   addBranch,
   updateBranch,
   deleteBranch,
-  cleanBranch
+  cleanBranch,
+  setCommentsBranchLastWeek,
+  setCommentsBranch,
+  cleanCommentsBranch
 } = branchReducer.actions;
 
 export default branchReducer.reducer;

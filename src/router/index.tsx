@@ -228,7 +228,7 @@ export const routes: RouteProps[] = [
     },
     {
         path: "/comments-moderation",
-        element: lazy(async () => await import("../pages/UnderConstruction")),
+        element: lazy(async () => await import("../pages/CommentModeration")),
         name: "Moderar Comentarios",
         layout: lazy(async () => await import("../pages/Layout/layout")),
         authorization: {

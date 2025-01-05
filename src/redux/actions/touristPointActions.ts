@@ -6,9 +6,12 @@ import {
   addTouristPoint,
   updateTouristPoint,
   deleteTouristPoint,
-  cleanTouristPoint
+  cleanTouristPoint,
+  setCommentsLastWeek,
+  setCommentsTouristPoint
 } from "../reducers/touristPointsReducer";
 import { TouristPointCreate } from "../../models/TouristPoint";
+import { AppDispatch } from "../store/store";
 
 
 const URL = import.meta.env.VITE_API_URL;
@@ -92,11 +95,39 @@ const resetTouristPoint = () => {
   };
 };
 
+const fetchTouristPointCommentsLastWeek = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.get(`${URL}/tourist_points/ratings/last_week`);
+      console.log("respuesta de peticion puntos turisticos", response);
+      
+      dispatch(setCommentsLastWeek(response.data));
+    } catch (error) {
+      console.error("Error al cargar los comentarios de la última semana", error);
+    }
+  };
+};
+
+const fetchTouristPointCommentsById = (touristPointId: number) => {
+  return async (dispatch: AppDispatch) => {
+    console.log(`${URL}/v2/tourist_points/${touristPointId}/ratings`);
+    
+    try {
+      const response = await axios.get(`${URL}/v2/tourist_points/${touristPointId}/ratings`);
+      dispatch(setCommentsTouristPoint(response.data));
+    } catch (error) {
+      console.error("Error al cargar los comentarios del punto turístico", error);
+    }
+  };
+};
+
 export {
   fetchAllTouristPoints,
   fetchTouristPointById,
   createTouristPoint,
   updateTouristPointById,
   deleteTouristPointById,
-  resetTouristPoint
-};
+  resetTouristPoint,
+  fetchTouristPointCommentsLastWeek,
+  fetchTouristPointCommentsById
+}
