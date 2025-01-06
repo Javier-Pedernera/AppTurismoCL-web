@@ -20,7 +20,7 @@ interface EditBranchModalProps {
 const URL = import.meta.env.VITE_API_URL;
 
 const EditBranchModal: React.FC<EditBranchModalProps> = ({ showModal, branch, onClose, branchId }) => {
-    console.log("id de la sucursal", branchId);
+    // console.log("id de la sucursal", branchId);
     
   const dispatch = useAppDispatch();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
