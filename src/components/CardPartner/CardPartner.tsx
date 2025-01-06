@@ -83,7 +83,7 @@ const [imagePreview, setImagePreview] = useState(partner.user.image_url || '');
       }
 
       const updateUserAction = await dispatch(updateUser(userData)); 
-      console.log("updateUserAction______________", updateUserAction);
+      // console.log("updateUserAction______________", updateUserAction);
       if (updateUserAction?.status == 200) {
         const partnerData = {
             address,
