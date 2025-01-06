@@ -59,10 +59,10 @@ useEffect(() => {
     // Cargar los comentarios de acuerdo con el tipo seleccionado
     if (commentType === 'touristPoint') {
       dispatch(fetchTouristPointCommentsLastWeek());
-      setPlaceholderInput('Nombre del punto turístico')
+    //   setPlaceholderInput('Nombre del punto turístico')
     } else if (commentType === 'branch') {
       dispatch(fetchBranchCommentsLastWeek());
-      setPlaceholderInput('Nombre de sucursal')
+    //   setPlaceholderInput('Nombre de sucursal')
     } else if (commentType === 'tourist') {
       dispatch(fetchTouristCommentsLastWeek());
       setPlaceholderInput('Email del turista')
@@ -163,7 +163,7 @@ useEffect(() => {
     }).then((result:any) => {
       if (result.isConfirmed) {
         dispatch(approveComment(selectedComment.id, commentType));
-        console.log('Comentario aprobado:', selectedComment.id, commentType);
+        // console.log('Comentario aprobado:', selectedComment.id, commentType);
         closeModal();
         Swal.fire('Aprobado', 'El comentario ha sido aprobado.', 'success');
       }
@@ -180,7 +180,7 @@ useEffect(() => {
     }).then((result:any) => {
       if (result.isConfirmed) {
         dispatch(rejectComment(selectedComment.id, commentType));
-        console.log('Comentario rechazado:', selectedComment, commentType);
+        // console.log('Comentario rechazado:', selectedComment, commentType);
         closeModal();
         Swal.fire('Rechazado', 'El comentario ha sido rechazado.', 'success');
       }
@@ -356,8 +356,8 @@ useEffect(() => {
               {new Date(selectedComment.created_at).toLocaleDateString()}
             </p>
             <div className="modal-actions">
-              <button onClick={handleApprove}>Aprobar</button>
-              <button onClick={handleReject}>Rechazar</button>
+             {selectedComment.status.name !=='approved' && <button onClick={handleApprove}>Aprobar</button>}
+             {selectedComment.status.name !=='rejected' &&<button onClick={handleReject}>Rechazar</button>}
             </div>
           </div>
         </div>
