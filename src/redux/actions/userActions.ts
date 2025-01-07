@@ -111,7 +111,7 @@ const userLogIn = (user: UserLogin | null, token: string) => {
         }
 
         // Guardamos el token en las cookies si es admin
-        Cookies.set("data", response.data.token, { expires: 3 });
+        Cookies.set("data", response.data.token, { expires: 7 });
         // Despachamos la acción de loginUser
         const res = dispatch(loginUser(userData));
         return res;

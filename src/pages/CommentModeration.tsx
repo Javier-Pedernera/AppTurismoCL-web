@@ -196,7 +196,7 @@ useEffect(() => {
           value={commentType}
           onChange={(e) => setCommentType(e.target.value as CommentType)}
         >
-          <option value="notType">Selecciona tipo de comentario</option>
+          <option className='notType' value="notType">Selecciona tipo de comentario</option>
           <option value="touristPoint">Punto Turístico</option>
           <option value="branch">Sucursal</option>
           {/* <option value="tourist">Turista</option> */}
@@ -309,11 +309,11 @@ useEffect(() => {
           </tbody>
         </table>
       ) : (
-        <p className='notcomment'>{commentType === 'notType'? 'Elige un tipo de commentario.': 'No se encontraron comentarios para el ítem seleccionado.'}</p>
+        <p className={commentType === 'notType'? 'notType':'notcomment'}>{commentType === 'notType'? 'Elige un tipo de commentario.': 'No se encontraron comentarios para el ítem seleccionado.'}</p>
       )}
       {showModal && selectedComment && (
         <div className="modal">
-          <div className="modal-content">
+          <div className="modal-content-branch">
             <button className="closeBtnX" onClick={closeModal}>
               X
             </button>
@@ -355,7 +355,7 @@ useEffect(() => {
               <strong>Fecha:</strong>{" "}
               {new Date(selectedComment.created_at).toLocaleDateString()}
             </p>
-            <div className="modal-actions">
+            <div className="modal-actions-branch">
              {selectedComment.status.name !=='approved' && <button onClick={handleApprove}>Aprobar</button>}
              {selectedComment.status.name !=='rejected' &&<button onClick={handleReject}>Rechazar</button>}
             </div>

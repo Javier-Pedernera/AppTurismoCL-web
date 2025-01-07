@@ -16,7 +16,7 @@ const BranchesTable = () => {
   const dispatch = useAppDispatch();
   const branches = useAppSelector((state: any) => state.branches.allBranches);
   const [currentPage, setCurrentPage] = useState(1);
-  const branchesPerPage = isMobile? 10 : 6;
+  const branchesPerPage = isMobile? 10 : 7;
 // console.log("sucursales en tabla",branches);
 
 const indexOfLastBranch = currentPage * branchesPerPage;
@@ -50,11 +50,11 @@ const indexOfLastBranch = currentPage * branchesPerPage;
         <tbody>
           {currentBranches.map((branch:Branch) => (
             <tr key={branch.branch_id}>
-              <td>
+              <td className="image-column">
                 {branch && branch.image_url? <img src={`${URL}${branch.image_url}`} alt={branch.name} className="branch-image" />:<img src={noimage} alt={branch.name} className="branch-image" />}
               </td>
               <td>{branch.name}</td>
-              <td>{translateStatusToSpanish(branch.status.name)}</td>
+              <td>{branch?.status ? translateStatusToSpanish(branch.status.name) : 'Estado no disponible'}</td>
               <td>
                 <Link to={`/branches/${branch.branch_id}`} className="edit-link">Ver</Link>
               </td>
