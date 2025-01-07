@@ -167,7 +167,7 @@ const BranchDetails = () => {
           <Switch
             checked={isActive}
             onChange={(e) => handleInactivate(e.target.checked)}
-            color="primary"
+            // color="primary"
             sx={{
               '& .MuiSwitch-thumb': {
                 backgroundColor: '#007a8c',
@@ -181,9 +181,9 @@ const BranchDetails = () => {
               '& .MuiSwitch-switchBase': {
                 color: '#d1d1d1', 
               },
-              '&:hover': {
-                backgroundColor: '#005e6b',
-              },
+              // '&:hover': {
+              //   backgroundColor: '#005e6b',
+              // },
             }}
           />
         </div>
@@ -222,11 +222,11 @@ const BranchDetails = () => {
             fontSize: '1.2rem',
           },
           '& .MuiDialogContent-root': {
-            padding: '20px',
             backgroundColor: 'rgba(2, 122, 140,0.1)',
             textAlign: 'center', 
             fontSize: '1rem', 
             minWidth: '20%', 
+            padding: '50px ', 
           },
           '& .MuiDialogActions-root': {
             justifyContent: 'center',

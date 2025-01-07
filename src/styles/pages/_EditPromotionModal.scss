@@ -19,6 +19,7 @@
     overflow-y: auto;
   }
   &.is-open {
+    min-height: 100%;
     opacity: 1;
     pointer-events: auto;
     z-index: 15;
@@ -29,29 +30,30 @@
     padding: 2rem;
     border-radius: 8px;
     width: 100%;
-    max-height: 800px;
+    max-height: 500px;
     max-width: 90%;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    height: 80%;
     @media (max-width: 768px) {
       max-width: 90%;
-      // max-height: 90%;
+      max-height: 90vh;
       overflow-y: auto;
     }
     h2 {
-      margin-bottom: 1.5rem;
-      font-size: 1.5rem;
-      color: #333;
       text-align: center;
+      font-size: 1.2rem;
+      color: #027A8C;
+      margin-bottom: 1.1rem;
     }
 
     label {
       display: flex;
       flex-direction: column;
       margin-bottom: 1rem;
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: #555;
 
       input,
@@ -60,7 +62,7 @@
         padding: 0.5rem;
         font-size: 1rem;
         border-radius: 4px;
-        border: 1px solid #ddd;
+        border: 1px solid #00798c83;
         transition: border-color 0.3s ease;
 
         &:focus {
@@ -124,7 +126,7 @@
   padding: 0.5rem;
   font-size: 1rem;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  border: 1px solid #00798c83;
   transition: border-color 0.3s ease;
   outline: none;
 
@@ -273,4 +275,52 @@
 
 .estado {
   width: 100%;
+}
+.checklist-container {
+  max-height: 430px; 
+  overflow-y: auto; 
+  border: 1px solid #fff;
+  padding: 8px; 
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 8px; /* Ancho del scroll */
+  height: 8px; /* Alto del scroll horizontal, si existe */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #007a8c;
+  border-radius: 4px; 
+  border: 2px solid #f9f9f9; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #005f6d; 
+}
+
+::-webkit-scrollbar-track {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+}
+
+/* Para asegurar compatibilidad con Firefox */
+.scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: #007a8c #e0e0e0; 
+}
+
+/* Contenedor de la lista de categorías */
+.checklist-container {
+  max-height: 430px; 
+  overflow-y: auto;
+  border: 1px solid #fbfbfb;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #fff;
+
+  /* Aplica estilos personalizados al scroll */
+  scrollbar-width: thin;
+  scrollbar-color: #007a8c #e0e0e0;
 }

@@ -35,12 +35,52 @@ const AllPromotions = () => {
     const [nameFilter, setNameFilter] = useState('');
     const [startDateFilter, setStartDateFilter] = useState('');
     const [endDateFilter, setEndDateFilter] = useState('');
-    const [availableQuantityFilter, setAvailableQuantityFilter] = useState('');
-    const [discountFilter, setDiscountFilter] = useState('');
+    const [availableQuantityFilter, setAvailableQuantityFilter] = useState<number | null>(null);
+    const [discountFilter, setDiscountFilter] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
+    const [discountError, setDiscountError] = useState('');
+    const [quantityError, setQuantityError] = useState('');
+    const [itemsPerPage, setItemsPerPage] = useState(5);
     
+ const MIN_DISCOUNT = 0;
+    const MAX_DISCOUNT = 100;
+    const MIN_QUANTITY = 0;
+    const MAX_QUANTITY = 10000;
 
+    const handleDiscountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseFloat(e.target.value);
+        if (value) {
+            if (validateDiscount(value)) setDiscountFilter(value);
+        } else {
+            setDiscountFilter(null);
+        }
+    };
+
+    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(e.target.value);
+        if (value) {
+            if (validateQuantity(value)) setAvailableQuantityFilter(value);
+        } else {
+            setAvailableQuantityFilter(null);
+        }
+    };
+    const validateDiscount = (value: number) => {
+        if (value < MIN_DISCOUNT || value > MAX_DISCOUNT) {
+            setDiscountError(`El descuento debe estar entre ${MIN_DISCOUNT}% y ${MAX_DISCOUNT}%.`);
+            return false;
+        }
+        setDiscountError('');
+        return true;
+    };
+
+    const validateQuantity = (value: number) => {
+        if (value < MIN_QUANTITY || value > MAX_QUANTITY) {
+            setQuantityError(`La cantidad debe estar entre ${MIN_QUANTITY} y ${MAX_QUANTITY}.`);
+            return false;
+        }
+        setQuantityError('');
+        return true;
+    };
     useEffect(() => {
         dispatch(fetchAllPromotions());
         dispatch(fetchStatuses());
@@ -56,8 +96,8 @@ const AllPromotions = () => {
             (nameFilter === '' || promotion.title.toLowerCase().includes(nameFilter.toLowerCase())) &&
             (startDateFilter === '' || promotion.start_date >= startDateFilter) &&
             (endDateFilter === '' || promotion.expiration_date <= endDateFilter) &&
-            (availableQuantityFilter === '' || promotion.available_quantity >= parseInt(availableQuantityFilter)) &&
-            (discountFilter === '' || promotion.discount_percentage >= parseFloat(discountFilter))
+            (availableQuantityFilter === null || promotion.available_quantity >= availableQuantityFilter) &&
+            (discountFilter === null || promotion.discount_percentage >= discountFilter)
         );
     });
     const totalPages = Math.ceil(filteredPromotions.length / itemsPerPage);
@@ -97,11 +137,14 @@ const AllPromotions = () => {
         // setCreateModalOpen(false);
     };
     const handleClearFilters = () => {
+        setDiscountError('');
+        setQuantityError('')
         setNameFilter('');
         setStartDateFilter('');
         setEndDateFilter('');
-        setAvailableQuantityFilter('');
-        setDiscountFilter('');
+        setAvailableQuantityFilter(null);
+        setDiscountFilter(null);
+        setCurrentPage(1)
     };
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage);
@@ -114,7 +157,10 @@ const AllPromotions = () => {
         deleted: 'Eliminada',
     };
     // console.log("buscando rol asociado",userData.roles.find(role => role.role_name.toLowerCase() === 'associated'));
-    
+    const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setItemsPerPage(Number(e.target.value));
+        setCurrentPage(1); // Reset the page to 1 when items per page changes
+    };
     return (
         <div className="promotions-list">
             {userData && userData.roles.find(role => role.role_name.toLowerCase() === 'associated') &&
@@ -123,7 +169,14 @@ const AllPromotions = () => {
             </div>
             }
             <h2>Promociones Disponibles</h2>
-
+            <div className="items-per-page">
+                    <label htmlFor="itemsPerPage">Promociones por página:</label>
+                    <select value={itemsPerPage} onChange={handleItemsPerPageChange}>
+                        <option value={10}>10</option>
+                        <option value={20}>20</option>
+                        <option value={40}>40</option>
+                    </select>
+                </div>
             {/* Filtros */}
             <div className="filters">
                 <input
@@ -150,18 +203,26 @@ const AllPromotions = () => {
                     <label htmlFor="startDate">Promoción Expira</label>
                 </div>
 
-                <input
-                    type="number"
-                    placeholder="Cantidad disponible"
-                    value={availableQuantityFilter}
-                    onChange={(e) => setAvailableQuantityFilter(e.target.value)}
-                />
-                <input
-                    type="number"
-                    placeholder="Descuento mínimo (%)"
-                    value={discountFilter}
-                    onChange={(e) => setDiscountFilter(e.target.value)}
-                />
+                <div className='contError'>
+                    <input
+                        type="number"
+                        placeholder="Cantidad disponible"
+                        value={availableQuantityFilter !== null ? availableQuantityFilter : ''}
+                        onChange={handleQuantityChange}
+                        className="inputnumber"
+                    />
+                    {quantityError && <span className="error">{quantityError}</span>}
+                </div>
+                <div className='contError'>
+                    <input
+                        type="number"
+                        placeholder={`Descuento mínimo (%)`}
+                        value={discountFilter !== null ? discountFilter : ''}
+                        onChange={handleDiscountChange}
+                        className="inputnumber"
+                    />
+                    {discountError && <span className="error">{discountError}</span>}
+                </div>
                 <button className='clearBtn' onClick={handleClearFilters}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024"><path fill="currentColor" d="m899.1 869.6l-53-305.6H864c14.4 0 26-11.6 26-26V346c0-14.4-11.6-26-26-26H618V138c0-14.4-11.6-26-26-26H432c-14.4 0-26 11.6-26 26v182H160c-14.4 0-26 11.6-26 26v192c0 14.4 11.6 26 26 26h17.9l-53 305.6c-.3 1.5-.4 3-.4 4.4c0 14.4 11.6 26 26 26h723c1.5 0 3-.1 4.4-.4c14.2-2.4 23.7-15.9 21.2-30M204 390h272V182h72v208h272v104H204zm468 440V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H416V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H202.8l45.1-260H776l45.1 260z" /></svg>Limpiar Filtros</button>
             </div>
@@ -177,8 +238,8 @@ const AllPromotions = () => {
                             <th className='align-center'>Fecha de Inicio</th>
                             <th className='align-center'>Fecha de Expiración</th>
                             <th className='align-center'>Cantidad Disponible</th>
-                            <th className='align-center'>Cantidad Consumidas</th>
                             <th className='align-center'>Descuento (%)</th>
+                            <th className='align-center'>Cantidad Consumidas</th>
                             <th className='align-center'>Estado</th>
                             <th className='align-center'>Acciones</th>
                         </tr>
@@ -186,12 +247,12 @@ const AllPromotions = () => {
                     <tbody>
                             {paginatedPromotions.map((promotion: any) => (
                                 <tr key={promotion.promotion_id}>
-                                    <td>{promotion.title}</td>
+                                    <td>{promotion.title.length > 15 ? `${promotion.title.slice(0, 15)}...` : promotion.title}</td>
                                     <td className='align-center'>{formatDateTo_DD_MM_AAAA(promotion.start_date)}</td>
                                     <td className='align-center'>{formatDateTo_DD_MM_AAAA(promotion.expiration_date)}</td>
                                     <td className='align-center'>{promotion.available_quantity || 'Sin límite'}</td>
-                                    <td className='align-center'>{promotion.consumed_quantity || 0}</td>
                                     <td className='align-center'>{promotion.discount_percentage}</td>
+                                    <td className='align-center'>{promotion.consumed_quantity || 0}</td>
                                     <td 
                                         className={`align-center ${
                                             promotion.status?.name === 'active' ? 'status-active' :

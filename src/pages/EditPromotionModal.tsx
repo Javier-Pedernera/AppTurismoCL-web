@@ -3,6 +3,7 @@ import { PromotionUpdateModel } from '../models/PromotionModel';
 import { useAppSelector } from '../redux/store/hooks';
 import '../styles/pages/_EditPromotionModal.scss';
 import { compressAndConvertToBase64 } from '../utils/imageUtils';
+import { translateStatusToSpanish } from '../utils/utils';
 
 
 interface EditPromotionModalProps {
@@ -34,7 +35,7 @@ const EditPromotionModal: React.FC<EditPromotionModalProps> = ({ idPromo, isOpen
 
     console.log("estados", statuses);
     // console.log("categorias",categories);
-
+    console.log("promocion",promotion);
     // console.log("imagenes comprimidas",newImages);
     // console.log("imagenes eliminadas",deletedImageIds);
 
@@ -169,10 +170,12 @@ const EditPromotionModal: React.FC<EditPromotionModalProps> = ({ idPromo, isOpen
                                 value={status?.id || ""}
                                 onChange={(e) => handleStatusChange(Number(e.target.value))}
                             >
-                                {statuses.map((statusOption) => (
+                                {statuses.map((statusOption:any) => (
+                                     statusOption.name == 'active' || statusOption.name == 'inactive'?
                                     <option key={statusOption.id} value={statusOption.id}>
-                                        {statusOption.name}
-                                    </option>
+                                        {translateStatusToSpanish(statusOption.name) }
+                                    </option>:null
+                                
                                 ))}
                             </select>
                         </label>
@@ -182,7 +185,7 @@ const EditPromotionModal: React.FC<EditPromotionModalProps> = ({ idPromo, isOpen
                     <div className='Section_der'>
                         <label>
                             Categorías:
-                            <div>
+                            <div className="checklist-container">
                                 {categories?.map(category => (
                                     <div className='check_cat' key={category.category_id}>
                                         <input

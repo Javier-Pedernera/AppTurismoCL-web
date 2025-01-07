@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.3rem;
     padding-left:10%;
     background-color: #fff;
     border-radius: 12px;
@@ -24,7 +24,7 @@
       border-radius: 8px;
       object-fit: cover;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      max-height: 300px;
+      max-height: 250px;
       @media (max-width: 600px) {
         max-width: 300px;
         max-width: 90%;
@@ -32,7 +32,7 @@
     }
   
     &__title {
-      font-size: 1.8rem;
+      font-size: 1.4rem;
       font-weight: bold;
       color: var(--primary-color);
       text-align: center;
@@ -42,7 +42,7 @@
     }
   
     &__description {
-      font-size: 1.2rem;
+      font-size: 1rem;
       color: #555;
       text-align: justify;
       line-height: 1.5;
@@ -57,7 +57,7 @@
     }
   
     &__address {
-      font-size: 1.2rem;
+      font-size: 1rem;
       color: #777;
       font-style: italic;
       @media (max-width: 600px) {
@@ -75,6 +75,7 @@
       text-transform: capitalize;
       margin-top: 3%;
       &--active {
+        font-size: 1.1rem;
         color: #fff;
         background-color: var(--primary-color);
       }

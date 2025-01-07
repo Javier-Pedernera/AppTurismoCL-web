@@ -15,7 +15,7 @@ const URL = import.meta.env.VITE_API_URL;
 const fetchAllPromotions = () => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.get(`${URL}/promotions`);
+      const response = await axios.get(`${URL}/v2/promotions`);
       dispatch(setAllPromotions(response.data));
     } catch (error) {
       console.error("Error al obtener todas las promociones:", error);
@@ -51,7 +51,7 @@ const fetchPromotionById = (promotionId: number) => {
 const createPromotion = (promotionData: Promotion) => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.post(`${URL}//promotions`, promotionData);
+      const response = await axios.post(`${URL}/promotions`, promotionData);
       // console.log("respuesta de la creacion", promotionData);
       
       dispatch(addPromotion(response.data));

@@ -20,7 +20,26 @@
             margin-top: 10px;
         }
     }
+.items-per-page{
+    font-size: 0.8rem;
+    select {
+        max-width: 150px;
+        max-height: 30px;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        background-color: #a8e9f317;
+        font-size: 0.7rem;
+        transition: border-color 0.3s ease;
+        margin-left: 20px;
+        cursor: pointer;
 
+        &:focus {
+            border-color: var(--greenSoft-color);
+            outline: none;
+        }
+    }
+}
     .filters {
         display: flex;
         flex-wrap: wrap;
@@ -32,7 +51,7 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
         input {
-            height: 40px;
+            max-height: 40px;
             flex: 1;
             padding: 10px;
             border: 1px solid #ccc;
@@ -276,14 +295,19 @@
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch; 
-
+    min-height: 60%;
     .promotions-table {
         min-width: 600px;
     }
 }
 .pagination {
+    // position: absolute;
+    bottom: 0;
     display: flex;
     justify-content: center;
+    height: -webkit-fill-available;
+    align-items: flex-end;
+    width: 90%;
     @media (max-width: 480px) {
         margin-top: 20px;
         gap: 5px;
@@ -323,4 +347,15 @@
     //     }
     // }
 }
-
+.inputnumber{
+    max-width: 180px;
+    max-height: 40px;
+}
+.contError{
+    display: flex;
+    flex-direction: column;
+  .error{
+    color: #af2432;
+    font-size: 0.6rem;
+}  
+}

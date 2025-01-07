@@ -16,6 +16,8 @@ export const translateStatusToSpanish = (status: string): string => {
         return 'Rechazado';
       case 'edited':
         return 'Editado';
+      case 'archived':
+        return 'Archivado';  
       default:
         return status;
     }
