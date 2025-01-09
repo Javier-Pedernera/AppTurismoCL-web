@@ -21,7 +21,7 @@ const RedirectToAppStore = () => {
       window.location.href = appStoreUrl;
     } else {
       // Si no es Android ni iOS, redirigir a una URL genérica (opcional)
-      window.location.href = 'https://seal-app-dx4lr.ondigitalocean.app';
+      window.location.href = 'https://www.cobquecurapp.cl';
     }
 
     // Agregar un tiempo de espera para permitir que la app se abra (fallback en caso de no abrirse)
