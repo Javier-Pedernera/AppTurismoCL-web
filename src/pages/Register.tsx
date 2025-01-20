@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../styles/pages/Register.scss';
 import { FieldError, useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import logo from "../assets/logo.png";
 import logo2 from "../assets/logo2.png";
@@ -12,6 +11,7 @@ import Loader from '../components/Loader/Loader';
 import { fetchRoles, fetchStatuses } from '../redux/actions/userActions';
 import {fetchCountries } from '../redux/actions/globalDataActions';
 import { useMediaQuery } from 'react-responsive';
+import apiClient from '../api/axiosConfig';
 
 // Actualiza el modelo para reflejar los nuevos campos
 interface UserRegister {
@@ -70,7 +70,7 @@ const Register = () => {
     try {
       // Registro del usuario
       setIsLoading(true);
-      const userResponse = await axios.post(`${URL}/signup`, userData);
+      const userResponse = await apiClient.post(`${URL}/signup`, userData);
       
       // console.log("respuesta de creacion de usuario", userResponse);
       
@@ -87,13 +87,13 @@ const Register = () => {
           category_ids: [],
         };
   
-        const touristResponse = await axios.post(`${URL}/tourists`, touristData);
+        const touristResponse = await apiClient.post(`${URL}/tourists`, touristData);
         // console.log("respuesta de creacion de turista", touristResponse);
         // Asignar el rol de turista si el registro del turista fue exitoso
         if (touristResponse.status === 201 || touristResponse.status === 200) {
           const touristRole = roles.find(role => role.role_name === 'tourist');
           if (touristRole) {
-            const responseRol = await axios.post(`${URL}/assign_roles_to_user`, {
+            const responseRol = await apiClient.post(`${URL}/assign_roles_to_user`, {
               role_ids: [touristRole.role_id],
               user_id: userId,
             });
