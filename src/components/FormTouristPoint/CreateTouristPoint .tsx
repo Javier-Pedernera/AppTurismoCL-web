@@ -24,7 +24,7 @@ const CreateTouristPointForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
                                         
 
-console.log("ubicacion en el formulario",location);
+// console.log("ubicacion en el formulario",location);
   const Toast = Swal.mixin({
     toast: true,
     position: "center",
@@ -146,7 +146,7 @@ console.log("ubicacion en el formulario",location);
         <p><strong>Longitud:</strong> {location.lng}</p>
       </div>
       <div className='contBtns'>
-            <button type="submit" disabled={isSubmitDisabled}>Crear</button>
+            <button type="submit" className='subbtn' disabled={isSubmitDisabled}>Crear</button>
             <button className='cancelbtn' onClick={handleCancel}>Cancelar</button>
       </div>
             

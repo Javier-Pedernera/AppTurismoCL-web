@@ -3,34 +3,57 @@
     margin-left: 5%;
     padding: 20px;
     background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
     // border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-image: url(../../assets/images/fondo-poli.svg);
-
-    h2 {
+    padding-top: 10%;
+    & h2 {
         text-align: center;
-        font-size: 2rem;
-        color: #333;
-        margin-bottom: 20px;
+        font-size: 1.2rem;
+        color: #027A8C;
+        margin-bottom: 10px;
         @media (max-width: 480px) {
             font-size: 1rem;
             margin-bottom: 0px;
             margin-top: 10px;
         }
     }
+.items-per-page{
+    font-size: 0.8rem;
+    color: #027A8C;
+    select {
+        max-width: 150px;
+        max-height: 30px;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        color: #027A8C;
+        background-color: transparent;
+        font-size: 0.7rem;
+        transition: border-color 0.3s ease;
+        margin-left: 20px;
+        cursor: pointer;
 
+        &:focus {
+            border-color: var(--greenSoft-color);
+            outline: none;
+        }
+    }
+}
     .filters {
         display: flex;
         flex-wrap: wrap;
         gap: 15px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         padding: 15px;
         background-color: #fff;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
         input {
-            height: 40px;
+            max-height: 40px;
             flex: 1;
             padding: 10px;
             border: 1px solid #ccc;
@@ -62,23 +85,24 @@
             th {
                 padding: 12px 15px;
                 text-align: left;
-                font-size: 1rem;
+                font-size: 0.8rem;
                 @media (max-width: 480px) {
                     font-size: 0.8rem;
                 }
             }
         }
 
-        tbody {
+        & tbody {
             tr {
                 &:hover {
                     background-color: #f1f1f1;
+                    
                 }
 
                 td {
-                    padding: 12px 15px;
+                    padding: 0px 10px;
                     border-bottom: 1px solid #ddd;
-                    font-size: 1rem;
+                    font-size: 0.9rem;
                     color: #333;
                     @media (max-width: 480px) {
                         font-size: 0.8rem;
@@ -114,6 +138,8 @@
     }
     @media (max-width: 480px) {
         height: 100%;
+        margin-left: 10%;
+        padding-top: 10%;
     }
 }
 
@@ -144,6 +170,17 @@
 
 .align-center {
     text-align: center !important;
+    &.status-active {
+        color: green !important;
+    }
+    
+    &.status-inactive {
+        color: orange !important;;
+    }
+    
+    &.status-deleted {
+        color: red !important;;
+    }
 }
 
 .filtroFechas {
@@ -227,7 +264,7 @@
 @media (max-width: 480px) {
     .promotions-list {
         padding: 10px;
-        
+        padding-top: 100px;
     }
 
     h2 {
@@ -260,48 +297,34 @@
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch; 
-
+    min-height: 60%;
     .promotions-table {
         min-width: 600px;
-        margin-left: 5px;
     }
 }
 .pagination {
+    // position: absolute;
+    bottom: 0;
     display: flex;
     justify-content: center;
-    margin: 20px 0;
-
-    & button {
-        // background-color: #f1f1f1;
-        border: 1px solid #ccc;
-        padding: 8px 15px;
-        margin: 0 5px;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        font-size: 1rem;
-        color: #333;
-        outline: none;
-        @media (max-width: 480px) {
-            padding: 4px 8px;
-            border-radius: 5px;
-        }
-        &:hover {
-            background-color: #ddd;
-            // color: #000;
-        }
-
-        &.active {
-            background-color: var(--primary-color-active);
-            color: #fff;
-            border: none;
-            pointer-events: none;
-        }
-
-        &:disabled {
-            background-color: #e9ecef;
-            color: #6c757d;
-            cursor: not-allowed;
-        }
+    height: -webkit-fill-available;
+    align-items: flex-end;
+    width: 90%;
+    @media (max-width: 480px) {
+        margin-top: 20px;
+        gap: 5px;
+        margin-left: 0px;
     }
+}
+.inputnumber{
+    max-width: 180px;
+    max-height: 40px;
+}
+.contError{
+    display: flex;
+    flex-direction: column;
+  .error{
+    color: #af2432;
+    font-size: 0.6rem;
+}  
 }

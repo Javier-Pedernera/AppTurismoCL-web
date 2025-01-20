@@ -7,13 +7,36 @@
     // flex-wrap: wrap;
     flex-direction: row;
     align-content: center;
-    align-items: center;
-    z-index: 1;
+    align-items: center;position: absolute;
+    top: 0;
+    z-index: 10;
     justify-content: space-between;
+    background-color: (--primary-color);
     @media (max-width: 500px) {
-      flex-direction: row;
-      padding: 15px;
+      padding-top: 0;
+        height: 80px;
+        flex-direction: row;
+        align-items: flex-end;
+        padding: 15px;
+        background-color: var(--primary-color);
+    }
+  }
+  .customText {
+    font-family: var(--font-buckwheat);
+    font-size: 0.8rem;
+    font-weight: normal;
+    color: #e7e7e7;
+    white-space: nowrap;
+    @media (max-width: 500px) {
+      font-size: 0.6rem;
 
+    }
+  }
+  .textCCTDC{
+    width: auto;
+    margin-left: 10px;
+    @media (max-width: 500px) {
+     width: 70%;
     }
   }
   .divLogo{
@@ -23,7 +46,12 @@
     padding-top: 1%;
     padding-bottom: 1%;
     padding-left: 2%;
-    
+    z-index: 10;
+    & a{
+      display: flex;
+      width: 100%;
+      align-items: flex-end;
+    }
     img{
       width: 50%;
       &:hover {
@@ -31,7 +59,15 @@
     }
     }
     @media (max-width: 500px) {
-      width: 30%;
+      display: flex;
+      flex-direction: row;
+      width: 50%;
+      img{
+        width: 30%;
+        &:hover {
+          cursor: pointer;
+      }
+      }
     }
     &:hover {
     cursor: pointer;
@@ -77,15 +113,18 @@
   }
   .route{
     color:  var(--grey-color);
-    font-size: 1rem;
+    font-size: 1.3rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     &:hover {
-      color: var(--primary-color);
+      color: var(--primarySoft-color);
       // text-shadow: 0.5px 0.5px 0.5px var(--greenSoft-color);
       cursor: pointer;
+  }
+  @media (max-width: 500px) {
+    font-size: 0.8rem;
   }
   }
   .userName{

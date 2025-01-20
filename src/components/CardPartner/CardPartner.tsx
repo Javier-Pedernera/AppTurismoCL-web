@@ -18,7 +18,7 @@ interface PartnerCardProps {
   const dispatch = useAppDispatch();
   const countries = useAppSelector((state: RootState) => state.globalData.countries);
   const categories = useAppSelector((state: RootState) => state.globalData.categories);
-console.log("imprimiendo el partner", partner);
+// console.log("imprimiendo el partner", partner);
 const [imagePreview, setImagePreview] = useState(partner.user.image_url || '');
   const [formData, setFormData] = useState({
     first_name: partner.user.first_name || '',
@@ -83,7 +83,7 @@ const [imagePreview, setImagePreview] = useState(partner.user.image_url || '');
       }
 
       const updateUserAction = await dispatch(updateUser(userData)); 
-      console.log("updateUserAction______________", updateUserAction);
+      // console.log("updateUserAction______________", updateUserAction);
       if (updateUserAction?.status == 200) {
         const partnerData = {
             address,

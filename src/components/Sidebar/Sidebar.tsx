@@ -9,12 +9,16 @@ import profile from "../../assets/icons/profile.svg"
 import faq from "../../assets/icons/faq.svg"
 import touristPoint from "../../assets/icons/touristPoint.svg"
 import users from "../../assets/icons/users.svg"
-import Messages from "../../assets/icons/Messages.svg"
+// import Messages from "../../assets/icons/Messages.svg"
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import Route from '../../models/RouteModel';
 import { logOutUser } from '../../redux/actions/userActions';
 import { UserState } from '../../redux/reducers/userReducer';
 import logoutIcon from "../../assets/icons/logout.svg";
+import branchesIcon from "../../assets/icons/store.svg";
+import commentsIcon from "../../assets/icons/comments.svg";
+import config from "../../assets/icons/config.svg"
+
 
 
 const Sidebar: React.FC = () => {
@@ -44,11 +48,6 @@ const Sidebar: React.FC = () => {
           name: "Panel General",
           style: "panelicono"
         },
-        // {
-        //   path: "/socioPerfil",
-        //   name: "Perfil de asociado",
-        //   style: "asociados"
-        // },
         {
           path: "/promotions",
           name: "Promociones",
@@ -64,10 +63,20 @@ const Sidebar: React.FC = () => {
           name: "Puntos turísticos",
           style: "puntosturisticos"
         },
+        // {
+        //   path: "/notifications",
+        //   name: "Notificaciones",
+        //   style: "notificaciones"
+        // },
         {
-          path: "/notifications",
-          name: "Notificaciones",
-          style: "notificaciones"
+          path: "/branches",
+          name: "Sucursales",
+          style: "branches",
+        },
+        {
+          path: "/comments-moderation", 
+          name: "Comentarios",
+          style: "commentsModeration",
         },
         {
           path: "/userProfile",
@@ -75,28 +84,33 @@ const Sidebar: React.FC = () => {
           style: "userProfile"
         },
         {
-          path: "/reports",
-          name: "Reportes",
-          style: "reportes"
+          path: "/configuration",
+          name: "Configuración",
+          style: "configuration"
         },
+        // {
+        //   path: "/reports",
+        //   name: "Reportes",
+        //   style: "reportes"
+        // },
         {
           path: "/",
           name: "Salir",
           style: "salir"
         },
-        {
-          path: "/faq",
-          name: "FAQ",
-          style: "faqicono"
-        },
+        // {
+        //   path: "/faq",
+        //   name: "FAQ",
+        //   style: "faqicono"
+        // },
       ])
     } else {
       setRoutes([
-        {
-          path: "/faq",
-          name: "FAQ",
-          style: "faqicono"
-        }
+        // {
+        //   path: "/faq",
+        //   name: "FAQ",
+        //   style: "faqicono"
+        // }
       ])
     }
   }, [userActive]);
@@ -113,6 +127,7 @@ const Sidebar: React.FC = () => {
   // const handleNavigation = (path) => {
   //   // history.push(path);
   // };
+  
   const logOut = () => {
     dispatch(logOutUser())
 
@@ -133,8 +148,11 @@ const Sidebar: React.FC = () => {
                     {route.style == "gestion" ? <img src={Discount} className='iconos' /> : null}
                     {route.style == "reportes" ? <img src={Analytics} className='iconos' /> : null}
                     {route.style == "usuarios" ? <img src={users} className='iconos' /> : null}
-                    {route.style == "notificaciones" ? <img src={Messages} className='iconos' /> : null}
+                    {/* {route.style == "notificaciones" ? <img src={Messages} className='iconos' /> : null} */}
+                    {route.style == "branches" ? <img src={branchesIcon} className='iconos' /> : null}
+                    {route.style == "commentsModeration" ? <img src={commentsIcon} className='iconos' /> : null}
                     {route.style == "userProfile" ? <img src={profile} className='iconos' /> : null}
+                    {route.style == "configuration" ? <img src={config} className='iconos' /> : null}
                     {route.style == "faqicono" ? <img src={faq} className='iconos' /> : null}
                     {route.style == "puntosturisticos" ? <img src={touristPoint} className='iconos' /> : null}
                     <span className={`sidebar-text ${isSidebarOpen ? 'open' : ''}`}>{route.name}</span>
@@ -150,7 +168,7 @@ const Sidebar: React.FC = () => {
 
       </div>
       <div className={`politicas ${isSidebarOpen ? 'open' : ''}`}>
-        <span className={`sidebar-textVersion ${isSidebarOpen ? 'open' : ''}`}>Version 0.1.2</span>
+        <span className={`sidebar-textVersion ${isSidebarOpen ? 'open' : ''}`}>Version 0.1.3</span>
         <span className={`sidebar-textVersion ${isSidebarOpen ? 'open' : ''}`}>Fecha 17/09/2024</span>
 
         <h3>Políticas y Términos</h3>

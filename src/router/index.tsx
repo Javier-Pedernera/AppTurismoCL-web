@@ -54,6 +54,24 @@ export const routes: RouteProps[] = [
         layout: lazy(async () => await import("../pages/Layout/layout"))
     },
     {
+        path: "/qr-code",
+        element: lazy(async () => await import("../pages/QRCodePage")),
+        name: "QR",
+        layout: lazy(async () => await import("../pages/Layout/layout"))
+    },
+    {
+        path: "/PromotionDetail/:id",
+        element: lazy(async () => await import("../components/RedirectToAppStore/RedirectToAppStore")),
+        name: "Redirect",
+        // layout: lazy(async () => await import("../pages/Layout/layout"))
+    },
+    {
+        path: "/BranchDetails/:id",
+        element: lazy(async () => await import("../components/RedirectToAppStore/RedirectToAppStore")),
+        name: "Redirect",
+        // layout: lazy(async () => await import("../pages/Layout/layout"))
+    },
+    {
         path: "/login",
         element: lazy(async () => await import("../pages/Login")),
         name: "Login"
@@ -143,14 +161,23 @@ export const routes: RouteProps[] = [
         }
     },
     {
-        path: "/reports",
-        element: lazy(async () => await import("../pages/UnderConstruction")),
-        name: "Reports",
+        path: "/configuration",
+        element: lazy(async () => await import("../pages/Configuration")),
+        name: "Configuration",
         layout: lazy(async () => await import("../pages/Layout/layout")),
         authorization: {
             allowedRoles: ['admin']
         }
     },
+    // {
+    //     path: "/reports",
+    //     element: lazy(async () => await import("../pages/UnderConstruction")),
+    //     name: "Reports",
+    //     layout: lazy(async () => await import("../pages/Layout/layout")),
+    //     authorization: {
+    //         allowedRoles: ['admin']
+    //     }
+    // },
     {
         path: "/socioPerfil",
         element: lazy(async () => await import("../pages/PartnerDetail")),
@@ -182,6 +209,33 @@ export const routes: RouteProps[] = [
         path: "/new-branch",
         element: lazy(async () => await import("../pages/CreateBranchPage")),
         name: "Crear-Sucursal",
+        layout: lazy(async () => await import("../pages/Layout/layout")),
+        authorization: {
+            allowedRoles: ['admin']
+        }
+    },
+    {
+        path: "/branches",
+        element: lazy(async () => await import("../pages/BranchesTable")),
+        name: "Sucursales",
+        layout: lazy(async () => await import("../pages/Layout/layout")),
+        authorization: {
+            allowedRoles: ['admin']
+        }
+    },
+    {
+        path: "/branches/:branch_id",
+        element: lazy(async () => await import("../components/BranchDetails/BranchDetails")),
+        name: "DetalleSucursal",
+        layout: lazy(async () => await import("../pages/Layout/layout")),
+        authorization: {
+            allowedRoles: ['admin']
+        }
+    },
+    {
+        path: "/comments-moderation",
+        element: lazy(async () => await import("../pages/CommentModeration")),
+        name: "Moderar Comentarios",
         layout: lazy(async () => await import("../pages/Layout/layout")),
         authorization: {
             allowedRoles: ['admin']

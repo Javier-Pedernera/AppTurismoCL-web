@@ -51,8 +51,12 @@
     h2 {
       text-align: center;
       margin-bottom: 20px;
-      font-size: 24px;
+      font-size: 1.5rem;
       font-weight: bold;
+      color: var(--primary-color);
+      @media (max-width: 768px) {
+        font-size: 1.2rem;
+      }
     }
 
     .form-section {
@@ -73,6 +77,9 @@
         .column {
           flex: 1;
           min-width: calc(50% - 15px);
+          // @media (max-width: 768px) {
+          //   width: 95%;
+          // }
         }
         input,
         select {
@@ -85,6 +92,9 @@
           outline: none;
         }        
       }
+      @media (max-width: 768px) {
+        width: 95%;
+      }
     }
 
     .active {
@@ -93,12 +103,16 @@
       margin-top: 10px;
       border: none;
       border-radius: 5px;
-      background-color: var(--secundary-color);
+      background-color: var(--primary-color);
       color: #fff;
       font-size: 16px;
       cursor: pointer;
       &:hover {
         background-color: var(--greenSoft-color);
+      }
+      @media (max-width: 768px) {
+        width: 30%;
+        font-size: 0.8rem;
       }
     }
     .inactive {
@@ -110,6 +124,10 @@
       background-color: var(--secundaryInactive-color);
       color: #fff;
       font-size: 16px;
+      @media (max-width: 768px) {
+        width: 30%;
+        font-size: 0.8rem;
+      }
     }
     .form-section3 {
       display: flex;
@@ -136,6 +154,9 @@
           margin-bottom: 5px;
         }
       }
+      @media (max-width: 768px) {
+        width: 95%;
+      }
     }
     .cancel {
       width: 30%;
@@ -151,6 +172,13 @@
       &:hover {
         background-color: #6c757d;
               }
+    @media (max-width: 768px) {
+        width: 30%;
+        font-size: 0.8rem;
+    }
+    }
+    @media (max-width: 768px) {
+      width: 95%;
     }
   }
 }
@@ -158,7 +186,7 @@
 // Responsive adjustments
 @media (max-width: 768px) {
   .modal-content {
-    max-width: 90%;
+    max-width: 100%;
 
     .form-columns {
       flex-direction: column;
@@ -167,6 +195,7 @@
         min-width: 100%;
       }
     }
+
   }
 }
 .passwordDiv{
@@ -182,6 +211,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media (max-width: 768px) {
+    width: 100%;
+    flex-direction: column;
+  }
 }
 .btnsDiv{
   display: flex;
@@ -197,5 +230,8 @@ hr {
   margin-right: 0;
 }
 .swal2-popup.swal2-modal.swal2-show{
-  width: 40% !important;
+  width: 60% !important;
+  @media (max-width: 768px) {
+    width: 90% !important;
+  }
 }

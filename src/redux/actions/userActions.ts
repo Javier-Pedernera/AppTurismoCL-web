@@ -1,13 +1,13 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import UserLogin from "../../models/UserLogin";
-import { logOut, loginUser, setRoles, setStatuses, setUsers } from "../reducers/userReducer";
+import { logOut, loginUser, setCommentsTourist, setCommentsTouristLastWeek, setRoles, setStatuses, setUsers } from "../reducers/userReducer";
 import axios from "axios";
 import User from "../../models/User";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
-import { RootState } from "../store/store";
-import Status from "../types/types";
+import { AppDispatch, RootState } from "../store/store";
 import { Role } from "../../models/RoleModel";
+import { Status } from "../types/types";
 
 interface CustomJwtPayload extends JwtPayload {
   public_id: string;
@@ -36,13 +36,13 @@ const userLogIn = (user: UserLogin | null, token: string) => {
       
       
       if (!user && token.length) {
-        console.log("se envia token_____ user log",token);
+        // console.log("se envia token_____ user log",token);
         const response = await axios.get(`${URL}/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("respuesta de se envia token____");
+        // console.log("respuesta de se envia token____");
         
         const decodedToken: CustomJwtPayload = await jwtDecode(token);
 
@@ -79,6 +79,8 @@ const userLogIn = (user: UserLogin | null, token: string) => {
 
       // Si tenemos usuario pero no token, autenticamos con las credenciales
       } else if (user && !token.length) {
+        // console.log("user en el login", user);
+        
         const response = await axios.post(`${URL}/login`, user);
         const decodedToken: CustomJwtPayload = await jwtDecode(response.data.token);
 
@@ -109,7 +111,7 @@ const userLogIn = (user: UserLogin | null, token: string) => {
         }
 
         // Guardamos el token en las cookies si es admin
-        Cookies.set("data", response.data.token, { expires: 3 });
+        Cookies.set("data", response.data.token, { expires: 7 });
         // Despachamos la acción de loginUser
         const res = dispatch(loginUser(userData));
         return res;
@@ -129,7 +131,7 @@ const logOutUser = () => {
         Cookies.remove('data', { path: '/' });
         window.location.reload();
       } else {
-        console.log("La cookie 'userData' no existe.");
+        // console.log("La cookie 'userData' no existe.");
       }
       dispatch(logOut({}));
     } catch (error) {
@@ -172,13 +174,14 @@ const createPartnerUser = (userData: CreateUserModel) => {
   return async () => {
     try {
       const response = await axios.post(`${URL}/signup-partner`, userData);
-      // dispatch(setUsers(response.data));
-      console.log("respuesta del registro", response);
-      
       return response.data;
-    } catch (error) {
-      console.error("Error al crear un nuevo usuario:", error);
-      throw error;
+    } catch (error: any) {
+      // Verificar si existe error.response y error.response.data.message
+      const errorMessage = error.response?.data?.message === "A user with that email already exists."? "Ya existe un usuario con el correo electrónico ingresado": "Error al crear un nuevo usuario";
+      
+      console.error("Error al crear un nuevo usuario:", errorMessage);
+      // Lanzar el mensaje específico del error
+      throw new Error(errorMessage);
     }
   };
 };
@@ -192,9 +195,9 @@ const fetchAllUsers = () => async (dispatch: Dispatch, getState: () => RootState
               Authorization: `Bearer ${accessToken}` // Agregar el token en el header
           }
       });
-      console.log("respuesta en la action",response);
-      
-      dispatch(setUsers(response.data));
+      // console.log("respuesta en la action",response);
+      const activeUsers = response.data.filter(user => user.status?.name !== 'deleted');
+      dispatch(setUsers(activeUsers));
   } catch (error) {
       console.error("Error fetching users:", error);
       // Manejo de errores
@@ -224,7 +227,7 @@ const fetchStatuses = () => async (dispatch: Dispatch, getState: () => RootState
         Authorization: `Bearer ${accessToken}`
       }
     });
-    console.log("respuesta de estados en", response);
+    // console.log("respuesta de estados en", response);
       
     dispatch(setStatuses(response.data));
   } catch (error) {
@@ -266,5 +269,29 @@ const assignRoleToUser = (data: { role_ids: number[]; user_id: number; }) => {
 };
 
 
+const fetchTouristCommentsLastWeek = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.get(`${URL}/tourists/ratings/last-4-weeks`);
+      console.log("respuesta de peticion puntos turisticos", response);
+      
+      dispatch(setCommentsTouristLastWeek(response.data));
+    } catch (error) {
+      console.error("Error al cargar los comentarios de la última semana", error);
+    }
+  };
+};
 
-export { userLogIn, logOutUser,resetPassword,fetchAllUsers, fetchRoles, fetchStatuses, updateUser, assignRoleToUser, createUser, createPartnerUser };
+const fetchTouristCommentsById = (TouristId: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.get(`${URL}/tourists/${TouristId}/ratings/all`);
+      dispatch(setCommentsTourist(response.data));
+    } catch (error) {
+      console.error("Error al cargar los comentarios del punto turístico", error);
+    }
+  };
+};
+
+
+export { userLogIn, logOutUser,resetPassword,fetchAllUsers, fetchRoles, fetchStatuses, updateUser, assignRoleToUser, createUser, createPartnerUser,fetchTouristCommentsLastWeek, fetchTouristCommentsById };

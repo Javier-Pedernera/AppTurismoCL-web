@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import User from "../../models/User";
 import { Role } from "../../models/RoleModel";
-import Status from "../types/types";
+import { Status, TouristComment, TouristCommentId } from "../types/types";
 
 
 export interface UserState {
@@ -11,6 +11,8 @@ export interface UserState {
     users: User[] | []
     roles: Role[] | [];
     statuses: Status[] | [];
+    ratingsTouristLastWeek: TouristComment[];
+    ratingsTourist: TouristCommentId | null;
 }
 
 const initialState: UserState = {
@@ -20,7 +22,8 @@ const initialState: UserState = {
     users: [],
     roles: [],
     statuses: [],
-
+    ratingsTouristLastWeek:[],
+    ratingsTourist: null
 };
 const Slice = createSlice({
     name: 'user',
@@ -49,9 +52,18 @@ const Slice = createSlice({
         setStatuses: (state, action: PayloadAction<Status[]>) => {
             state.statuses = action.payload;
         },
-       
+        setCommentsTouristLastWeek: (state, action: PayloadAction<TouristComment[]>) => {
+               state.ratingsTouristLastWeek = action.payload;
+           },
+        setCommentsTourist: (state, action: PayloadAction<TouristCommentId>) => {
+               state.ratingsTourist = action.payload;
+           },
+        cleanCommentsTourist: (state) => {
+               state.ratingsTouristLastWeek = [];
+               state.ratingsTourist = null;
+           },
     }
 });
 
-export const { loginUser, logOut, setUsers, setRoles, setStatuses } = Slice.actions;
+export const { loginUser, logOut, setUsers, setRoles, setStatuses,setCommentsTouristLastWeek,setCommentsTourist, cleanCommentsTourist } = Slice.actions;
 export default Slice.reducer;

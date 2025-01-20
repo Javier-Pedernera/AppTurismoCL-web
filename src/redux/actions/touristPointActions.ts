@@ -5,9 +5,13 @@ import {
   setSelectedTouristPoint,
   addTouristPoint,
   updateTouristPoint,
-  deleteTouristPoint
+  deleteTouristPoint,
+  cleanTouristPoint,
+  setCommentsLastWeek,
+  setCommentsTouristPoint
 } from "../reducers/touristPointsReducer";
 import { TouristPointCreate } from "../../models/TouristPoint";
+import { AppDispatch } from "../store/store";
 
 
 const URL = import.meta.env.VITE_API_URL;
@@ -16,7 +20,7 @@ const URL = import.meta.env.VITE_API_URL;
 const fetchAllTouristPoints = () => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.get(`${URL}/tourist_points`);
+      const response = await axios.get(`${URL}/tourist_points/active-inactive`);
       dispatch(setAllTouristPoints(response.data));
     } catch (error) {
       console.error("Error al obtener todos los puntos turísticos:", error);
@@ -81,10 +85,49 @@ const deleteTouristPointById = (touristPointId: number) => {
   };
 };
 
+const resetTouristPoint = () => {
+  return async (dispatch: Dispatch) => {
+    try {
+      return dispatch(cleanTouristPoint(null));
+    } catch (error) {
+      console.error(`Error al limpiar la sucursal `, error);
+    }
+  };
+};
+
+const fetchTouristPointCommentsLastWeek = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.get(`${URL}/tourist_points/ratings/last_week`);
+      console.log("respuesta de peticion puntos turisticos", response);
+      
+      dispatch(setCommentsLastWeek(response.data));
+    } catch (error) {
+      console.error("Error al cargar los comentarios de la última semana", error);
+    }
+  };
+};
+
+const fetchTouristPointCommentsById = (touristPointId: number) => {
+  return async (dispatch: AppDispatch) => {
+    console.log(`${URL}/v2/tourist_points/${touristPointId}/ratings`);
+    
+    try {
+      const response = await axios.get(`${URL}/v2/tourist_points/${touristPointId}/ratings`);
+      dispatch(setCommentsTouristPoint(response.data));
+    } catch (error) {
+      console.error("Error al cargar los comentarios del punto turístico", error);
+    }
+  };
+};
+
 export {
   fetchAllTouristPoints,
   fetchTouristPointById,
   createTouristPoint,
   updateTouristPointById,
   deleteTouristPointById,
-};
+  resetTouristPoint,
+  fetchTouristPointCommentsLastWeek,
+  fetchTouristPointCommentsById
+}

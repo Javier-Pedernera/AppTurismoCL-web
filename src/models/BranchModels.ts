@@ -3,4 +3,5 @@ export interface Branch {
     name: string;
     description: string;
     address: string;
+    status_id?: number
   }

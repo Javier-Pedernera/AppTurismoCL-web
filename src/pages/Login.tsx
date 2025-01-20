@@ -29,7 +29,7 @@ const Login = () => {
     timer: 2000,
     timerProgressBar: true,
     color: "#0F0C06",
-    width: "400px",
+    width: "450px",
     didOpen: (toast) => {
       toast.addEventListener("mouseenter", Swal.stopTimer);
       toast.addEventListener("mouseleave", Swal.resumeTimer);
@@ -48,7 +48,7 @@ const Login = () => {
       const resp: Error | { payload: User; type: "user/loginUser"; } | undefined = await dispatch(userLogIn(formattedData, ""));
 
       setLoading(false);
-      console.log("respuesta del dispatch. tiene payload?",resp);
+      // console.log("respuesta del dispatch. tiene payload?",resp);
       
       if (resp && "payload" in resp){
         Cookies.set("data",resp?.payload?.token, { expires: 3 });
@@ -92,10 +92,10 @@ const Login = () => {
   return (
     <div className="login-container">
       {loading && <Loader />}
-      <div className="content">
-        <div className="form-container">
+      <div className="contentlogin">
+        <div className="form-containerLogin">
           <div className="logo">
-            <form onSubmit={handleSubmit(onSubmit)} className="form">
+            <form onSubmit={handleSubmit(onSubmit)} className="form" autoComplete="on">
               <div className="logoCapitanDiv">
                 <Link className="logoCapitan" to="/">
                   <img className="logo" src={logo} alt="logo" />
@@ -105,7 +105,7 @@ const Login = () => {
               <input
                 type="email"
                 placeholder="Correo Eléctronico"
-                className="form-input"
+                className="form-inputLogin"
                 {...register("email", {
                   required: {
                     value: true,
@@ -116,6 +116,7 @@ const Login = () => {
                     message: "Correo no valido",
                   },
                 })}
+                autoComplete="username"
               />
               {errors.email && (
                 <span className="form-error"> {(errors.email as FieldError).message}</span>
@@ -123,13 +124,14 @@ const Login = () => {
               <input
                 type="password"
                 placeholder="Contraseña"
-                className="form-input"
+                className="form-inputLogin"
                 {...register("password", {
                   required: {
                     value: true,
                     message: "Ingresar contraseña por favor",
                   },
                 })}
+                autoComplete="current-password"
               />
               {errors.password && (
                 <span className="form-error"> {(errors.password as FieldError).message}</span>
