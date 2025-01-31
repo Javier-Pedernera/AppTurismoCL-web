@@ -386,6 +386,7 @@ const Register = () => {
                 <div></div>
               )}
             </div>
+            <p className="datos_obligatorios">* datos obligatorios para registrarse</p>
             <div className="divmsgpss">
               {errors.confirmPassword && (
                 <span className="form-error">
@@ -460,6 +461,7 @@ const Register = () => {
                 />
               </div>
             </div>
+            
             {/* {errors.password && (
                 <span className="form-error">{(errors.password as FieldError).message}</span>
                 )} */}
@@ -544,7 +546,7 @@ const Register = () => {
               </button>
             </div>
 
-            <p>* datos obligatorios para registrarse</p>
+            
             {/* <Link to="/login" className="already-account-button">Si ya tienes cuenta, ingresa aquí</Link> */}
           </form>
         </div>

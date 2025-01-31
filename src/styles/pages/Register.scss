@@ -75,7 +75,7 @@ background-size: cover;
   
   p {
     font-size: 10px;
-    color: #333;
+    color: #027a8cdc;
   }
 
   .form-grid {
@@ -322,4 +322,10 @@ background-size: cover;
       color: #01a6bc;
     }
   }
+}
+
+.datos_obligatorios{
+  display: flex;
+  width: 90%;
+  color: var(--primarySoft-color);
 }
